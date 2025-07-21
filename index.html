@@ -325,6 +325,41 @@
             }
         }
     </style>
+
+    <style>
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(1.4);
+                opacity: 0;
+            }
+        }
+
+        .contact-btn:hover::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 50%;
+            border: 2px solid rgba(234, 179, 8, 0.5);
+            animation: ripple 1.5s infinite;
+        }
+
+        .contact-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Additional hover effects */
+        .contact-btn:hover {
+            box-shadow: 0 20px 40px rgba(234, 179, 8, 0.3);
+        }
+    </style>
 </head>
 
 <body class="bg-gray-50">
@@ -392,16 +427,12 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div class="mobile-menu lg:hidden fixed top-0 left-0 w-full h-screen bg-white z-50" id="mobileMenu">
+        <div class="mobile-menu lg:hidden fixed top-0 left-0 w-full h-screen bg-[#FACC15] z-50" id="mobileMenu">
             <div class="px-6 py-6">
                 <div class="flex justify-between items-center mb-8">
                     <div class="flex items-center space-x-3">
-                        <img src="https://via.placeholder.com/40x40/10b981/ffffff?text=YM" alt="Yogik Movement Logo"
-                            class="w-10 h-10 rounded-full">
-                        <div class="logo-text">
-                            <span class="text-emerald-600">YOGIK</span>
-                            <span class="text-gray-700 font-medium">MOVEMENT</span>
-                        </div>
+                        <img src="assets/logo.png" alt="Yogik Movement Logo"
+                            class="w-32 h-10 object-cover rounded-full">
                     </div>
                     <button onclick="toggleMobileMenu()"
                         class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center">
@@ -412,7 +443,7 @@
                     </button>
                 </div>
 
-                <div class="space-y-4 text-xs">
+                <div class="space-y-4 text-xs text-center">
                     <a href="#" class="block py-3 text-gray-700 nav-link">HOME</a>
                     <a href="#" class="block py-3 text-gray-700 nav-link">ABOUT</a>
                     <a href="#" class="block py-3 text-gray-700 nav-link">RETREAT</a>
@@ -783,7 +814,7 @@
     <!-- Testimonials Section -->
     <section class="bg-amber-50 py-20">
         <!-- Testimonials Header -->
-        <div class="container mx-auto pb-4 mx-6 lg:mx-8 mb-12 border-b border-gray-400">
+        <div class="container mx-0 pb-4 mx-6 lg:mx-8 mb-12 border-b border-gray-400">
             <div class="flex items-center justify-between">
                 <div class="inline-block">
                     <span
@@ -1561,10 +1592,12 @@
                 <!-- Right Section -->
                 <div>
                     <!-- Header Text -->
-                    <div class="mb-12">
-                        <h2 class="text-lg md:text-2xl lg:text-3xl font-bold text-gray-800 leading-tight">
-                            Professional & modern, a theme designed to help<br>
-                            your business stand out from the rest.
+                    <div class="mb-12 mt-12 md:mt-0 cursor-default">
+                        <h2 class="text-lg md:text-2xl lg:text-3xl font-bold text-gray-400 leading-tight">
+                            "Yoga is the journey of the self, through the self, to the self." <strong
+                                class="text-sm text-gray-3 400 italic font-medium">-
+                                The Bhagavad
+                                Gita</strong>
                         </h2>
                     </div>
 
@@ -1614,47 +1647,14 @@
                         <a href="#" class="text-gray-600 hover:text-gray-800 transition-colors">Privacy policy</a>
                     </div>
                     <div class="text-sm text-gray-600">
-                        © 2023 YOGIK
+                        © 2025 YOGIK
                     </div>
                 </div>
             </div>
         </div>
     </footer>
 
-    <style>
-        @keyframes ripple {
-            0% {
-                transform: scale(1);
-                opacity: 0.7;
-            }
 
-            100% {
-                transform: scale(1.4);
-                opacity: 0;
-            }
-        }
-
-        .contact-btn:hover::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            border-radius: 50%;
-            border: 2px solid rgba(234, 179, 8, 0.5);
-            animation: ripple 1.5s infinite;
-        }
-
-        .contact-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Additional hover effects */
-        .contact-btn:hover {
-            box-shadow: 0 20px 40px rgba(234, 179, 8, 0.3);
-        }
-    </style>
 
 
 
