@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshops - Yogik Movement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff6b35',
+                        secondary: '#f7931e',
+                        accent: '#ffd23f',
+                        warm: '#fff8e1',
+                        deepOrange: '#e55100',
+                        lightOrange: '#ffcc80'
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'pulse-slow': 'pulse 4s infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Sora', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 30%, #ffd23f 70%, #ffcc80 100%);
+        }
+
+        .hero-bg {
+            background: linear-gradient(rgba(255, 107, 53, 0.8), rgba(247, 147, 30, 0.9)),
+                url('https://images.unsplash.com/photo-1506629905607-c44b3b0db197?w=1920&h=1080&fit=crop') center/cover;
+        }
+
+        .workshop-bg {
+            background: linear-gradient(rgba(255, 248, 225, 0.95), rgba(255, 248, 225, 0.98)),
+                url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1920&h=1080&fit=crop') center/cover;
+        }
+
+        .testimonial-bg {
+            background: linear-gradient(rgba(255, 107, 53, 0.05), rgba(247, 147, 30, 0.08)),
+                url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&h=1080&fit=crop') center/cover;
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-delayed {
+            animation: float 6s ease-in-out infinite;
+            animation-delay: -2s;
+        }
+
+        .floating-slow {
+            animation: float 8s ease-in-out infinite;
+            animation-delay: -4s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            33% {
+                transform: translateY(-20px) rotate(1deg);
+            }
+
+            66% {
+                transform: translateY(-10px) rotate(-1deg);
+            }
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .workshop-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .workshop-card:hover {
+            transform: translateY(-15px) rotateY(5deg);
+            box-shadow: 0 25px 80px rgba(255, 107, 53, 0.4);
+        }
+
+        .diagonal-section {
+            clip-path: polygon(0 10%, 100% 0%, 100% 90%, 0% 100%);
+            margin-top: -5rem;
+            padding-top: 8rem;
+        }
+
+        .blob {
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: blob 8s infinite;
+        }
+
+        @keyframes blob {
+
+            0%,
+            100% {
+                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            }
+
+            25% {
+                border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+            }
+
+            50% {
+                border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+            }
+
+            75% {
+                border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+            }
+        }
+
+        .aurora {
+            background: linear-gradient(45deg,
+                    rgba(255, 107, 53, 0.3) 0%,
+                    rgba(247, 147, 30, 0.2) 25%,
+                    rgba(255, 210, 63, 0.3) 50%,
+                    rgba(255, 204, 128, 0.2) 75%,
+                    rgba(255, 107, 53, 0.3) 100%);
+            background-size: 400% 400%;
+            animation: aurora 15s ease infinite;
+        }
+
+        @keyframes aurora {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .parallax-element {
+            will-change: transform;
+        }
+
+        .custom-shape {
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+        }
+
+        .workshop-number {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+    <style>
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            /* margin: 0 16px; */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .nav-link {
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #059669;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+
+
+        .explore-button {
+            background: rgba(255, 255, 255);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #09A472;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .explore-button:hover {
+            background: #058F64;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .lotus-icon {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                margin: 0 16px;
+            }
+
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 overflow-x-hidden">
+    <!-- Floating PNG Elements -->
+    <div class="fixed inset-0 pointer-events-none z-10">
+        <div class="absolute top-20 left-10 w-32 h-32 bg-accent/20 rounded-full blob floating opacity-70"></div>
+        <div class="absolute top-1/3 right-20 w-24 h-24 bg-primary/15 rounded-full blob floating-delayed opacity-60">
+        </div>
+        <div class="absolute bottom-1/4 left-1/4 w-40 h-40 bg-secondary/10 rounded-full blob floating-slow opacity-50">
+        </div>
+        <div class="absolute top-2/3 right-1/3 w-20 h-20 bg-accent/25 rounded-full blob floating opacity-80"></div>
+
+        <!-- Lotus Icons -->
+        <div class="absolute top-1/2 left-5 text-6xl text-primary/10 floating">
+            <i class="fas fa-spa"></i>
+        </div>
+        <div class="absolute top-1/4 right-10 text-4xl text-secondary/15 floating-delayed">
+            <i class="fas fa-leaf"></i>
+        </div>
+        <div class="absolute bottom-1/3 right-5 text-5xl text-accent/20 floating-slow">
+            <i class="fas fa-lotus"></i>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar fixed w-full top-0 z-50 py-4 mx-auto">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <img src="assets/logo.png" alt="Yogik Movement Logo" class="w-32 h-10 object-cover rounded-full">
+
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex text-xs items-center space-x-8">
+                    <a href="/" class="nav-link text-gray-700">HOME</a>
+                    <a href="#" class="nav-link text-gray-700">ABOUT</a>
+                    <a href="#" class="nav-link text-gray-700">RETREAT</a>
+                    <a href="#" class="nav-link text-gray-700">WORKSHOP</a>
+                    <a href="#" class="nav-link text-gray-700">AYURVEDA</a>
+                    <a href="#" class="nav-link text-gray-700">ONLINE YOGA</a>
+                    <a href="#" class="nav-link text-gray-700">SHOP</a>
+
+                    <!-- Dropdown -->
+                    <div class="dropdown relative">
+                        <button class="nav-link text-gray-700 flex items-center space-x-1">
+                            <span>MORE</span>
+                            <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div
+                            class="dropdown-menu absolute top-full right-0 mt-3 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-2 overflow-hidden">
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Teacher
+                                Training</a>
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Events</a>
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Blog</a>
+                            <a href="contact.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Contact</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden lg:block">
+                    <a href="contact.html" class="cta-button text-white px-6 py-3 rounded-full">
+                        Start Your Journey
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button
+                    class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+                    onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu lg:hidden fixed top-0 left-0 w-full h-screen bg-[#FACC15] z-50" id="mobileMenu">
+            <div class="px-6 py-6">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex items-center space-x-3">
+                        <img src="assets/logo.png" alt="Yogik Movement Logo"
+                            class="w-32 h-10 object-cover rounded-full">
+                    </div>
+                    <button onclick="toggleMobileMenu()"
+                        class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="space-y-4 text-xs text-center">
+                    <a href="/" class="block py-3 text-gray-700 nav-link">HOME</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">ABOUT</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">RETREAT</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">WORKSHOP</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">AYURVEDA</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">ONLINE YOGA</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">SHOP</a>
+
+                    <div class="border-t border-gray-200 pt-4">
+                        <p class="text-sm text-gray-500 mb-2 font-medium">MORE</p>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Teacher Training</a>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Events</a>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Blog</a>
+                        <a href="contact.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Contact</a>
+                    </div>
+
+                    <div class="pt-6">
+                        <a href="contact.html" class="cta-button block w-full text-white text-center py-3 rounded-full">
+                            Start Your Journey
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen hero-bg flex items-center overflow-hidden">
+        <div class="absolute inset-0 aurora"></div>
+
+        <!-- Floating Elements -->
+        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-white/10 rounded-full blur-3xl floating"></div>
+        <div class="absolute bottom-1/3 right-1/4 w-80 h-80 bg-accent/20 rounded-full blur-2xl floating-delayed"></div>
+
+        <div class="container mx-auto px-6 relative z-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center min-h-screen py-20">
+                <div class="text-center lg:text-left space-y-8">
+                    <div class="space-y-4">
+                        <h1 class="text-5xl lg:text-7xl font-bold text-white leading-tight">
+                            <span class="block">Transformative</span>
+                            <span class="block text-accent drop-shadow-lg">Workshops</span>
+                            <span class="block text-3xl lg:text-4xl font-normal text-white/90 mt-4">
+                                for Every Soul
+                            </span>
+                        </h1>
+                        <div class="w-24 h-1 bg-accent mx-auto lg:mx-0 rounded-full"></div>
+                    </div>
+
+                    <p class="text-xl lg:text-2xl text-white/95 max-w-2xl leading-relaxed">
+                        Embark on a journey of self-discovery with our expertly crafted workshops,
+                        designed to nurture your practice at every stage of life.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+                        <button
+                            class="group bg-white text-primary px-8 py-4 rounded-full font-bold text-lg hover:bg-accent hover:text-gray-800 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:scale-105">
+                            <i class="fas fa-rocket mr-3 group-hover:animate-bounce"></i>
+                            Explore Workshops
+                        </button>
+                        <button
+                            class="group glass-effect text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/30 transition-all duration-300 shadow-xl">
+                            <i class="fas fa-play mr-3 group-hover:animate-pulse"></i>
+                            Watch Journey
+                        </button>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-6 pt-8">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-accent">500+</div>
+                            <div class="text-white/80 text-sm font-medium">Students Transformed</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-accent">15+</div>
+                            <div class="text-white/80 text-sm font-medium">Expert Instructors</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-accent">25+</div>
+                            <div class="text-white/80 text-sm font-medium">Workshop Types</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative lg:pl-12">
+                    <div class="relative">
+                        <!-- Main Image -->
+                        <div class="relative floating">
+                            <img src="https://images.unsplash.com/photo-1607914660217-754fdd90041d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                alt="Yoga Workshop"
+                                class="rounded-3xl shadow-2xl w-full h-96 lg:h-[500px] object-cover border-4 border-white/20">
+                            <div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent rounded-3xl">
+                            </div>
+                        </div>
+
+                        <!-- Floating Cards -->
+                        <div class="absolute -top-6 -left-6 glass-effect p-4 rounded-2xl floating-delayed">
+                            <div class="text-2xl text-accent mb-2">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="text-white font-bold text-sm">4.9/5 Rating</div>
+                            <div class="text-white/80 text-xs">500+ Reviews</div>
+                        </div>
+
+                        <div class="absolute -bottom-6 -right-6 glass-effect p-4 rounded-2xl floating">
+                            <div class="text-2xl text-accent mb-2">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="text-white font-bold text-sm">Live Sessions</div>
+                            <div class="text-white/80 text-xs">Small Groups</div>
+                        </div>
+
+                        <!-- Decorative Elements -->
+                        <div
+                            class="absolute top-1/4 -right-12 w-32 h-32 bg-accent/30 rounded-full blur-xl floating-slow">
+                        </div>
+                        <div
+                            class="absolute -bottom-8 -left-8 w-24 h-24 bg-white/20 rounded-full blur-lg floating-delayed">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+            <div class="flex flex-col items-center space-y-2">
+                <div class="text-sm font-medium">Discover More</div>
+                <i class="fas fa-chevron-down text-xl"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="relative py-20 bg-white diagonal-section">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="relative">
+                    <div
+                        class="absolute -top-8 -left-8 w-72 h-72 bg-gradient-to-br from-primary/10 to-secondary/5 rounded-full blur-3xl">
+                    </div>
+                    <div class="relative bg-gradient-to-br from-warm to-white p-8 rounded-3xl shadow-xl">
+                        <div class="flex items-center mb-6">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mr-6 shadow-lg">
+                                <i class="fas fa-infinity text-white text-2xl"></i>
+                            </div>
+                            <h2
+                                class="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                                Your Journey Awaits
+                            </h2>
+                        </div>
+                        <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                            Step beyond the ordinary with our immersive workshops that blend ancient wisdom with modern
+                            techniques.
+                            Each session is thoughtfully designed to meet you exactly where you are in your practice.
+                        </p>
+                        <p class="text-lg text-gray-700 leading-relaxed mb-8">
+                            From dynamic flows that ignite your inner fire to gentle practices that cultivate deep
+                            peace,
+                            our workshops create transformative experiences in nurturing, community-focused
+                            environments.
+                        </p>
+                        <button
+                            class="bg-gradient-to-r from-secondary to-primary text-white px-8 py-4 rounded-full font-semibold hover:from-primary hover:to-secondary transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            <i class="fas fa-compass mr-3"></i>
+                            Start Your Journey
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="space-y-6">
+                        <div
+                            class="bg-gradient-to-br from-primary/10 to-primary/5 p-6 rounded-2xl border border-primary/10">
+                            <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mb-4">
+                                <i class="fas fa-heart text-white"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">Mind-Body Unity</h3>
+                            <p class="text-gray-600 text-sm">Harmonize your physical practice with mental clarity</p>
+                        </div>
+                        <div
+                            class="bg-gradient-to-br from-secondary/10 to-secondary/5 p-6 rounded-2xl border border-secondary/10">
+                            <div class="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center mb-4">
+                                <i class="fas fa-users text-white"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">Community</h3>
+                            <p class="text-gray-600 text-sm">Connect with fellow practitioners on similar journeys</p>
+                        </div>
+                    </div>
+                    <div class="space-y-6 pt-12">
+                        <div
+                            class="bg-gradient-to-br from-accent/20 to-accent/10 p-6 rounded-2xl border border-accent/20">
+                            <div class="w-12 h-12 bg-accent rounded-xl flex items-center justify-center mb-4">
+                                <i class="fas fa-star text-gray-800"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">Expert Guidance</h3>
+                            <p class="text-gray-600 text-sm">Learn from certified masters with decades of experience</p>
+                        </div>
+                        <div
+                            class="bg-gradient-to-br from-primary/10 to-accent/10 p-6 rounded-2xl border border-primary/10">
+                            <div
+                                class="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-xl flex items-center justify-center mb-4">
+                                <i class="fas fa-seedling text-white"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">Personal Growth</h3>
+                            <p class="text-gray-600 text-sm">Discover new depths of strength and flexibility</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workshops Section -->
+    <section class="relative py-20 workshop-bg">
+        <div class="absolute inset-0 bg-gradient-to-b from-warm/50 to-white/80"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <div
+                    class="inline-flex items-center bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full mb-6 shadow-lg">
+                    <i class="fas fa-calendar-alt text-primary mr-3"></i>
+                    <span class="font-semibold text-gray-800">Featured Workshops</span>
+                </div>
+                <h2
+                    class="text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent mb-6">
+                    Curated for Every Journey
+                </h2>
+                <p class="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                    Three transformative experiences, each thoughtfully designed for different life stages and yoga
+                    goals
+                </p>
+            </div>
+
+            <!-- Workshop Cards -->
+            <div class="grid lg:grid-cols-3 gap-8 mb-16">
+                <!-- Workshop 1: Young Adults -->
+                <div class="group workshop-card bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1506629905607-c44b3b0db197?w=500&h=400&fit=crop"
+                            alt="Dynamic Flow Workshop"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent"></div>
+
+                        <!-- Price Badge -->
+                        <div
+                            class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm text-primary px-4 py-2 rounded-full font-bold shadow-lg">
+                            $45
+                        </div>
+
+                        <!-- Age Badge -->
+                        <div
+                            class="absolute top-4 left-4 bg-primary text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                            <i class="fas fa-bolt mr-2"></i>
+                            Ages 18-30
+                        </div>
+
+                        <!-- Workshop Number -->
+                        <div
+                            class="absolute bottom-4 left-4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                            <span class="text-2xl font-bold text-white">01</span>
+                        </div>
+                    </div>
+
+                    <div class="p-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-2xl font-bold text-gray-800">Dynamic Flow</h3>
+                            <div class="flex text-accent">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary font-semibold mb-4 flex items-center">
+                            <i class="fas fa-user-circle mr-2"></i>
+                            Maya Chen
+                        </p>
+
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center text-gray-600">
+                                <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-calendar text-primary text-sm"></i>
+                                </div>
+                                <span class="font-semibold">Aug 15, 2025</span>
+                            </div>
+                            <div class="flex items-center text-gray-600">
+                                <div class="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-clock text-secondary text-sm"></i>
+                                </div>
+                                <span>10:00 AM - 12:00 PM</span>
+                            </div>
+                            <div class="flex items-center text-gray-600">
+                                <div class="w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-map-marker-alt text-gray-800 text-sm"></i>
+                                </div>
+                                <span>Studio A • In-Person</span>
+                            </div>
+                            <div class="flex items-center text-gray-600">
+                                <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-signal text-primary text-sm"></i>
+                                </div>
+                                <span>Beginner to Intermediate</span>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-600 leading-relaxed mb-6">
+                            High-energy vinyasa flows perfect for building strength, flexibility, and confidence.
+                            Experience dynamic sequences that energize and empower young practitioners.
+                        </p>
+
+                        <button
+                            class="w-full bg-gradient-to-r from-primary to-deepOrange text-white py-4 rounded-2xl font-bold text-lg hover:from-deepOrange hover:to-primary transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            <i class="fas fa-rocket mr-3"></i>
+                            Reserve Your Spot
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Workshop 2: Middle Age -->
+                <div
+                    class="group workshop-card bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transform lg:scale-105 lg:z-10">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=400&fit=crop"
+                            alt="Mindful Movement Workshop"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-secondary/60 to-transparent"></div>
+
+                        <!-- Featured Badge -->
+                        <div
+                            class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-accent text-gray-800 px-6 py-2 rounded-full text-sm font-bold shadow-lg">
+                            <i class="fas fa-crown mr-2"></i>
+                            MOST POPULAR
+                        </div>
+
+                        <!-- Price Badge -->
+                        <div
+                            class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm text-secondary px-4 py-2 rounded-full font-bold shadow-lg">
+                            $55
+                        </div>
+
+                        <!-- Age Badge -->
+                        <div
+                            class="absolute bottom-4 left-4 bg-secondary text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                            <i class="fas fa-balance-scale mr-2"></i>
+                            Ages 30-55
+                        </div>
+
+                        <!-- Workshop Number -->
+                        <div
+                            class="absolute bottom-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                            <span class="text-2xl font-bold text-white">02</span>
+                        </div>
+                    </div>
+
+                    <div class="p-8 border-2 border-accent/20">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-2xl font-bold text-gray-800">Mindful Balance</h3>
+                            <div class="flex text-accent">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary font-semibold mb-4 flex items-center">
+                            <i class="fas fa-user-md mr-2"></i>
+                            Dr. Sarah Williams
+                        </p>
+
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center text-gray-600">
+                                <div class="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-calendar text-secondary text-sm"></i>
+                                </div>
+                                <span class="font-semibold">Aug 22, 2025</span>
+                            </div>
+                            <div class="flex items-center text-gray-600">
+                                <div class="w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-clock text-gray-800 text-sm"></i>
+                                </div>
+                                <span>2:00 PM - 4:00 PM</span>
+                            </div>
+                            <div class="flex items-center text-gray-600">
+                                <div class="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-wifi text-secondary text-sm"></i>
+                                </div>
+                                <span>Studio B • Hybrid</span>
+                            </div>
+                            <div class="flex items-center text-gray-600">
+                                <div class="w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-heart text-gray-800 text-sm"></i>
+                                </div>
+                                <span>All Levels Welcome</span>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-600 leading-relaxed mb-6">
+                            Gentle yet strengthening practice focusing on balance, core stability, and stress relief.
+                            Perfect for busy professionals seeking mindful movement and inner peace.
+                        </p>
+
+                        <button
+                            class="w-full bg-gradient-to-r from-secondary to-accent text-white py-4 rounded-2xl font-bold text-lg hover:from-accent hover:to-secondary transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            <i class="fas fa-star mr-3"></i>
+                            Join Popular Choice
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Workshop 3: Mature Adults -->
+                <div class="group workshop-card bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500&h=400&fit=crop"
+                            alt="Gentle Wisdom Yoga"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-accent/60 to-transparent"></div>
+
+                        <!-- Price Badge -->
+                        <div
+                            class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm text-gray-800 px-4 py-2 rounded-full font-bold shadow-lg border border-accent">
+                            $35
+                        </div>
+
+                        <!-- Age Badge -->
+                        <div
+                            class="absolute top-4 left-4 bg-accent text-gray-800 px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                            <i class="fas fa-leaf mr-2"></i>
+                            Ages 55+
+                        </div>
+
+                        <!-- Workshop Number -->
+                        <div
+                            class="absolute bottom-4 left-4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                            <span class="text-2xl font-bold text-gray-800">03</span>
+                        </div>
+                    </div>
+
+                    <div class="p-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-2xl font-bold text-gray-800">Gentle Wisdom</h3>
+                            <div class="flex text-accent">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary font-semibold mb-4 flex items-center">
+                            <i class="fas fa-user-graduate mr-2"></i>
+                            Robert Kumar
+                        </p>
+
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center text-gray-600">
+                                <div class="w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-calendar text-gray-800 text-sm"></i>
+                                </div>
+                                <span class="font-semibold">Aug 29, 2025</span>
+                            </div>
+                            <div class="flex items-center text-gray-600">
+                                <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-clock text-primary text-sm"></i>
+                                </div>
+                                <span>11:00 AM - 12:30 PM</span>
+                            </div>
+                            <div class="flex items-center text-gray-600">
+                                <div class="w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-seedling text-gray-800 text-sm"></i>
+                                </div>
+                                <span>Garden Studio</span>
+                            </div>
+                            <div class="flex items-center text-gray-600">
+                                <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-hand-holding-heart text-primary text-sm"></i>
+                                </div>
+                                <span>Gentle & Supportive</span>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-600 leading-relaxed mb-6">
+                            Chair-supported and gentle floor sequences designed for mature practitioners.
+                            Focus on flexibility, joint health, and the wisdom that comes with mindful breathing.
+                        </p>
+
+                        <button
+                            class="w-full bg-gradient-to-r from-accent to-lightOrange text-gray-800 py-4 rounded-2xl font-bold text-lg hover:from-lightOrange hover:to-accent transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            <i class="fas fa-leaf mr-3"></i>
+                            Begin Gentle Journey
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="text-center">
+                <div class="inline-flex items-center space-x-6">
+                    <button
+                        class="bg-gradient-to-r from-primary to-secondary text-white px-10 py-5 rounded-full font-bold text-xl hover:from-secondary hover:to-primary transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:scale-105">
+                        <i class="fas fa-calendar-check mr-3"></i>
+                        View All 25+ Workshops
+                    </button>
+                    <button
+                        class="border-2 border-primary text-primary px-8 py-4 rounded-full font-semibold hover:bg-primary hover:text-white transition-all duration-300">
+                        <i class="fas fa-filter mr-2"></i>
+                        Filter by Level
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gradient-to-b from-white to-warm relative overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-48 -translate-y-48">
+        </div>
+        <div
+            class="absolute bottom-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl translate-x-48 translate-y-48">
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-start">
+                <!-- Registration Process -->
+                <div class="space-y-8">
+                    <div class="text-center lg:text-left">
+                        <h2
+                            class="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
+                            Simple Registration Process
+                        </h2>
+                        <p class="text-lg text-gray-600 leading-relaxed">
+                            Join our transformative workshops in just three easy steps
+                        </p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-6 group">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-primary to-deepOrange rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
+                                <span class="text-2xl font-bold text-white">1</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Choose Your Workshop</h3>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Browse our curated selection and select the perfect workshop for your age group,
+                                    experience level, and personal goals.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-6 group">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-secondary to-accent rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
+                                <span class="text-2xl font-bold text-white">2</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Secure Your Spot</h3>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Complete your registration with our secure payment system. Instant confirmation
+                                    and all workshop details will be sent immediately.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-6 group">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-accent to-lightOrange rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
+                                <span class="text-2xl font-bold text-gray-800">3</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Transform Your Practice</h3>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Arrive prepared and ready to experience your transformative workshop journey
+                                    with our expert instructors and welcoming community.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button
+                        class="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-full font-semibold hover:from-secondary hover:to-primary transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                        <i class="fas fa-play-circle mr-3"></i>
+                        Watch Registration Tutorial
+                    </button>
+                </div>
+
+                <!-- FAQ -->
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-bold text-gray-800 text-center lg:text-left mb-8">
+                        Frequently Asked Questions
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                            <button
+                                class="w-full px-6 py-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors group"
+                                onclick="toggleAccordion(1)">
+                                <span class="font-semibold text-gray-800 group-hover:text-primary transition-colors">
+                                    What should I bring to the workshop?
+                                </span>
+                                <i class="fas fa-chevron-down transition-transform duration-300 text-primary"
+                                    id="icon-1"></i>
+                            </button>
+                            <div class="hidden px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100"
+                                id="content-1">
+                                <p class="pt-4">
+                                    Bring a yoga mat, water bottle, and comfortable clothing that allows free movement.
+                                    We provide all props including blocks, straps, and bolsters. For our Gentle Wisdom
+                                    sessions,
+                                    supportive chairs and cushions are provided.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                            <button
+                                class="w-full px-6 py-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors group"
+                                onclick="toggleAccordion(2)">
+                                <span class="font-semibold text-gray-800 group-hover:text-primary transition-colors">
+                                    Can I cancel or reschedule my registration?
+                                </span>
+                                <i class="fas fa-chevron-down transition-transform duration-300 text-primary"
+                                    id="icon-2"></i>
+                            </button>
+                            <div class="hidden px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100"
+                                id="content-2">
+                                <p class="pt-4">
+                                    Yes! You can cancel up to 48 hours before the workshop for a full refund.
+                                    Rescheduling is available based on workshop availability, and we're always happy
+                                    to help you find a session that fits your schedule better.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                            <button
+                                class="w-full px-6 py-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors group"
+                                onclick="toggleAccordion(3)">
+                                <span class="font-semibold text-gray-800 group-hover:text-primary transition-colors">
+                                    Are workshops suitable for complete beginners?
+                                </span>
+                                <i class="fas fa-chevron-down transition-transform duration-300 text-primary"
+                                    id="icon-3"></i>
+                            </button>
+                            <div class="hidden px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100"
+                                id="content-3">
+                                <p class="pt-4">
+                                    Absolutely! Each workshop includes modifications for all levels, from complete
+                                    beginners
+                                    to advanced practitioners. Our instructors provide personalized guidance and ensure
+                                    everyone feels comfortable, supported, and challenged appropriately.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                            <button
+                                class="w-full px-6 py-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors group"
+                                onclick="toggleAccordion(4)">
+                                <span class="font-semibold text-gray-800 group-hover:text-primary transition-colors">
+                                    Do you offer private group workshops?
+                                </span>
+                                <i class="fas fa-chevron-down transition-transform duration-300 text-primary"
+                                    id="icon-4"></i>
+                            </button>
+                            <div class="hidden px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100"
+                                id="content-4">
+                                <p class="pt-4">
+                                    Yes! We offer custom private workshops for groups of 8 or more. Perfect for
+                                    corporate
+                                    wellness programs, special celebrations, or bringing friends together. Contact us to
+                                    discuss your specific needs and create a personalized experience.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center lg:text-left pt-6">
+                        <button
+                            class="bg-secondary text-white px-8 py-4 rounded-full font-semibold hover:bg-primary transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            <i class="fas fa-headset mr-3"></i>
+                            Still Have Questions?
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 testimonial-bg relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-secondary/10"></div>
+
+        <!-- Floating Elements -->
+        <div class="absolute top-1/4 left-10 w-32 h-32 bg-white/20 rounded-full blur-2xl floating"></div>
+        <div class="absolute bottom-1/3 right-10 w-40 h-40 bg-accent/20 rounded-full blur-3xl floating-delayed"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <h2
+                    class="text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent mb-6">
+                    Transformation Stories
+                </h2>
+                <p class="text-xl text-gray-700 max-w-2xl mx-auto">
+                    Real experiences from our workshop community
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div
+                    class="group bg-white/95 backdrop-blur-sm p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                    <div class="flex items-center mb-6">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face"
+                                alt="Emma testimonial" class="w-16 h-16 rounded-full mr-4 border-4 border-primary/20">
+                            <div
+                                class="absolute -bottom-2 -right-2 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-quote-left text-white text-xs"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-lg">Emma Rodriguez</h4>
+                            <p class="text-gray-600">Age 26 • Marketing Designer</p>
+                            <div class="flex text-accent mt-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed italic">
+                        "Maya's Dynamic Flow workshop completely transformed my relationship with yoga!
+                        The energy was incredible and I learned advanced techniques I still use in my daily practice.
+                        My strength and confidence have grown tremendously."
+                    </p>
+                    <div class="mt-6 flex items-center text-primary">
+                        <i class="fas fa-heart mr-2"></i>
+                        <span class="text-sm font-semibold">Verified Workshop Graduate</span>
+                    </div>
+                </div>
+
+                <div
+                    class="group bg-white/95 backdrop-blur-sm p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 lg:scale-105 lg:z-10">
+                    <div class="flex items-center mb-6">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face"
+                                alt="Michael testimonial"
+                                class="w-16 h-16 rounded-full mr-4 border-4 border-secondary/20">
+                            <div
+                                class="absolute -bottom-2 -right-2 w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                                <i class="fas fa-quote-left text-white text-xs"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-lg">Michael Chen</h4>
+                            <p class="text-gray-600">Age 42 • Tech Executive</p>
+                            <div class="flex text-accent mt-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed italic">
+                        "Dr. Sarah's Mindful Movement workshop was exactly what my busy lifestyle needed.
+                        The perfect balance of physical challenge and mental relaxation. I've found my center again
+                        and handle work stress so much better now."
+                    </p>
+                    <div class="mt-6 flex items-center text-secondary">
+                        <i class="fas fa-medal mr-2"></i>
+                        <span class="text-sm font-semibold">Featured Success Story</span>
+                    </div>
+                </div>
+
+                <div
+                    class="group bg-white/95 backdrop-blur-sm p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                    <div class="flex items-center mb-6">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=80&h=80&fit=crop&crop=face"
+                                alt="Dorothy testimonial" class="w-16 h-16 rounded-full mr-4 border-4 border-accent/20">
+                            <div
+                                class="absolute -bottom-2 -right-2 w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                                <i class="fas fa-quote-left text-gray-800 text-xs"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-lg">Dorothy Williams</h4>
+                            <p class="text-gray-600">Age 68 • Retired Teacher</p>
+                            <div class="flex text-accent mt-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed italic">
+                        "Robert's gentle approach made me feel so comfortable and welcomed. I've gained flexibility
+                        and confidence I never thought possible at my age! The community aspect has been wonderful too -
+                        I've made lifelong friends."
+                    </p>
+                    <div class="mt-6 flex items-center text-accent">
+                        <i class="fas fa-award mr-2"></i>
+                        <span class="text-sm font-semibold text-gray-800">Community Favorite</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-16">
+                <div class="inline-flex items-center space-x-6">
+                    <button
+                        class="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-full font-semibold hover:from-secondary hover:to-primary transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                        <i class="fas fa-comments mr-3"></i>
+                        Read 200+ More Reviews
+                    </button>
+                    <button
+                        class="border-2 border-primary text-primary px-6 py-3 rounded-full font-semibold hover:bg-primary hover:text-white transition-all duration-300">
+                        <i class="fas fa-video mr-2"></i>
+                        Watch Stories
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Newsletter Section -->
+    <div class="py-20 container mx-auto px-4 ">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h3
+                    class="text-4xl font-bold bg-gradient-to-r from-amber-700 to-amber-500 bg-clip-text text-transparent mb-6">
+                    Join Our Mindful Community
+                </h3>
+                <p class="text-xl text-gray-500 leading-relaxed mb-8">
+                    Get early access to workshop registrations, exclusive wellness content,
+                    and special member-only events. Transform your practice with our community of mindful
+                    movers.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="email" placeholder="Enter your email for transformation"
+                        class="flex-1 px-6 py-4 rounded-full text-gray-800 bg-white focus:outline-none focus:ring-4 focus:ring-accent/50 shadow-lg">
+                    <button
+                        class="bg-gradient-to-r from-accent to-lightOrange text-gray-800 px-8 py-4 rounded-full font-bold hover:from-lightOrange hover:to-accent transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                        <i class="fas fa-paper-plane mr-3"></i>
+                        Begin Journey
+                    </button>
+                </div>
+                <p class="text-gray-400 text-sm mt-4">
+                    Join 5,000+ yogis already transforming their practice • Unsubscribe anytime
+                </p>
+            </div>
+
+            <div class="relative">
+                <div class="grid grid-cols-2 gap-6">
+                    <div
+                        class="bg-gradient-to-br from-primary to-primary/40 p-6 rounded-2xl backdrop-blur-sm border border-primary/20">
+                        <div class="text-3xl text-accent mb-3">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">Early Access</h4>
+                        <p class="text-gray-100 text-sm">Be first to register for new workshops</p>
+                    </div>
+                    <div
+                        class="bg-gradient-to-br from-secondary to-secondary/40 p-6 rounded-2xl backdrop-blur-sm border border-secondary/20">
+                        <div class="text-3xl text-accent mb-3">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">Exclusive Content</h4>
+                        <p class="text-gray-100 text-sm">Members-only wellness resources</p>
+                    </div>
+                    <div
+                        class="bg-gradient-to-br from-accent to-accent/40 p-6 rounded-2xl backdrop-blur-sm border border-accent/20">
+                        <div class="text-3xl text-primary mb-3">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Community Events</h4>
+                        <p class="text-gray-700 text-sm">Special gatherings and retreats</p>
+                    </div>
+                    <div
+                        class="bg-gradient-to-br from-primary to-accent/40 p-6 rounded-2xl backdrop-blur-sm border border-primary/20">
+                        <div class="text-3xl text-accent mb-3">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">Member Discounts</h4>
+                        <p class="text-gray-100 text-sm">Save on workshops and retreats</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer Section -->
+    <footer class="footer-section relative bg-gray-100 py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 600'%3E%3Crect width='1200' height='600' fill='%23f5f5f5'/%3E%3Cg opacity='0.1'%3E%3Cpath d='M200 100 Q300 150 400 100 T600 120 L800 180 Q900 200 1000 160 L1200 140 L1200 600 L0 600 Z' fill='%23ddd'/%3E%3Cpath d='M0 200 Q200 250 400 200 T800 220 L1200 200 L1200 600 L0 600 Z' fill='%23eee'/%3E%3Cg transform='translate(400,200)'%3E%3Ccircle cx='0' cy='0' r='80' fill='%23ccc' opacity='0.3'/%3E%3Cpath d='M-40 -40 Q0 -60 40 -40 L30 0 Q0 20 -30 0 Z' fill='%23bbb' opacity='0.4'/%3E%3Cpath d='M-60 -20 Q-40 -40 -20 -30 L-10 -10 Q-20 10 -40 0 Z' fill='%23bbb' opacity='0.4'/%3E%3Cpath d='M20 -30 Q40 -50 60 -30 L50 -10 Q40 10 30 -10 Z' fill='%23bbb' opacity='0.4'/%3E%3Ccircle cx='0' cy='-50' r='10' fill='%23bbb' opacity='0.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"
+                alt="Footer Background" class="w-full h-full object-cover opacity-20">
+        </div>
+
+        <!-- Content Container -->
+        <div class="relative z-10 container mx-auto">
+            <!-- Main Footer Content -->
+            <div class="grid grid-cols-1 lg:grid-cols-2  mb-12">
+                <!-- Left Section -->
+                <div class="space-y-8">
+                    <!-- Logo and Description -->
+                    <div>
+                        <div class="flex items-center mb-6">
+                            <img src="assets/logo.png" alt="">
+                        </div>
+                        <p class="text-gray-600 leading-relaxed max-w-2xl">
+                            Mauris sed molestie sem. Sed vel vestibulum elit, non accumsan risus. In vitae sapien
+                            viverra
+                            est Duo ei ullum inani senserit.
+                        </p>
+                    </div>
+
+                    <!-- Social Icons -->
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 hover:border-gray-400 transition-colors">
+                            <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 hover:border-gray-400 transition-colors">
+                            <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 hover:border-gray-400 transition-colors">
+                            <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 hover:border-gray-400 transition-colors">
+                            <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z.005-.004z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div>
+                    <!-- Header Text -->
+                    <div class="mb-12 mt-12 md:mt-0 cursor-default">
+                        <h2 class="text-lg md:text-2xl lg:text-3xl font-bold text-gray-400 leading-tight">
+                            "Yoga is the journey of the self, through the self, to the self." <strong
+                                class="text-sm text-gray-3 400 italic font-medium">-
+                                The Bhagavad
+                                Gita</strong>
+                        </h2>
+                    </div>
+
+                    <!-- Footer Links Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Useful Links -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Useful Link</h3>
+                            <ul class="space-y-3">
+                                <li><a href="#" class="text-gray-600 hover:text-gray-800 transition-colors">Company</a>
+                                </li>
+                                <li><a href="#" class="text-gray-600 hover:text-gray-800 transition-colors">About</a>
+                                </li>
+                                <li><a href="#" class="text-gray-600 hover:text-gray-800 transition-colors">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Working Time -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Working Time</h3>
+                            <ul class="space-y-3 text-gray-600">
+                                <li>Mon - Fri: 9.00am - 5.00pm</li>
+                                <li>Saturday: 10.00am - 6.00pm</li>
+                                <li>Sunday Closed</li>
+                            </ul>
+                        </div>
+
+                        <!-- Our Address -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Our Address</h3>
+                            <address class="text-gray-600 not-italic leading-relaxed">
+                                Old Westbury 256, New York<br>
+                                11201, United States
+                            </address>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Footer -->
+            <div class="border-t border-gray-200 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                    <div class="flex flex-wrap gap-6 text-sm">
+                        <a href="#" class="text-gray-600 hover:text-gray-800 transition-colors">Terms and conditions</a>
+                        <span class="text-gray-400">|</span>
+                        <a href="#" class="text-gray-600 hover:text-gray-800 transition-colors">Privacy policy</a>
+                    </div>
+                    <div class="text-sm text-gray-600">
+                        © 2025 YOGIK
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        function toggleAccordion(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+
+            if (content.classList.contains('hidden')) {
+                // Close all other accordions
+                for (let i = 1; i <= 4; i++) {
+                    if (i !== id) {
+                        document.getElementById(`content-${i}`).classList.add('hidden');
+                        document.getElementById(`icon-${i}`).style.transform = 'rotate(0deg)';
+                    }
+                }
+
+                // Open current accordion
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Parallax Effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.parallax-element');
+
+            parallaxElements.forEach(element => {
+                const speed = element.dataset.speed || 0.5;
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Smooth reveal on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Initialize animations on load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Observe elements for scroll reveal
+            const revealElements = document.querySelectorAll('.workshop-card, .testimonial-card');
+            revealElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+
+</html>
