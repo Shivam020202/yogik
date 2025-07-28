@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - Yogik Movement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'yogik-orange': '#FF6B35',
+                        'yogik-yellow': '#F7931E',
+                        'yogik-light-orange': '#FFB499',
+                        'yogik-dark-orange': '#E55A2B',
+                        'yogik-cream': '#FFF8F0',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Sora', sans-serif;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            /* margin: 0 16px; */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .nav-link {
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #059669;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+
+        @media (max-width: 768px) {
+            .navbar {
+                margin: 0 16px;
+            }
+
+            .hero-content {
+                padding: 0 16px;
+            }
+        }
+
+        /* Cart Icon Styles */
+        .cart-icon {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            color: #FF6B35;
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+    <style>
+        /* Cart Icon Styles */
+        .cart-icon {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            color: #FF6B35;
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Events Specific Styles */
+        .event-card {
+            transition: all 0.4s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .calendar-day {
+            transition: all 0.3s ease;
+        }
+
+        .calendar-day:hover {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+        }
+
+        .event-type-badge {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-type-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .event-type-badge:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+
+<body class="bg-yogik-cream">
+    <!-- Navigation -->
+    <nav class="navbar fixed w-full top-0 z-50 py-4 mx-auto ">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <img src="assets/logo.png" alt="Yogik Movement Logo" class="w-32 h-10 object-cover rounded-full">
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex text-xs items-center space-x-8">
+                    <a href="/" class="nav-link text-gray-700">HOME</a>
+                    <a href="about.html" class="nav-link text-gray-700">ABOUT</a>
+                    <a href="retreat.html" class="nav-link text-gray-700">RETREAT</a>
+                    <a href="workshop.html" class="nav-link text-gray-700">WORKSHOP</a>
+                    <a href="ayurveda.html" class="nav-link text-gray-700">AYURVEDA</a>
+                    <a href="online-yoga.html" class="nav-link text-gray-700">ONLINE YOGA</a>
+                    <a href="shop.html" class="nav-link text-yogik-orange">SHOP</a>
+
+                    <!-- Dropdown -->
+                    <div class="dropdown relative">
+                        <button class="nav-link text-gray-700 flex items-center space-x-1">
+                            <span>MORE</span>
+                            <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div
+                            class="dropdown-menu absolute top-full right-0 mt-3 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-2 overflow-hidden">
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Teacher
+                                Training</a>
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Events</a>
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Blog</a>
+                            <a href="contact.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Contact</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart and CTA -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <a href="cart.html" class="cart-icon text-gray-700 text-xl">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge">3</span>
+                    </a>
+                    <a href="contact.html" class="cta-button text-white px-6 py-3 rounded-full">
+                        Start Your Journey
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button
+                    class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+                    onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu lg:hidden fixed top-0 left-0 w-full h-screen bg-[#FACC15] z-50" id="mobileMenu">
+            <div class="px-6 py-6">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex items-center space-x-3">
+                        <img src="/placeholder.svg?height=40&width=128" alt="Yogik Movement Logo"
+                            class="w-32 h-10 object-cover rounded-full">
+                    </div>
+                    <button onclick="toggleMobileMenu()"
+                        class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-4 text-xs text-center">
+                    <a href="/" class="block py-3 text-gray-700 nav-link">HOME</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">ABOUT</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">RETREAT</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">WORKSHOP</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">AYURVEDA</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">ONLINE YOGA</a>
+                    <a href="shop.html" class="block py-3 text-yogik-orange nav-link font-bold">SHOP</a>
+                    <a href="cart.html" class="block py-3 text-gray-700 nav-link">
+                        <i class="fas fa-shopping-cart mr-2"></i>CART (3)
+                    </a>
+                    <div class="border-t border-gray-200 pt-4">
+                        <p class="text-sm text-gray-500 mb-2 font-medium">MORE</p>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Teacher Training</a>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Events</a>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Blog</a>
+                        <a href="contact.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Contact</a>
+                    </div>
+                    <div class="pt-6">
+                        <a href="contact.html" class="cta-button block w-full text-white text-center py-3 rounded-full">
+                            Start Your Journey
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24">
+        <!-- Hero Section -->
+        <section class="relative py-20 overflow-hidden">
+            <div
+                class="absolute inset-0 bg-gradient-to-br from-yogik-cream via-yogik-light-orange/20 to-yogik-yellow/10">
+            </div>
+            <div class="absolute top-10 left-10 w-64 h-64 bg-yogik-orange/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-10 w-80 h-80 bg-yogik-yellow/10 rounded-full blur-2xl"></div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h1 class="text-6xl lg:text-7xl font-bold text-gray-900 mb-6">
+                        Upcoming <span class="gradient-text">Events</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                        Join us for transformative workshops, peaceful retreats, and community gatherings that deepen
+                        your practice and connection
+                    </p>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="text-4xl font-bold gradient-text mb-2">25+</div>
+                        <div class="text-gray-600">Events This Month</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold gradient-text mb-2">500+</div>
+                        <div class="text-gray-600">Happy Participants</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold gradient-text mb-2">12</div>
+                        <div class="text-gray-600">Expert Teachers</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold gradient-text mb-2">6</div>
+                        <div class="text-gray-600">Years Experience</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Event -->
+        <section class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-12">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-4">Featured Event</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-yogik-orange to-yogik-yellow rounded-full"></div>
+                </div>
+
+                <div class="bg-gradient-to-br from-yogik-cream to-white rounded-3xl overflow-hidden shadow-2xl">
+                    <div class="grid lg:grid-cols-2 gap-0">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=500&width=600" alt="Bali Yoga Retreat"
+                                class="w-full h-full object-cover min-h-96">
+                            <div
+                                class="absolute top-6 left-6 bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-4 py-2 rounded-full text-sm font-bold">
+                                Featured Retreat
+                            </div>
+                            <div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur-sm rounded-2xl p-4">
+                                <div class="text-3xl font-bold text-yogik-orange">$1,299</div>
+                                <div class="text-sm text-gray-600">7 Days / 6 Nights</div>
+                            </div>
+                        </div>
+                        <div class="p-12 flex flex-col justify-center">
+                            <div class="space-y-6">
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span
+                                        class="bg-yogik-cream text-yogik-orange px-3 py-1 rounded-full font-semibold">Retreat</span>
+                                    <span>•</span>
+                                    <span><i class="fas fa-calendar mr-2"></i>March 15-22, 2025</span>
+                                    <span>•</span>
+                                    <span><i class="fas fa-map-marker-alt mr-2"></i>Ubud, Bali</span>
+                                </div>
+                                <h3 class="text-3xl font-bold text-gray-900 leading-tight">
+                                    Sacred Bali Yoga Retreat: Journey to Inner Peace
+                                </h3>
+                                <p class="text-lg text-gray-600 leading-relaxed">
+                                    Immerse yourself in the spiritual heart of Bali with daily yoga sessions, meditation
+                                    practices, temple visits, and authentic Balinese healing ceremonies. This
+                                    transformative week combines traditional yoga wisdom with the magical energy of the
+                                    Island of the Gods.
+                                </p>
+                                <div class="space-y-4">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-check-circle text-yogik-orange"></i>
+                                        <span class="text-gray-700">Daily yoga and meditation sessions</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-check-circle text-yogik-orange"></i>
+                                        <span class="text-gray-700">Luxury eco-resort accommodation</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-check-circle text-yogik-orange"></i>
+                                        <span class="text-gray-700">Traditional Balinese healing ceremonies</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-check-circle text-yogik-orange"></i>
+                                        <span class="text-gray-700">Organic farm-to-table meals</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between pt-4">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="/placeholder.svg?height=50&width=50" alt="Instructor"
+                                            class="w-12 h-12 rounded-full object-cover">
+                                        <div>
+                                            <p class="font-semibold text-gray-900">Led by Priya Sharma</p>
+                                            <p class="text-sm text-gray-500">Founder & Master Teacher</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex space-x-4">
+                                        <button
+                                            class="border-2 border-yogik-orange text-yogik-orange px-6 py-3 rounded-full font-semibold hover:bg-yogik-orange hover:text-white transition-all duration-300">
+                                            Learn More
+                                        </button>
+                                        <button
+                                            class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                            Reserve Spot
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Event Categories -->
+        <section class="py-16 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                        Event <span class="gradient-text">Categories</span>
+                    </h2>
+                    <p class="text-xl text-gray-600">Explore different types of transformative experiences</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Category 1 -->
+                    <div
+                        class="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-2xl transition-all duration-300 group">
+                        <div
+                            class="w-20 h-20 bg-gradient-to-br from-yogik-orange to-yogik-yellow rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-mountain text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Retreats</h3>
+                        <p class="text-gray-600 mb-4">Multi-day immersive experiences in beautiful locations</p>
+                        <div class="text-sm text-yogik-orange font-semibold">8 Upcoming</div>
+                    </div>
+
+                    <!-- Category 2 -->
+                    <div
+                        class="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-2xl transition-all duration-300 group">
+                        <div
+                            class="w-20 h-20 bg-gradient-to-br from-yogik-yellow to-yogik-orange rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-hands text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Workshops</h3>
+                        <p class="text-gray-600 mb-4">Deep-dive sessions on specific techniques and practices</p>
+                        <div class="text-sm text-yogik-orange font-semibold">12 Upcoming</div>
+                    </div>
+
+                    <!-- Category 3 -->
+                    <div
+                        class="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-2xl transition-all duration-300 group">
+                        <div
+                            class="w-20 h-20 bg-gradient-to-br from-yogik-orange to-yogik-yellow rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Teacher Training</h3>
+                        <p class="text-gray-600 mb-4">Comprehensive certification programs for aspiring teachers</p>
+                        <div class="text-sm text-yogik-orange font-semibold">3 Upcoming</div>
+                    </div>
+
+                    <!-- Category 4 -->
+                    <div
+                        class="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-2xl transition-all duration-300 group">
+                        <div
+                            class="w-20 h-20 bg-gradient-to-br from-yogik-yellow to-yogik-orange rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-users text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Community</h3>
+                        <p class="text-gray-600 mb-4">Social gatherings, celebrations, and group activities</p>
+                        <div class="text-sm text-yogik-orange font-semibold">6 Upcoming</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Events -->
+        <section class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between mb-12">
+                    <div>
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Upcoming Events</h2>
+                        <p class="text-xl text-gray-600">Don't miss these transformative experiences</p>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-4">
+                        <button
+                            class="p-3 bg-yogik-cream rounded-full hover:bg-yogik-orange hover:text-white transition-all">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button
+                            class="p-3 bg-yogik-cream rounded-full hover:bg-yogik-orange hover:text-white transition-all">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Event 1 -->
+                    <div
+                        class="event-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-100">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Breathwork Workshop"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 event-type-badge bg-yogik-yellow text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                Workshop
+                            </div>
+                            <div
+                                class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-bold text-yogik-orange">
+                                $45
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                                <i class="fas fa-calendar text-yogik-orange"></i>
+                                <span>December 28, 2024</span>
+                                <span>•</span>
+                                <i class="fas fa-clock text-yogik-orange"></i>
+                                <span>2:00 PM - 4:00 PM</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                                Advanced Breathwork & Pranayama
+                            </h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Explore powerful breathing techniques to enhance your practice and daily life. Learn
+                                ancient pranayama methods for stress relief and energy cultivation.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="/placeholder.svg?height=30&width=30" alt="Instructor"
+                                        class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-700 font-medium">Marcus Rodriguez</span>
+                                </div>
+                                <button
+                                    class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                    Register
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event 2 -->
+                    <div
+                        class="event-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-100">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="New Year Meditation"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 event-type-badge bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                Community
+                            </div>
+                            <div
+                                class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-bold text-green-600">
+                                Free
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                                <i class="fas fa-calendar text-yogik-orange"></i>
+                                <span>January 1, 2025</span>
+                                <span>•</span>
+                                <i class="fas fa-clock text-yogik-orange"></i>
+                                <span>8:00 AM - 9:30 AM</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                                New Year Sunrise Meditation
+                            </h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Welcome the new year with intention and peace. Join our community for a beautiful
+                                sunrise meditation and goal-setting ceremony.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="/placeholder.svg?height=30&width=30" alt="Instructor"
+                                        class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-700 font-medium">Priya Sharma</span>
+                                </div>
+                                <button
+                                    class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                    Join Free
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event 3 -->
+                    <div
+                        class="event-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-100">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Yin Yoga Workshop"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 event-type-badge bg-yogik-yellow text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                Workshop
+                            </div>
+                            <div
+                                class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-bold text-yogik-orange">
+                                $55
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                                <i class="fas fa-calendar text-yogik-orange"></i>
+                                <span>January 5, 2025</span>
+                                <span>•</span>
+                                <i class="fas fa-clock text-yogik-orange"></i>
+                                <span>6:00 PM - 8:30 PM</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                                Deep Yin Yoga & Sound Healing
+                            </h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Surrender into deep relaxation with gentle yin poses accompanied by healing sound bowls
+                                and guided meditation for ultimate restoration.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="/placeholder.svg?height=30&width=30" alt="Instructor"
+                                        class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-700 font-medium">Emma Thompson</span>
+                                </div>
+                                <button
+                                    class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                    Register
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event 4 -->
+                    <div
+                        class="event-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-100">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Teacher Training"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 event-type-badge bg-yogik-orange text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                Training
+                            </div>
+                            <div
+                                class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-bold text-yogik-orange">
+                                $2,499
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                                <i class="fas fa-calendar text-yogik-orange"></i>
+                                <span>January 15 - March 15</span>
+                                <span>•</span>
+                                <i class="fas fa-clock text-yogik-orange"></i>
+                                <span>Weekends</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                                200-Hour Yoga Teacher Training
+                            </h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Comprehensive certification program covering asana, philosophy, anatomy, and teaching
+                                methodology. Transform your practice and share yoga with others.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="/placeholder.svg?height=30&width=30" alt="Instructor"
+                                        class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-700 font-medium">Priya Sharma</span>
+                                </div>
+                                <button
+                                    class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                    Apply Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event 5 -->
+                    <div
+                        class="event-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-100">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Couples Yoga"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 event-type-badge bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                Workshop
+                            </div>
+                            <div
+                                class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-bold text-yogik-orange">
+                                $80
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                                <i class="fas fa-calendar text-yogik-orange"></i>
+                                <span>February 14, 2025</span>
+                                <span>•</span>
+                                <i class="fas fa-clock text-yogik-orange"></i>
+                                <span>7:00 PM - 9:00 PM</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                                Valentine's Couples Yoga Workshop
+                            </h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Strengthen your bond through partner poses, breathing exercises, and mindful connection.
+                                Perfect for couples of all experience levels.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="/placeholder.svg?height=30&width=30" alt="Instructor"
+                                        class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-700 font-medium">Sarah Chen</span>
+                                </div>
+                                <button
+                                    class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                    Book for 2
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event 6 -->
+                    <div
+                        class="event-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-100">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Ayurveda Workshop"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 event-type-badge bg-yogik-yellow text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                Workshop
+                            </div>
+                            <div
+                                class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-bold text-yogik-orange">
+                                $65
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                                <i class="fas fa-calendar text-yogik-orange"></i>
+                                <span>February 20, 2025</span>
+                                <span>•</span>
+                                <i class="fas fa-clock text-yogik-orange"></i>
+                                <span>1:00 PM - 4:00 PM</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                                Introduction to Ayurveda & Doshas
+                            </h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Discover your unique constitution and learn how to balance your doshas through diet,
+                                lifestyle, and yoga practices for optimal health.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="/placeholder.svg?height=30&width=30" alt="Instructor"
+                                        class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-700 font-medium">Dr. Priya Sharma</span>
+                                </div>
+                                <button
+                                    class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                    Register
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View All Events Button -->
+                <div class="text-center mt-16">
+                    <button
+                        class="bg-white border-2 border-yogik-orange text-yogik-orange px-12 py-4 rounded-full font-semibold text-lg hover:bg-yogik-orange hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                        View All Events
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calendar Section -->
+        <section class="py-20 bg-gradient-to-br from-yogik-cream to-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                        Event <span class="gradient-text">Calendar</span>
+                    </h2>
+                    <p class="text-xl text-gray-600">Plan your yoga journey with our monthly calendar</p>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-2xl p-8">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900">January 2025</h3>
+                        <div class="flex space-x-4">
+                            <button
+                                class="p-3 bg-yogik-cream rounded-full hover:bg-yogik-orange hover:text-white transition-all">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button
+                                class="p-3 bg-yogik-cream rounded-full hover:bg-yogik-orange hover:text-white transition-all">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Calendar Grid -->
+                    <div class="grid grid-cols-7 gap-4 mb-4">
+                        <div class="text-center font-semibold text-gray-600 py-3">Sun</div>
+                        <div class="text-center font-semibold text-gray-600 py-3">Mon</div>
+                        <div class="text-center font-semibold text-gray-600 py-3">Tue</div>
+                        <div class="text-center font-semibold text-gray-600 py-3">Wed</div>
+                        <div class="text-center font-semibold text-gray-600 py-3">Thu</div>
+                        <div class="text-center font-semibold text-gray-600 py-3">Fri</div>
+                        <div class="text-center font-semibold text-gray-600 py-3">Sat</div>
+                    </div>
+
+                    <div class="grid grid-cols-7 gap-4">
+                        <!-- Calendar Days -->
+                        <div class="calendar-day text-center py-4 text-gray-400 cursor-pointer rounded-xl">29</div>
+                        <div class="calendar-day text-center py-4 text-gray-400 cursor-pointer rounded-xl">30</div>
+                        <div class="calendar-day text-center py-4 text-gray-400 cursor-pointer rounded-xl">31</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl relative">
+                            1
+                            <div
+                                class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yogik-orange rounded-full">
+                            </div>
+                        </div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">2</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">3</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">4</div>
+
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl relative">
+                            5
+                            <div
+                                class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yogik-yellow rounded-full">
+                            </div>
+                        </div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">6</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">7</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">8</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">9</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">10</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">11</div>
+
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">12</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">13</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl relative">
+                            14
+                            <div
+                                class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gradient-to-r from-yogik-orange to-yogik-yellow rounded-full">
+                            </div>
+                        </div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl relative">
+                            15
+                            <div
+                                class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yogik-orange rounded-full">
+                            </div>
+                        </div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">16</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">17</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">18</div>
+
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">19</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl relative">
+                            20
+                            <div
+                                class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yogik-yellow rounded-full">
+                            </div>
+                        </div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">21</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">22</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">23</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">24</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">25</div>
+
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">26</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">27</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">28</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">29</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">30</div>
+                        <div class="calendar-day text-center py-4 text-gray-900 cursor-pointer rounded-xl">31</div>
+                        <div class="calendar-day text-center py-4 text-gray-400 cursor-pointer rounded-xl">1</div>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="flex justify-center space-x-8 mt-8">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-yogik-orange rounded-full"></div>
+                            <span class="text-sm text-gray-600">Retreats</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-yogik-yellow rounded-full"></div>
+                            <span class="text-sm text-gray-600">Workshops</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-gradient-to-r from-yogik-orange to-yogik-yellow rounded-full"></div>
+                            <span class="text-sm text-gray-600">Special Events</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                        What Our <span class="gradient-text">Community</span> Says
+                    </h2>
+                    <p class="text-xl text-gray-600">Hear from participants about their transformative experiences</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Testimonial 1 -->
+                    <div
+                        class="bg-gradient-to-br from-yogik-cream to-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="flex items-center mb-6">
+                            <img src="/placeholder.svg?height=60&width=60" alt="Participant"
+                                class="w-16 h-16 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-900">Rachel Martinez</h4>
+                                <p class="text-sm text-gray-600">Bali Retreat Participant</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic leading-relaxed mb-4">
+                            "The Bali retreat was life-changing. The combination of daily practice, beautiful
+                            surroundings, and amazing community created the perfect environment for deep
+                            transformation."
+                        </p>
+                        <div class="flex text-yogik-orange">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div
+                        class="bg-gradient-to-br from-yogik-cream to-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="flex items-center mb-6">
+                            <img src="/placeholder.svg?height=60&width=60" alt="Participant"
+                                class="w-16 h-16 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-900">David Kim</h4>
+                                <p class="text-sm text-gray-600">Teacher Training Graduate</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic leading-relaxed mb-4">
+                            "The teacher training program exceeded all my expectations. The depth of knowledge,
+                            supportive community, and practical teaching experience prepared me perfectly for my new
+                            career."
+                        </p>
+                        <div class="flex text-yogik-orange">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div
+                        class="bg-gradient-to-br from-yogik-cream to-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="flex items-center mb-6">
+                            <img src="/placeholder.svg?height=60&width=60" alt="Participant"
+                                class="w-16 h-16 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-900">Amanda Foster</h4>
+                                <p class="text-sm text-gray-600">Workshop Regular</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic leading-relaxed mb-4">
+                            "Every workshop I attend brings new insights and techniques. The instructors are incredibly
+                            knowledgeable and create such a welcoming, supportive environment for learning."
+                        </p>
+                        <div class="flex text-yogik-orange">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="py-20 bg-gradient-to-br from-yogik-orange via-yogik-yellow to-yogik-orange">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl lg:text-5xl font-bold text-white mb-8">
+                    Ready to Join Our Next Event?
+                </h2>
+                <p class="text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
+                    Don't miss out on these transformative experiences. Reserve your spot today and take the next step
+                    in your yoga journey.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                    <a href="#"
+                        class="bg-white text-yogik-orange px-10 py-4 rounded-full font-bold text-lg hover:bg-yogik-cream hover:scale-105 transition-all duration-300 shadow-2xl">
+                        <i class="fas fa-calendar-plus mr-3"></i>Browse All Events
+                    </a>
+                    <a href="#"
+                        class="border-2 border-white text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-yogik-orange hover:scale-105 transition-all duration-300">
+                        <i class="fas fa-envelope mr-3"></i>Get Notified
+                    </a>
+                </div>
+
+                <!-- Trust Indicators -->
+                <div class="mt-16 flex flex-wrap justify-center items-center gap-8 text-white/80">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-users"></i>
+                        <span>500+ Event Participants</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-star text-yellow-300"></i>
+                        <span>4.9/5 Average Rating</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-award"></i>
+                        <span>Certified Instructors</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-bold text-yogik-orange">Yogik Movement</h3>
+                    <p class="text-gray-300 leading-relaxed">Join us for transformative events that deepen your practice
+                        and connect you with our amazing community.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="about-enhanced.html" class="hover:text-yogik-orange transition-colors">About Us</a>
+                        </li>
+                        <li><a href="blog.html" class="hover:text-yogik-orange transition-colors">Blog</a></li>
+                        <li><a href="events.html" class="hover:text-yogik-orange transition-colors">Events</a></li>
+                        <li><a href="gallery.html" class="hover:text-yogik-orange transition-colors">Gallery</a></li>
+                        <li><a href="contact.html" class="hover:text-yogik-orange transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Event Types</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Retreats</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Workshops</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Teacher Training</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Community Events</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Online Sessions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Stay Updated</h4>
+                    <p class="text-gray-300 mb-6">Get notified about new events and special offers.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email"
+                            class="flex-1 px-4 py-3 rounded-l-full text-gray-900 focus:outline-none focus:ring-2 focus:ring-yogik-orange">
+                        <button
+                            class="bg-gradient-to-r from-yogik-orange to-yogik-yellow px-8 py-3 rounded-r-full hover:shadow-lg transition-all duration-300">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 Yogik Movement. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>

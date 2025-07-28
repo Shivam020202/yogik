@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Yogik Movement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'yogik-orange': '#FF6B35',
+                        'yogik-yellow': '#F7931E',
+                        'yogik-light-orange': '#FFB499',
+                        'yogik-dark-orange': '#E55A2B',
+                        'yogik-cream': '#FFF8F0',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Sora', sans-serif;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            /* margin: 0 16px; */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .nav-link {
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #059669;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+
+        @media (max-width: 768px) {
+            .navbar {
+                margin: 0 16px;
+            }
+
+            .hero-content {
+                padding: 0 16px;
+            }
+        }
+    </style>
+    <style>
+        /* Cart Icon Styles */
+        .cart-icon {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            color: #FF6B35;
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Gallery Specific Styles */
+        .gallery-item {
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 2rem;
+        }
+
+        @media (min-width: 640px) {
+            .masonry-grid {
+                column-count: 2;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .masonry-grid {
+                column-count: 3;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .masonry-grid {
+                column-count: 4;
+            }
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 2rem;
+        }
+
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="bg-yogik-cream">
+    <!-- Navigation -->
+    <nav class="navbar fixed w-full top-0 z-50 py-4 mx-auto ">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <img src="assets/logo.png" alt="Yogik Movement Logo" class="w-32 h-10 object-cover rounded-full">
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex text-xs items-center space-x-8">
+                    <a href="/" class="nav-link text-gray-700">HOME</a>
+                    <a href="about.html" class="nav-link text-gray-700">ABOUT</a>
+                    <a href="retreat.html" class="nav-link text-gray-700">RETREAT</a>
+                    <a href="workshop.html" class="nav-link text-gray-700">WORKSHOP</a>
+                    <a href="ayurveda.html" class="nav-link text-gray-700">AYURVEDA</a>
+                    <a href="online-yoga.html" class="nav-link text-gray-700">ONLINE YOGA</a>
+                    <a href="shop.html" class="nav-link text-yogik-orange">SHOP</a>
+
+                    <!-- Dropdown -->
+                    <div class="dropdown relative">
+                        <button class="nav-link text-gray-700 flex items-center space-x-1">
+                            <span>MORE</span>
+                            <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div
+                            class="dropdown-menu absolute top-full right-0 mt-3 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-2 overflow-hidden">
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Teacher
+                                Training</a>
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Events</a>
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Blog</a>
+                            <a href="contact.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Contact</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart and CTA -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <a href="cart.html" class="cart-icon text-gray-700 text-xl">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge">3</span>
+                    </a>
+                    <a href="contact.html" class="cta-button text-white px-6 py-3 rounded-full">
+                        Start Your Journey
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button
+                    class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+                    onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu lg:hidden fixed top-0 left-0 w-full h-screen bg-[#FACC15] z-50" id="mobileMenu">
+            <div class="px-6 py-6">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex items-center space-x-3">
+                        <img src="/placeholder.svg?height=40&width=128" alt="Yogik Movement Logo"
+                            class="w-32 h-10 object-cover rounded-full">
+                    </div>
+                    <button onclick="toggleMobileMenu()"
+                        class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-4 text-xs text-center">
+                    <a href="/" class="block py-3 text-gray-700 nav-link">HOME</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">ABOUT</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">RETREAT</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">WORKSHOP</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">AYURVEDA</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">ONLINE YOGA</a>
+                    <a href="shop.html" class="block py-3 text-yogik-orange nav-link font-bold">SHOP</a>
+                    <a href="cart.html" class="block py-3 text-gray-700 nav-link">
+                        <i class="fas fa-shopping-cart mr-2"></i>CART (3)
+                    </a>
+                    <div class="border-t border-gray-200 pt-4">
+                        <p class="text-sm text-gray-500 mb-2 font-medium">MORE</p>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Teacher Training</a>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Events</a>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Blog</a>
+                        <a href="contact.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Contact</a>
+                    </div>
+                    <div class="pt-6">
+                        <a href="contact.html" class="cta-button block w-full text-white text-center py-3 rounded-full">
+                            Start Your Journey
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24">
+        <!-- Hero Section -->
+        <section class="relative py-20 overflow-hidden">
+            <div
+                class="absolute inset-0 bg-gradient-to-br from-yogik-cream via-yogik-light-orange/20 to-yogik-yellow/10">
+            </div>
+            <div class="absolute top-10 left-10 w-64 h-64 bg-yogik-orange/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-10 w-80 h-80 bg-yogik-yellow/10 rounded-full blur-2xl"></div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h1 class="text-6xl lg:text-7xl font-bold text-gray-900 mb-6">
+                        Our <span class="gradient-text">Gallery</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                        Witness the beauty of our yoga community through moments of practice, transformation, and
+                        connection
+                    </p>
+                </div>
+
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    <button
+                        class="filter-btn active px-8 py-3 rounded-full font-semibold transition-all duration-300 border-2 border-yogik-orange text-yogik-orange hover:bg-yogik-orange hover:text-white"
+                        data-filter="all">
+                        All Photos
+                    </button>
+                    <button
+                        class="filter-btn px-8 py-3 rounded-full font-semibold transition-all duration-300 border-2 border-yogik-orange text-yogik-orange hover:bg-yogik-orange hover:text-white"
+                        data-filter="classes">
+                        Classes
+                    </button>
+                    <button
+                        class="filter-btn px-8 py-3 rounded-full font-semibold transition-all duration-300 border-2 border-yogik-orange text-yogik-orange hover:bg-yogik-orange hover:text-white"
+                        data-filter="retreats">
+                        Retreats
+                    </button>
+                    <button
+                        class="filter-btn px-8 py-3 rounded-full font-semibold transition-all duration-300 border-2 border-yogik-orange text-yogik-orange hover:bg-yogik-orange hover:text-white"
+                        data-filter="workshops">
+                        Workshops
+                    </button>
+                    <button
+                        class="filter-btn px-8 py-3 rounded-full font-semibold transition-all duration-300 border-2 border-yogik-orange text-yogik-orange hover:bg-yogik-orange hover:text-white"
+                        data-filter="community">
+                        Community
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Gallery Section -->
+        <section class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-12">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-4">Featured Moments</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-yogik-orange to-yogik-yellow rounded-full"></div>
+                </div>
+
+                <!-- Featured Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                    <!-- Large Featured Image -->
+                    <div class="md:col-span-2 lg:col-span-2 gallery-item" data-category="retreats">
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl group">
+                            <img src="/placeholder.svg?height=500&width=800" alt="Sunrise Yoga Retreat"
+                                class="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
+                            </div>
+                            <div class="absolute bottom-6 left-6 text-white">
+                                <span
+                                    class="bg-yogik-orange px-3 py-1 rounded-full text-sm font-semibold mb-3 inline-block">Retreat</span>
+                                <h3 class="text-2xl font-bold mb-2">Sunrise Yoga in Bali</h3>
+                                <p class="text-white/90">Magical moments from our transformative retreat experience</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Two Smaller Images -->
+                    <div class="space-y-8">
+                        <div class="gallery-item" data-category="classes">
+                            <div class="relative rounded-2xl overflow-hidden shadow-lg group">
+                                <img src="/placeholder.svg?height=250&width=400" alt="Vinyasa Flow Class"
+                                    class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                                <div class="absolute bottom-4 left-4 text-white">
+                                    <span
+                                        class="bg-yogik-yellow px-2 py-1 rounded-full text-xs font-semibold mb-2 inline-block">Class</span>
+                                    <h4 class="font-bold">Vinyasa Flow</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="gallery-item" data-category="workshops">
+                            <div class="relative rounded-2xl overflow-hidden shadow-lg group">
+                                <img src="/placeholder.svg?height=250&width=400" alt="Meditation Workshop"
+                                    class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                                <div class="absolute bottom-4 left-4 text-white">
+                                    <span
+                                        class="bg-gradient-to-r from-yogik-orange to-yogik-yellow px-2 py-1 rounded-full text-xs font-semibold mb-2 inline-block">Workshop</span>
+                                    <h4 class="font-bold">Meditation Circle</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Masonry Gallery -->
+        <section class="py-16 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="masonry-grid" id="galleryGrid">
+                    <!-- Gallery Item 1 -->
+                    <div class="masonry-item gallery-item" data-category="classes">
+                        <div class="relative rounded-2xl overflow-hidden shadow-lg group bg-white">
+                            <img src="/placeholder.svg?height=300&width=400" alt="Hatha Yoga Class"
+                                class="w-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span class="bg-yogik-yellow px-2 py-1 rounded-full text-xs font-semibold">Class</span>
+                                <h4 class="font-bold mt-1">Hatha Yoga</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 2 -->
+                    <div class="masonry-item gallery-item" data-category="community">
+                        <div class="relative rounded-2xl overflow-hidden shadow-lg group bg-white">
+                            <img src="/placeholder.svg?height=400&width=400" alt="Community Gathering"
+                                class="w-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span
+                                    class="bg-gradient-to-r from-yogik-orange to-yogik-yellow px-2 py-1 rounded-full text-xs font-semibold">Community</span>
+                                <h4 class="font-bold mt-1">Yoga Family</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 3 -->
+                    <div class="masonry-item gallery-item" data-category="retreats">
+                        <div class="relative rounded-2xl overflow-hidden shadow-lg group bg-white">
+                            <img src="/placeholder.svg?height=350&width=400" alt="Beach Retreat"
+                                class="w-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span
+                                    class="bg-yogik-orange px-2 py-1 rounded-full text-xs font-semibold">Retreat</span>
+                                <h4 class="font-bold mt-1">Beach Meditation</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 4 -->
+                    <div class="masonry-item gallery-item" data-category="workshops">
+                        <div class="relative rounded-2xl overflow-hidden shadow-lg group bg-white">
+                            <img src="/placeholder.svg?height=280&width=400" alt="Breathwork Workshop"
+                                class="w-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span
+                                    class="bg-gradient-to-r from-yogik-yellow to-yogik-orange px-2 py-1 rounded-full text-xs font-semibold">Workshop</span>
+                                <h4 class="font-bold mt-1">Breathwork</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 5 -->
+                    <div class="masonry-item gallery-item" data-category="classes">
+                        <div class="relative rounded-2xl overflow-hidden shadow-lg group bg-white">
+                            <img src="/placeholder.svg?height=320&width=400" alt="Yin Yoga Class"
+                                class="w-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span class="bg-yogik-yellow px-2 py-1 rounded-full text-xs font-semibold">Class</span>
+                                <h4 class="font-bold mt-1">Yin Yoga</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 6 -->
+                    <div class="masonry-item gallery-item" data-category="community">
+                        <div class="relative rounded-2xl overflow-hidden shadow-lg group bg-white">
+                            <img src="/placeholder.svg?height=380&width=400" alt="Teacher Training"
+                                class="w-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span
+                                    class="bg-gradient-to-r from-yogik-orange to-yogik-yellow px-2 py-1 rounded-full text-xs font-semibold">Community</span>
+                                <h4 class="font-bold mt-1">Teacher Training</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 7 -->
+                    <div class="masonry-item gallery-item" data-category="retreats">
+                        <div class="relative rounded-2xl overflow-hidden shadow-lg group bg-white">
+                            <img src="/placeholder.svg?height=300&width=400" alt="Mountain Retreat"
+                                class="w-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span
+                                    class="bg-yogik-orange px-2 py-1 rounded-full text-xs font-semibold">Retreat</span>
+                                <h4 class="font-bold mt-1">Mountain Peace</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 8 -->
+                    <div class="masonry-item gallery-item" data-category="workshops">
+                        <div class="relative rounded-2xl overflow-hidden shadow-lg group bg-white">
+                            <img src="/placeholder.svg?height=340&width=400" alt="Alignment Workshop"
+                                class="w-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span
+                                    class="bg-gradient-to-r from-yogik-yellow to-yogik-orange px-2 py-1 rounded-full text-xs font-semibold">Workshop</span>
+                                <h4 class="font-bold mt-1">Alignment Focus</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 9 -->
+                    <div class="masonry-item gallery-item" data-category="classes">
+                        <div class="relative rounded-2xl overflow-hidden shadow-lg group bg-white">
+                            <img src="/placeholder.svg?height=290&width=400" alt="Power Yoga Class"
+                                class="w-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span class="bg-yogik-yellow px-2 py-1 rounded-full text-xs font-semibold">Class</span>
+                                <h4 class="font-bold mt-1">Power Yoga</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 10 -->
+                    <div class="masonry-item gallery-item" data-category="community">
+                        <div class="relative rounded-2xl overflow-hidden shadow-lg group bg-white">
+                            <img src="/placeholder.svg?height=360&width=400" alt="Yoga Festival"
+                                class="w-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span
+                                    class="bg-gradient-to-r from-yogik-orange to-yogik-yellow px-2 py-1 rounded-full text-xs font-semibold">Community</span>
+                                <h4 class="font-bold mt-1">Yoga Festival</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 11 -->
+                    <div class="masonry-item gallery-item" data-category="retreats">
+                        <div class="relative rounded-2xl overflow-hidden shadow-lg group bg-white">
+                            <img src="/placeholder.svg?height=310&width=400" alt="Forest Retreat"
+                                class="w-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span
+                                    class="bg-yogik-orange px-2 py-1 rounded-full text-xs font-semibold">Retreat</span>
+                                <h4 class="font-bold mt-1">Forest Sanctuary</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 12 -->
+                    <div class="masonry-item gallery-item" data-category="workshops">
+                        <div class="relative rounded-2xl overflow-hidden shadow-lg group bg-white">
+                            <img src="/placeholder.svg?height=330&width=400" alt="Philosophy Workshop"
+                                class="w-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span
+                                    class="bg-gradient-to-r from-yogik-yellow to-yogik-orange px-2 py-1 rounded-full text-xs font-semibold">Workshop</span>
+                                <h4 class="font-bold mt-1">Yoga Philosophy</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Load More Button -->
+                <div class="text-center mt-16">
+                    <button
+                        class="bg-white border-2 border-yogik-orange text-yogik-orange px-12 py-4 rounded-full font-semibold text-lg hover:bg-yogik-orange hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                        Load More Photos
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials with Photos -->
+        <section class="py-20 bg-gradient-to-br from-yogik-cream to-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                        Stories Behind the <span class="gradient-text">Photos</span>
+                    </h2>
+                    <p class="text-xl text-gray-600">Hear from our community about their transformative moments</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Testimonial 1 -->
+                    <div class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="flex items-center mb-6">
+                            <img src="/placeholder.svg?height=60&width=60" alt="Student"
+                                class="w-16 h-16 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-900">Maya Patel</h4>
+                                <p class="text-sm text-gray-600">2-Year Student</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic leading-relaxed mb-4">
+                            "That sunrise retreat photo captures the moment I truly understood what yoga means. It's not
+                            just poses - it's finding peace within yourself."
+                        </p>
+                        <div class="flex text-yogik-orange">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="flex items-center mb-6">
+                            <img src="/placeholder.svg?height=60&width=60" alt="Student"
+                                class="w-16 h-16 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-900">James Wilson</h4>
+                                <p class="text-sm text-gray-600">Teacher Training Graduate</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic leading-relaxed mb-4">
+                            "The teacher training photos show the incredible bond we formed. This community changed my
+                            life and gave me a new purpose."
+                        </p>
+                        <div class="flex text-yogik-orange">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="flex items-center mb-6">
+                            <img src="/placeholder.svg?height=60&width=60" alt="Student"
+                                class="w-16 h-16 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-900">Lisa Chen</h4>
+                                <p class="text-sm text-gray-600">Workshop Participant</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic leading-relaxed mb-4">
+                            "Every workshop photo tells a story of growth. I can see my transformation from that first
+                            nervous class to confident practice."
+                        </p>
+                        <div class="flex text-yogik-orange">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="py-20 bg-gradient-to-br from-yogik-orange via-yogik-yellow to-yogik-orange">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl lg:text-5xl font-bold text-white mb-8">
+                    Ready to Create Your Own Story?
+                </h2>
+                <p class="text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
+                    Join our community and become part of the beautiful moments we capture and share
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                    <a href="#"
+                        class="bg-white text-yogik-orange px-10 py-4 rounded-full font-bold text-lg hover:bg-yogik-cream hover:scale-105 transition-all duration-300 shadow-2xl">
+                        <i class="fas fa-calendar-alt mr-3"></i>Book a Class
+                    </a>
+                    <a href="#"
+                        class="border-2 border-white text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-yogik-orange hover:scale-105 transition-all duration-300">
+                        <i class="fas fa-camera mr-3"></i>Follow Us
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <img id="lightboxImage" src="/placeholder.svg" alt="">
+        <button class="absolute top-8 right-8 text-white text-4xl hover:text-yogik-orange transition-colors"
+            onclick="closeLightbox()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-bold text-yogik-orange">Yogik Movement</h3>
+                    <p class="text-gray-300 leading-relaxed">Capturing beautiful moments of transformation and
+                        connection in our yoga community.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="about-enhanced.html" class="hover:text-yogik-orange transition-colors">About Us</a>
+                        </li>
+                        <li><a href="blog.html" class="hover:text-yogik-orange transition-colors">Blog</a></li>
+                        <li><a href="events.html" class="hover:text-yogik-orange transition-colors">Events</a></li>
+                        <li><a href="gallery.html" class="hover:text-yogik-orange transition-colors">Gallery</a></li>
+                        <li><a href="contact.html" class="hover:text-yogik-orange transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Gallery</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Classes</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Retreats</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Workshops</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Community</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Events</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Follow Our Journey</h4>
+                    <p class="text-gray-300 mb-6">Tag us in your photos for a chance to be featured!</p>
+                    <div
+                        class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-4 py-2 rounded-full text-center font-semibold">
+                        #YogikMovement
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 Yogik Movement. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const filter = button.getAttribute('data-filter');
+
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Lightbox functionality
+        const galleryImages = document.querySelectorAll('.gallery-item img');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+
+        galleryImages.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImage.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+
+        // Close lightbox with escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+
+</html>

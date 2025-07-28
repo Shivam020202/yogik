@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Yogik Movement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'yogik-orange': '#FF6B35',
+                        'yogik-yellow': '#F7931E',
+                        'yogik-light-orange': '#FFB499',
+                        'yogik-dark-orange': '#E55A2B',
+                        'yogik-cream': '#FFF8F0',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Sora', sans-serif;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            /* margin: 0 16px; */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .nav-link {
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #059669;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+
+        @media (max-width: 768px) {
+            .navbar {
+                margin: 0 16px;
+            }
+
+            .hero-content {
+                padding: 0 16px;
+            }
+        }
+
+        /* Cart Icon Styles */
+        .cart-icon {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            color: #FF6B35;
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+    <style>
+        /* Blog Specific Styles */
+        .blog-card {
+            transition: all 0.4s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .category-tag {
+            transition: all 0.3s ease;
+        }
+
+        .category-tag:hover {
+            transform: scale(1.05);
+        }
+
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-yogik-cream">
+    <!-- Navigation -->
+    <nav class="navbar fixed w-full top-0 z-50 py-4 mx-auto ">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <img src="assets/logo.png" alt="Yogik Movement Logo" class="w-32 h-10 object-cover rounded-full">
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex text-xs items-center space-x-8">
+                    <a href="/" class="nav-link text-gray-700">HOME</a>
+                    <a href="about.html" class="nav-link text-gray-700">ABOUT</a>
+                    <a href="retreat.html" class="nav-link text-gray-700">RETREAT</a>
+                    <a href="workshop.html" class="nav-link text-gray-700">WORKSHOP</a>
+                    <a href="ayurveda.html" class="nav-link text-gray-700">AYURVEDA</a>
+                    <a href="online-yoga.html" class="nav-link text-gray-700">ONLINE YOGA</a>
+                    <a href="shop.html" class="nav-link text-yogik-orange">SHOP</a>
+
+                    <!-- Dropdown -->
+                    <div class="dropdown relative">
+                        <button class="nav-link text-gray-700 flex items-center space-x-1">
+                            <span>MORE</span>
+                            <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div
+                            class="dropdown-menu absolute top-full right-0 mt-3 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-2 overflow-hidden">
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Teacher
+                                Training</a>
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Events</a>
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Blog</a>
+                            <a href="contact.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Contact</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart and CTA -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <a href="cart.html" class="cart-icon text-gray-700 text-xl">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge">3</span>
+                    </a>
+                    <a href="contact.html" class="cta-button text-white px-6 py-3 rounded-full">
+                        Start Your Journey
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button
+                    class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+                    onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu lg:hidden fixed top-0 left-0 w-full h-screen bg-[#FACC15] z-50" id="mobileMenu">
+            <div class="px-6 py-6">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex items-center space-x-3">
+                        <img src="/placeholder.svg?height=40&width=128" alt="Yogik Movement Logo"
+                            class="w-32 h-10 object-cover rounded-full">
+                    </div>
+                    <button onclick="toggleMobileMenu()"
+                        class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-4 text-xs text-center">
+                    <a href="/" class="block py-3 text-gray-700 nav-link">HOME</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">ABOUT</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">RETREAT</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">WORKSHOP</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">AYURVEDA</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">ONLINE YOGA</a>
+                    <a href="shop.html" class="block py-3 text-yogik-orange nav-link font-bold">SHOP</a>
+                    <a href="cart.html" class="block py-3 text-gray-700 nav-link">
+                        <i class="fas fa-shopping-cart mr-2"></i>CART (3)
+                    </a>
+                    <div class="border-t border-gray-200 pt-4">
+                        <p class="text-sm text-gray-500 mb-2 font-medium">MORE</p>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Teacher Training</a>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Events</a>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Blog</a>
+                        <a href="contact.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Contact</a>
+                    </div>
+                    <div class="pt-6">
+                        <a href="contact.html" class="cta-button block w-full text-white text-center py-3 rounded-full">
+                            Start Your Journey
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24">
+        <!-- Hero Section -->
+        <section class="relative py-20 overflow-hidden">
+            <div
+                class="absolute inset-0 bg-gradient-to-br from-yogik-cream via-yogik-light-orange/20 to-yogik-yellow/10">
+            </div>
+            <div class="absolute top-10 left-10 w-64 h-64 bg-yogik-orange/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-10 w-80 h-80 bg-yogik-yellow/10 rounded-full blur-2xl"></div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h1 class="text-6xl lg:text-7xl font-bold text-gray-900 mb-6">
+                        Yogik <span class="gradient-text">Blog</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                        Discover wisdom, inspiration, and practical guidance for your yoga journey through our curated
+                        collection of articles, tips, and insights
+                    </p>
+                </div>
+
+                <!-- Search and Filter Bar -->
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+                        <div class="flex flex-col lg:flex-row gap-6 items-center">
+                            <!-- Search -->
+                            <div class="flex-1 relative">
+                                <input type="text" placeholder="Search articles, poses..."
+                                    class="search-input w-full px-6 py-4 rounded-2xl border-2 border-yogik-orange/20 focus:border-yogik-orange focus:outline-none transition-all">
+                                <button
+                                    class="absolute right-4 top-1/2 transform -translate-y-1/2 text-yogik-orange hover:text-yogik-dark-orange">
+                                    <i class="fas fa-search text-xl"></i>
+                                </button>
+                            </div>
+
+                            <!-- Categories -->
+                            <div class="flex flex-wrap gap-3">
+                                <button
+                                    class="category-tag bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-6 py-3 rounded-full font-semibold">
+                                    All Posts
+                                </button>
+                                <button
+                                    class="category-tag bg-white border-2 border-yogik-orange text-yogik-orange px-6 py-3 rounded-full font-semibold hover:bg-yogik-orange hover:text-white">
+                                    Poses
+                                </button>
+                                <button
+                                    class="category-tag bg-white border-2 border-yogik-orange text-yogik-orange px-6 py-3 rounded-full font-semibold hover:bg-yogik-orange hover:text-white">
+                                    Wellness
+                                </button>
+                                <button
+                                    class="category-tag bg-white border-2 border-yogik-orange text-yogik-orange px-6 py-3 rounded-full font-semibold hover:bg-yogik-orange hover:text-white">
+                                    Philosophy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Article -->
+        <section class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-12">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-4">Featured Article</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-yogik-orange to-yogik-yellow rounded-full"></div>
+                </div>
+
+                <div class="bg-gradient-to-br from-yogik-cream to-white rounded-3xl overflow-hidden shadow-2xl">
+                    <div class="grid lg:grid-cols-2 gap-0">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=500&width=600" alt="Featured Article"
+                                class="w-full h-full object-cover min-h-96">
+                            <div
+                                class="absolute top-6 left-6 bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-4 py-2 rounded-full text-sm font-bold">
+                                Featured
+                            </div>
+                        </div>
+                        <div class="p-12 flex flex-col justify-center">
+                            <div class="space-y-6">
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span
+                                        class="bg-yogik-cream text-yogik-orange px-3 py-1 rounded-full font-semibold">Wellness</span>
+                                    <span>•</span>
+                                    <span>December 15, 2024</span>
+                                    <span>•</span>
+                                    <span>8 min read</span>
+                                </div>
+                                <h3 class="text-3xl font-bold text-gray-900 leading-tight">
+                                    The Science Behind Breathwork: How Pranayama Transforms Your Nervous System
+                                </h3>
+                                <p class="text-lg text-gray-600 leading-relaxed">
+                                    Discover the profound physiological and psychological benefits of conscious
+                                    breathing practices. Learn how ancient pranayama techniques are now backed by modern
+                                    neuroscience research and how you can integrate them into your daily routine for
+                                    better health and mental clarity.
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="/placeholder.svg?height=50&width=50" alt="Author"
+                                            class="w-12 h-12 rounded-full object-cover">
+                                        <div>
+                                            <p class="font-semibold text-gray-900">Dr. Priya Sharma</p>
+                                            <p class="text-sm text-gray-500">Founder & Lead Instructor</p>
+                                        </div>
+                                    </div>
+                                    <a href="#"
+                                        class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                        Read More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest Articles Grid -->
+        <section class="py-16 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between mb-12">
+                    <div>
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Latest Articles</h2>
+                        <p class="text-xl text-gray-600">Fresh insights and practical wisdom for your practice</p>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-4">
+                        <button class="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all">
+                            <i class="fas fa-chevron-left text-yogik-orange"></i>
+                        </button>
+                        <button class="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all">
+                            <i class="fas fa-chevron-right text-yogik-orange"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Article 1 -->
+                    <article class="blog-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Morning Yoga Routine"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 bg-yogik-yellow text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                Poses
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                                <span>December 12, 2024</span>
+                                <span>•</span>
+                                <span>5 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                                5 Essential Morning Yoga Poses to Energize Your Day
+                            </h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Start your morning with intention and energy. These five foundational poses will awaken
+                                your body, center your mind, and set a positive tone for the entire day.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="/placeholder.svg?height=30&width=30" alt="Author"
+                                        class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-700 font-medium">Sarah Chen</span>
+                                </div>
+                                <a href="#" class="text-yogik-orange hover:text-yogik-dark-orange font-semibold">
+                                    Read More <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 2 -->
+                    <article class="blog-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Meditation Benefits"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 bg-yogik-orange text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                Wellness
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                                <span>December 10, 2024</span>
+                                <span>•</span>
+                                <span>7 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                                The Hidden Benefits of Daily Meditation Practice
+                            </h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Beyond stress relief, discover how consistent meditation practice can improve your
+                                relationships, boost creativity, and enhance overall life satisfaction.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="/placeholder.svg?height=30&width=30" alt="Author"
+                                        class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-700 font-medium">Marcus Rodriguez</span>
+                                </div>
+                                <a href="#" class="text-yogik-orange hover:text-yogik-dark-orange font-semibold">
+                                    Read More <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 3 -->
+                    <article class="blog-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Yoga Philosophy"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                Philosophy
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                                <span>December 8, 2024</span>
+                                <span>•</span>
+                                <span>6 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                                Understanding the Eight Limbs of Yoga: A Modern Guide
+                            </h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Explore Patanjali's eight-fold path and learn how these ancient principles can guide
+                                your modern yoga practice and daily life decisions.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="/placeholder.svg?height=30&width=30" alt="Author"
+                                        class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-700 font-medium">Emma Thompson</span>
+                                </div>
+                                <a href="#" class="text-yogik-orange hover:text-yogik-dark-orange font-semibold">
+                                    Read More <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 4 -->
+                    <article class="blog-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Yoga Nutrition"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 bg-yogik-yellow text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                Wellness
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                                <span>December 5, 2024</span>
+                                <span>•</span>
+                                <span>4 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                                Nourishing Your Practice: Ayurvedic Nutrition for Yogis
+                            </h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Discover how ancient Ayurvedic principles can optimize your nutrition to support your
+                                yoga practice and overall well-being.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="/placeholder.svg?height=30&width=30" alt="Author"
+                                        class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-700 font-medium">Dr. Priya Sharma</span>
+                                </div>
+                                <a href="#" class="text-yogik-orange hover:text-yogik-dark-orange font-semibold">
+                                    Read More <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 5 -->
+                    <article class="blog-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Yoga Injuries"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 bg-yogik-orange text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                Safety
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                                <span>December 3, 2024</span>
+                                <span>•</span>
+                                <span>8 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                                Preventing Common Yoga Injuries: A Complete Guide
+                            </h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Learn how to practice safely and avoid the most common yoga injuries with proper
+                                alignment, modifications, and mindful awareness.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="/placeholder.svg?height=30&width=30" alt="Author"
+                                        class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-700 font-medium">Sarah Chen</span>
+                                </div>
+                                <a href="#" class="text-yogik-orange hover:text-yogik-dark-orange font-semibold">
+                                    Read More <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 6 -->
+                    <article class="blog-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Home Practice"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 bg-gradient-to-r from-yogik-yellow to-yogik-orange text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                Practice
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                                <span>December 1, 2024</span>
+                                <span>•</span>
+                                <span>6 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                                Creating a Sacred Space: Home Yoga Practice Tips
+                            </h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Transform any space in your home into a sanctuary for practice with these simple yet
+                                powerful tips for creating your personal yoga haven.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="/placeholder.svg?height=30&width=30" alt="Author"
+                                        class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-700 font-medium">Emma Thompson</span>
+                                </div>
+                                <a href="#" class="text-yogik-orange hover:text-yogik-dark-orange font-semibold">
+                                    Read More <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Load More Button -->
+                <div class="text-center mt-16">
+                    <button
+                        class="bg-white border-2 border-yogik-orange text-yogik-orange px-12 py-4 rounded-full font-semibold text-lg hover:bg-yogik-orange hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                        Load More Articles
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Signup -->
+        <section class="py-20 bg-gradient-to-br from-yogik-orange via-yogik-yellow to-yogik-orange">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-12">
+                    <h2 class="text-4xl font-bold text-white mb-6">
+                        Never Miss a Post
+                    </h2>
+                    <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+                        Get the latest yoga wisdom, wellness tips, and practice insights delivered directly to your
+                        inbox
+                    </p>
+
+                    <div class="max-w-md mx-auto">
+                        <div class="flex">
+                            <input type="email" placeholder="Enter your email address"
+                                class="flex-1 px-6 py-4 rounded-l-full text-gray-900 focus:outline-none focus:ring-2 focus:ring-white">
+                            <button
+                                class="bg-white text-yogik-orange px-8 py-4 rounded-r-full font-bold hover:bg-yogik-cream transition-all duration-300">
+                                Subscribe
+                            </button>
+                        </div>
+                        <p class="text-white/70 text-sm mt-4">
+                            Join 5,000+ yogis who get weekly inspiration. Unsubscribe anytime.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-bold text-yogik-orange">Yogik Movement</h3>
+                    <p class="text-gray-300 leading-relaxed">Elevating your yoga practice with premium, sustainable
+                        products crafted for mind, body & soul.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="about-enhanced.html" class="hover:text-yogik-orange transition-colors">About Us</a>
+                        </li>
+                        <li><a href="blog.html" class="hover:text-yogik-orange transition-colors">Blog</a></li>
+                        <li><a href="events.html" class="hover:text-yogik-orange transition-colors">Events</a></li>
+                        <li><a href="gallery.html" class="hover:text-yogik-orange transition-colors">Gallery</a></li>
+                        <li><a href="contact.html" class="hover:text-yogik-orange transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Categories</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Yoga Poses</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Wellness Tips</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Philosophy</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Meditation</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Nutrition</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Newsletter</h4>
+                    <p class="text-gray-300 mb-6">Get updates on new articles and wellness tips.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email"
+                            class="flex-1 px-4 py-3 rounded-l-full text-gray-900 focus:outline-none focus:ring-2 focus:ring-yogik-orange">
+                        <button
+                            class="bg-gradient-to-r from-yogik-orange to-yogik-yellow px-8 py-3 rounded-r-full hover:shadow-lg transition-all duration-300">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 Yogik Movement. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
