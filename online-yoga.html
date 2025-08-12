@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Yoga - Yogik Movement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'yogik-orange': '#FF6B35',
+                        'yogik-yellow': '#F7931E',
+                        'yogik-light-orange': '#FFB499',
+                        'yogik-dark-orange': '#E55A2B',
+                        'yogik-cream': '#FFF8F0',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #FF6B35;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: linear-gradient(90deg, #FF6B35, #F7931E);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* Cart Icon Styles */
+        .cart-icon {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            color: #FF6B35;
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Online Yoga Specific Styles */
+        .gradient-text {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .course-card {
+            transition: all 0.4s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .live-indicator {
+            animation: live-pulse 2s infinite;
+        }
+
+        @keyframes live-pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .video-player {
+            position: relative;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: white;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .schedule-item {
+            transition: all 0.3s ease;
+        }
+
+        .schedule-item:hover {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+        }
+
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-yogik-cream">
+    <!-- Navigation -->
+    <nav class="navbar fixed w-full top-0 z-50 py-4 mx-auto">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <img src="/placeholder.svg?height=40&width=128" alt="Yogik Movement Logo"
+                        class="w-32 h-10 object-cover rounded-full">
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex text-xs items-center space-x-8">
+                    <a href="/" class="nav-link text-gray-700">HOME</a>
+                    <a href="about-enhanced.html" class="nav-link text-gray-700">ABOUT</a>
+                    <a href="#" class="nav-link text-gray-700">RETREAT</a>
+                    <a href="#" class="nav-link text-gray-700">WORKSHOP</a>
+                    <a href="ayurveda.html" class="nav-link text-gray-700">AYURVEDA</a>
+                    <a href="online-yoga.html" class="nav-link text-yogik-orange">ONLINE YOGA</a>
+                    <a href="shop.html" class="nav-link text-gray-700">SHOP</a>
+
+                    <!-- Dropdown -->
+                    <div class="dropdown relative">
+                        <button class="nav-link text-gray-700 flex items-center space-x-1">
+                            <span>MORE</span>
+                            <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div
+                            class="dropdown-menu absolute top-full right-0 mt-3 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-2 overflow-hidden">
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Teacher
+                                Training</a>
+                            <a href="events.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Events</a>
+                            <a href="blog.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Blog</a>
+                            <a href="gallery.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Gallery</a>
+                            <a href="contact.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Contact</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart and CTA -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <a href="cart.html" class="cart-icon text-gray-700 text-xl">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge">3</span>
+                    </a>
+                    <a href="contact.html" class="cta-button text-white px-6 py-3 rounded-full">
+                        Start Your Journey
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button
+                    class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+                    onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu lg:hidden fixed top-0 left-0 w-full h-screen bg-[#FACC15] z-50" id="mobileMenu">
+            <div class="px-6 py-6">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex items-center space-x-3">
+                        <img src="/placeholder.svg?height=40&width=128" alt="Yogik Movement Logo"
+                            class="w-32 h-10 object-cover rounded-full">
+                    </div>
+                    <button onclick="toggleMobileMenu()"
+                        class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-4 text-xs text-center">
+                    <a href="/" class="block py-3 text-gray-700 nav-link">HOME</a>
+                    <a href="about-enhanced.html" class="block py-3 text-gray-700 nav-link">ABOUT</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">RETREAT</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">WORKSHOP</a>
+                    <a href="ayurveda.html" class="block py-3 text-gray-700 nav-link">AYURVEDA</a>
+                    <a href="online-yoga.html" class="block py-3 text-yogik-orange nav-link font-bold">ONLINE YOGA</a>
+                    <a href="shop.html" class="block py-3 text-gray-700 nav-link">SHOP</a>
+                    <a href="cart.html" class="block py-3 text-gray-700 nav-link">
+                        <i class="fas fa-shopping-cart mr-2"></i>CART (3)
+                    </a>
+                    <div class="border-t border-gray-200 pt-4">
+                        <p class="text-sm text-gray-500 mb-2 font-medium">MORE</p>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Teacher Training</a>
+                        <a href="events.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Events</a>
+                        <a href="blog.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Blog</a>
+                        <a href="gallery.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Gallery</a>
+                        <a href="contact.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Contact</a>
+                    </div>
+                    <div class="pt-6">
+                        <a href="contact.html" class="cta-button block w-full text-white text-center py-3 rounded-full">
+                            Start Your Journey
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24">
+        <!-- Hero Section -->
+        <section class="relative py-20 overflow-hidden">
+            <div
+                class="absolute inset-0 bg-gradient-to-br from-yogik-cream via-yogik-light-orange/20 to-yogik-yellow/10">
+            </div>
+            <div class="absolute top-10 left-10 w-64 h-64 bg-yogik-orange/10 rounded-full blur-3xl floating-element">
+            </div>
+            <div class="absolute bottom-10 right-10 w-80 h-80 bg-yogik-yellow/10 rounded-full blur-2xl floating-element"
+                style="animation-delay: -3s;"></div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="space-y-8">
+                        <div class="space-y-6">
+                            <div class="inline-block">
+                                <span
+                                    class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-6 py-2 rounded-full text-sm font-semibold tracking-wide">
+                                    <span class="live-indicator">🔴</span> Live Classes • On-Demand Library
+                                </span>
+                            </div>
+                            <h1 class="text-6xl lg:text-7xl font-bold leading-tight">
+                                <span class="gradient-text">Online</span>
+                                <br>
+                                Yoga Training
+                            </h1>
+                            <p class="text-xl text-gray-600 leading-relaxed max-w-lg">
+                                Transform your practice from anywhere in the world. Join live classes, access our
+                                extensive on-demand library, and receive personalized guidance from expert instructors.
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button
+                                class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                                Start Free Trial
+                            </button>
+                            <button
+                                class="border-2 border-yogik-orange text-yogik-orange px-8 py-4 rounded-full font-semibold text-lg hover:bg-yogik-orange hover:text-white transition-all duration-300">
+                                View Schedule
+                            </button>
+                        </div>
+
+                        <div class="flex items-center space-x-8 pt-4">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold gradient-text">500+</div>
+                                <div class="text-sm text-gray-600">Video Classes</div>
+                            </div>
+                            <div class="w-px h-12 bg-gray-300"></div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold gradient-text">20+</div>
+                                <div class="text-sm text-gray-600">Live Classes/Week</div>
+                            </div>
+                            <div class="w-px h-12 bg-gray-300"></div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold gradient-text">24/7</div>
+                                <div class="text-sm text-gray-600">Access</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative">
+                        <div class="video-player shadow-2xl">
+                            <img src="/placeholder.svg?height=400&width=600" alt="Online Yoga Class Preview"
+                                class="w-full h-80 object-cover">
+                            <div class="play-button">
+                                <i class="fas fa-play text-yogik-orange text-2xl ml-1"></i>
+                            </div>
+                            <div
+                                class="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold live-indicator">
+                                🔴 LIVE
+                            </div>
+                            <div class="absolute bottom-4 left-4 bg-black/70 text-white px-4 py-2 rounded-full text-sm">
+                                <i class="fas fa-users mr-2"></i>247 practicing now
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                        Why Choose <span class="gradient-text">Online</span> Training?
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Experience the flexibility and convenience of world-class yoga instruction from the comfort of
+                        your home
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Feature 1 -->
+                    <div class="text-center group">
+                        <div
+                            class="w-20 h-20 bg-gradient-to-br from-yogik-orange to-yogik-yellow rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-clock text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Flexible Schedule</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Practice anytime, anywhere. Live classes throughout the day plus 24/7 access to our
+                            on-demand library.
+                        </p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="text-center group">
+                        <div
+                            class="w-20 h-20 bg-gradient-to-br from-yogik-yellow to-yogik-orange rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-user-friends text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Expert Instructors</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Learn from certified teachers with decades of experience in various yoga styles and
+                            traditions.
+                        </p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="text-center group">
+                        <div
+                            class="w-20 h-20 bg-gradient-to-br from-yogik-orange to-yogik-yellow rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">All Levels Welcome</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            From complete beginners to advanced practitioners, find classes tailored to your experience
+                            level.
+                        </p>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="text-center group">
+                        <div
+                            class="w-20 h-20 bg-gradient-to-br from-yogik-yellow to-yogik-orange rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-heart text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Community Support</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Connect with fellow practitioners worldwide through our interactive platform and community
+                            forums.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Course Categories -->
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                        Course <span class="gradient-text">Categories</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Explore our comprehensive collection of yoga styles and specialized programs
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Category 1 -->
+                    <div class="course-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Hatha Yoga"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-3 py-1 rounded-full text-sm font-bold">
+                                Beginner Friendly
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Hatha Yoga</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Gentle, slow-paced classes focusing on basic postures and breathing techniques. Perfect
+                                for beginners and those seeking a meditative practice.
+                            </p>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span><i class="fas fa-video mr-1"></i>45 Classes</span>
+                                    <span><i class="fas fa-clock mr-1"></i>30-60 min</span>
+                                </div>
+                                <div class="flex text-yogik-orange">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <button
+                                class="w-full bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                Explore Hatha
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Category 2 -->
+                    <div class="course-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Vinyasa Flow"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 bg-gradient-to-r from-yogik-yellow to-yogik-orange text-white px-3 py-1 rounded-full text-sm font-bold">
+                                Most Popular
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Vinyasa Flow</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Dynamic sequences that link breath with movement. Build strength, flexibility, and
+                                mindfulness through flowing transitions.
+                            </p>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span><i class="fas fa-video mr-1"></i>78 Classes</span>
+                                    <span><i class="fas fa-clock mr-1"></i>45-75 min</span>
+                                </div>
+                                <div class="flex text-yogik-orange">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <button
+                                class="w-full bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                Explore Vinyasa
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Category 3 -->
+                    <div class="course-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Yin Yoga"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-3 py-1 rounded-full text-sm font-bold">
+                                Restorative
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Yin Yoga</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Deep, passive stretches held for extended periods. Perfect for stress relief,
+                                flexibility, and inner reflection.
+                            </p>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span><i class="fas fa-video mr-1"></i>32 Classes</span>
+                                    <span><i class="fas fa-clock mr-1"></i>60-90 min</span>
+                                </div>
+                                <div class="flex text-yogik-orange">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <button
+                                class="w-full bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                Explore Yin
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Category 4 -->
+                    <div class="course-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Power Yoga"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 bg-gradient-to-r from-yogik-yellow to-yogik-orange text-white px-3 py-1 rounded-full text-sm font-bold">
+                                High Intensity
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Power Yoga</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Vigorous, fitness-based approach to yoga. Build strength, endurance, and confidence
+                                through challenging sequences.
+                            </p>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span><i class="fas fa-video mr-1"></i>56 Classes</span>
+                                    <span><i class="fas fa-clock mr-1"></i>45-60 min</span>
+                                </div>
+                                <div class="flex text-yogik-orange">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <button
+                                class="w-full bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                Explore Power
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Category 5 -->
+                    <div class="course-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Meditation"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-3 py-1 rounded-full text-sm font-bold">
+                                Mindfulness
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Meditation</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Guided meditation sessions to cultivate inner peace, clarity, and emotional balance.
+                                Various techniques for all levels.
+                            </p>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span><i class="fas fa-video mr-1"></i>89 Sessions</span>
+                                    <span><i class="fas fa-clock mr-1"></i>10-45 min</span>
+                                </div>
+                                <div class="flex text-yogik-orange">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <button
+                                class="w-full bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                Explore Meditation
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Category 6 -->
+                    <div class="course-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=250&width=400" alt="Prenatal Yoga"
+                                class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-4 left-4 bg-gradient-to-r from-yogik-yellow to-yogik-orange text-white px-3 py-1 rounded-full text-sm font-bold">
+                                Specialized
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Prenatal Yoga</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Safe, nurturing practice designed for expecting mothers. Support your changing body and
+                                prepare for childbirth.
+                            </p>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span><i class="fas fa-video mr-1"></i>24 Classes</span>
+                                    <span><i class="fas fa-clock mr-1"></i>30-45 min</span>
+                                </div>
+                                <div class="flex text-yogik-orange">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <button
+                                class="w-full bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                Explore Prenatal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Schedule Section -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                        Live Class <span class="gradient-text">Schedule</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Join our live interactive classes and practice with students from around the world
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-br from-yogik-cream to-white rounded-3xl p-8 shadow-2xl">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900">This Week's Schedule</h3>
+                        <div class="flex items-center space-x-4">
+                            <select
+                                class="border-2 border-yogik-orange/20 rounded-xl px-4 py-2 focus:border-yogik-orange focus:outline-none">
+                                <option>All Levels</option>
+                                <option>Beginner</option>
+                                <option>Intermediate</option>
+                                <option>Advanced</option>
+                            </select>
+                            <select
+                                class="border-2 border-yogik-orange/20 rounded-xl px-4 py-2 focus:border-yogik-orange focus:outline-none">
+                                <option>All Styles</option>
+                                <option>Hatha</option>
+                                <option>Vinyasa</option>
+                                <option>Yin</option>
+                                <option>Power</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Schedule Item 1 -->
+                        <div
+                            class="schedule-item bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-yogik-orange cursor-pointer">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-green-500 rounded-full live-indicator"></div>
+                                    <span class="text-sm font-semibold text-green-600">LIVE NOW</span>
+                                </div>
+                                <span class="text-sm text-gray-500">60 min</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Morning Vinyasa Flow</h4>
+                            <p class="text-gray-600 mb-3">with Sarah Chen</p>
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>7:00 AM PST</span>
+                                <span>Intermediate</span>
+                            </div>
+                            <button
+                                class="w-full mt-4 bg-green-500 text-white py-2 rounded-full font-semibold hover:bg-green-600 transition-colors">
+                                Join Now
+                            </button>
+                        </div>
+
+                        <!-- Schedule Item 2 -->
+                        <div
+                            class="schedule-item bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-yogik-orange cursor-pointer">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-yogik-orange rounded-full"></div>
+                                    <span class="text-sm font-semibold text-yogik-orange">UPCOMING</span>
+                                </div>
+                                <span class="text-sm text-gray-500">45 min</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Gentle Hatha</h4>
+                            <p class="text-gray-600 mb-3">with Emma Thompson</p>
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>12:00 PM PST</span>
+                                <span>Beginner</span>
+                            </div>
+                            <button
+                                class="w-full mt-4 bg-yogik-orange text-white py-2 rounded-full font-semibold hover:bg-yogik-dark-orange transition-colors">
+                                Set Reminder
+                            </button>
+                        </div>
+
+                        <!-- Schedule Item 3 -->
+                        <div
+                            class="schedule-item bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-yogik-orange cursor-pointer">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-yogik-yellow rounded-full"></div>
+                                    <span class="text-sm font-semibold text-yogik-yellow">UPCOMING</span>
+                                </div>
+                                <span class="text-sm text-gray-500">75 min</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Power Yoga Challenge</h4>
+                            <p class="text-gray-600 mb-3">with Marcus Rodriguez</p>
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>6:00 PM PST</span>
+                                <span>Advanced</span>
+                            </div>
+                            <button
+                                class="w-full mt-4 bg-yogik-yellow text-white py-2 rounded-full font-semibold hover:bg-orange-500 transition-colors">
+                                Set Reminder
+                            </button>
+                        </div>
+
+                        <!-- Schedule Item 4 -->
+                        <div
+                            class="schedule-item bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-yogik-orange cursor-pointer">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+                                    <span class="text-sm font-semibold text-purple-600">TOMORROW</span>
+                                </div>
+                                <span class="text-sm text-gray-500">30 min</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Morning Meditation</h4>
+                            <p class="text-gray-600 mb-3">with Dr. Priya Sharma</p>
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>6:30 AM PST</span>
+                                <span>All Levels</span>
+                            </div>
+                            <button
+                                class="w-full mt-4 bg-purple-500 text-white py-2 rounded-full font-semibold hover:bg-purple-600 transition-colors">
+                                Set Reminder
+                            </button>
+                        </div>
+
+                        <!-- Schedule Item 5 -->
+                        <div
+                            class="schedule-item bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-yogik-orange cursor-pointer">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                                    <span class="text-sm font-semibold text-blue-600">TOMORROW</span>
+                                </div>
+                                <span class="text-sm text-gray-500">90 min</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Deep Yin Practice</h4>
+                            <p class="text-gray-600 mb-3">with Emma Thompson</p>
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>7:00 PM PST</span>
+                                <span>All Levels</span>
+                            </div>
+                            <button
+                                class="w-full mt-4 bg-blue-500 text-white py-2 rounded-full font-semibold hover:bg-blue-600 transition-colors">
+                                Set Reminder
+                            </button>
+                        </div>
+
+                        <!-- Schedule Item 6 -->
+                        <div
+                            class="schedule-item bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-yogik-orange cursor-pointer">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-pink-500 rounded-full"></div>
+                                    <span class="text-sm font-semibold text-pink-600">WEEKEND</span>
+                                </div>
+                                <span class="text-sm text-gray-500">60 min</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Family Yoga</h4>
+                            <p class="text-gray-600 mb-3">with Sarah Chen</p>
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>10:00 AM PST</span>
+                                <span>All Ages</span>
+                            </div>
+                            <button
+                                class="w-full mt-4 bg-pink-500 text-white py-2 rounded-full font-semibold hover:bg-pink-600 transition-colors">
+                                Set Reminder
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-8">
+                        <button
+                            class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                            View Full Schedule
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="py-20 bg-gradient-to-br from-gray-50 to-yogik-cream/30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                        Choose Your <span class="gradient-text">Plan</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Flexible pricing options to fit your lifestyle and practice goals
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <!-- Basic Plan -->
+                    <div class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Basic</h3>
+                            <p class="text-gray-600 mb-6">Perfect for getting started</p>
+                            <div class="text-5xl font-bold text-gray-900 mb-2">$19</div>
+                            <div class="text-gray-500">per month</div>
+                        </div>
+
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Access to on-demand library</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>5 live classes per month</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Mobile app access</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Community forum</span>
+                            </li>
+                            <li class="flex items-center text-gray-400">
+                                <i class="fas fa-times mr-3"></i>
+                                <span>Personal guidance</span>
+                            </li>
+                            <li class="flex items-center text-gray-400">
+                                <i class="fas fa-times mr-3"></i>
+                                <span>Offline downloads</span>
+                            </li>
+                        </ul>
+
+                        <button
+                            class="w-full border-2 border-yogik-orange text-yogik-orange py-3 rounded-full font-semibold hover:bg-yogik-orange hover:text-white transition-all duration-300">
+                            Start Free Trial
+                        </button>
+                    </div>
+
+                    <!-- Premium Plan -->
+                    <div
+                        class="bg-gradient-to-br from-yogik-orange to-yogik-yellow rounded-3xl p-8 shadow-2xl transform scale-105 text-white relative">
+                        <div
+                            class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-yogik-orange px-6 py-2 rounded-full text-sm font-bold">
+                            Most Popular
+                        </div>
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold mb-2">Premium</h3>
+                            <p class="text-white/90 mb-6">Everything you need to thrive</p>
+                            <div class="text-5xl font-bold mb-2">$39</div>
+                            <div class="text-white/80">per month</div>
+                        </div>
+
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-white mr-3"></i>
+                                <span>Unlimited on-demand access</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-white mr-3"></i>
+                                <span>Unlimited live classes</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-white mr-3"></i>
+                                <span>Mobile & desktop apps</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-white mr-3"></i>
+                                <span>Priority community support</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-white mr-3"></i>
+                                <span>Monthly personal guidance</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-white mr-3"></i>
+                                <span>Offline downloads</span>
+                            </li>
+                        </ul>
+
+                        <button
+                            class="w-full bg-white text-yogik-orange py-3 rounded-full font-semibold hover:bg-yogik-cream hover:scale-105 transition-all duration-300">
+                            Start Free Trial
+                        </button>
+                    </div>
+
+                    <!-- Elite Plan -->
+                    <div class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Elite</h3>
+                            <p class="text-gray-600 mb-6">For serious practitioners</p>
+                            <div class="text-5xl font-bold text-gray-900 mb-2">$79</div>
+                            <div class="text-gray-500">per month</div>
+                        </div>
+
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Everything in Premium</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>1-on-1 monthly sessions</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Personalized practice plans</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Early access to new content</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Exclusive workshops</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Direct instructor messaging</span>
+                            </li>
+                        </ul>
+
+                        <button
+                            class="w-full bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                            Start Free Trial
+                        </button>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <p class="text-gray-600 mb-4">All plans include a 14-day free trial. Cancel anytime.</p>
+                    <div class="flex justify-center items-center space-x-8 text-sm text-gray-500">
+                        <div class="flex items-center">
+                            <i class="fas fa-shield-alt text-green-500 mr-2"></i>
+                            <span>Secure Payment</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-undo text-blue-500 mr-2"></i>
+                            <span>Cancel Anytime</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-headset text-yogik-orange mr-2"></i>
+                            <span>24/7 Support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Student Testimonials -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                        Student <span class="gradient-text">Success</span> Stories
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Hear from our global community of online yoga practitioners
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Testimonial 1 -->
+                    <div
+                        class="bg-gradient-to-br from-yogik-cream to-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="flex items-center mb-6">
+                            <img src="/placeholder.svg?height=60&width=60" alt="Student"
+                                class="w-16 h-16 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-900">Jessica Martinez</h4>
+                                <p class="text-sm text-gray-600">Premium Member, 8 months</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic leading-relaxed mb-4">
+                            "The online platform has completely transformed my practice. I love being able to join live
+                            classes from my living room and the on-demand library is perfect for my busy schedule."
+                        </p>
+                        <div class="flex text-yogik-orange">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div
+                        class="bg-gradient-to-br from-yogik-cream to-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="flex items-center mb-6">
+                            <img src="/placeholder.svg?height=60&width=60" alt="Student"
+                                class="w-16 h-16 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-900">David Chen</h4>
+                                <p class="text-sm text-gray-600">Elite Member, 1 year</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic leading-relaxed mb-4">
+                            "The personalized guidance and 1-on-1 sessions have taken my practice to the next level. The
+                            instructors are incredibly knowledgeable and supportive."
+                        </p>
+                        <div class="flex text-yogik-orange">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div
+                        class="bg-gradient-to-br from-yogik-cream to-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="flex items-center mb-6">
+                            <img src="/placeholder.svg?height=60&width=60" alt="Student"
+                                class="w-16 h-16 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-900">Sarah Thompson</h4>
+                                <p class="text-sm text-gray-600">Basic Member, 6 months</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic leading-relaxed mb-4">
+                            "As a beginner, I was nervous about starting yoga. The online format made it comfortable to
+                            learn at my own pace, and now I'm confident in my practice!"
+                        </p>
+                        <div class="flex text-yogik-orange">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Requirements -->
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                        Getting <span class="gradient-text">Started</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Everything you need to know to begin your online yoga journey
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-6">Technical Requirements</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start space-x-4">
+                                    <div
+                                        class="w-12 h-12 bg-gradient-to-br from-yogik-orange to-yogik-yellow rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-wifi text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-2">Stable Internet Connection</h4>
+                                        <p class="text-gray-600">Minimum 5 Mbps for HD streaming, 10 Mbps recommended
+                                            for live classes</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div
+                                        class="w-12 h-12 bg-gradient-to-br from-yogik-yellow to-yogik-orange rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-laptop text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-2">Compatible Device</h4>
+                                        <p class="text-gray-600">Computer, tablet, or smartphone with updated browser or
+                                            our mobile app</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div
+                                        class="w-12 h-12 bg-gradient-to-br from-yogik-orange to-yogik-yellow rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-volume-up text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-2">Audio & Video</h4>
+                                        <p class="text-gray-600">Built-in speakers/headphones and camera (optional for
+                                            live classes)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-6">What You'll Need</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+                                    <i class="fas fa-square text-yogik-orange text-2xl mb-2"></i>
+                                    <p class="font-semibold text-gray-900">Yoga Mat</p>
+                                </div>
+                                <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+                                    <i class="fas fa-tshirt text-yogik-orange text-2xl mb-2"></i>
+                                    <p class="font-semibold text-gray-900">Comfortable Clothes</p>
+                                </div>
+                                <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+                                    <i class="fas fa-cube text-yogik-orange text-2xl mb-2"></i>
+                                    <p class="font-semibold text-gray-900">Props (Optional)</p>
+                                </div>
+                                <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+                                    <i class="fas fa-home text-yogik-orange text-2xl mb-2"></i>
+                                    <p class="font-semibold text-gray-900">Quiet Space</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative">
+                        <div class="bg-gradient-to-br from-yogik-cream to-white rounded-3xl p-8 shadow-2xl">
+                            <img src="/placeholder.svg?height=400&width=500" alt="Home Yoga Setup"
+                                class="rounded-2xl w-full h-80 object-cover shadow-lg mb-6">
+
+                            <div class="space-y-4">
+                                <h4 class="text-xl font-bold text-gray-900">Perfect Home Setup</h4>
+                                <ul class="space-y-2 text-gray-600">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>6x4 feet of clear space</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Good lighting (natural preferred)</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Minimal distractions</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Water bottle nearby</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="py-20 bg-gradient-to-br from-yogik-orange via-yogik-yellow to-yogik-orange">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl lg:text-5xl font-bold text-white mb-8">
+                    Start Your Online Yoga Journey Today
+                </h2>
+                <p class="text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
+                    Join thousands of students worldwide who have transformed their practice through our comprehensive
+                    online platform. Your journey to wellness starts here.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                    <a href="#"
+                        class="bg-white text-yogik-orange px-10 py-4 rounded-full font-bold text-lg hover:bg-yogik-cream hover:scale-105 transition-all duration-300 shadow-2xl">
+                        <i class="fas fa-play mr-3"></i>Start Free Trial
+                    </a>
+                    <a href="#"
+                        class="border-2 border-white text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-yogik-orange hover:scale-105 transition-all duration-300">
+                        <i class="fas fa-calendar mr-3"></i>View Schedule
+                    </a>
+                </div>
+
+                <!-- Trust Indicators -->
+                <div class="mt-16 flex flex-wrap justify-center items-center gap-8 text-white/80">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-users"></i>
+                        <span>10,000+ Active Students</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-star text-yellow-300"></i>
+                        <span>4.9/5 Average Rating</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-globe"></i>
+                        <span>Available Worldwide</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-bold text-yogik-orange">Yogik Movement</h3>
+                    <p class="text-gray-300 leading-relaxed">Transform your practice with world-class online yoga
+                        instruction from anywhere in the world.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Online Classes</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Live Schedule</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">On-Demand Library</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Course Categories</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Beginner Programs</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Advanced Training</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Support</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Getting Started</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Technical Help</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Billing & Plans</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Mobile Apps</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Contact Support</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Get Started</h4>
+                    <p class="text-gray-300 mb-6">Begin your online yoga journey with a free trial.</p>
+                    <div class="space-y-4">
+                        <button
+                            class="w-full bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300">
+                            Start Free Trial
+                        </button>
+                        <button
+                            class="w-full border-2 border-yogik-orange text-yogik-orange py-3 rounded-full font-semibold hover:bg-yogik-orange hover:text-white transition-all duration-300">
+                            View Pricing
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 Yogik Movement. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // Live class timer simulation
+        function updateLiveStatus() {
+            const liveIndicators = document.querySelectorAll('.live-indicator');
+            liveIndicators.forEach(indicator => {
+                if (indicator.textContent.includes('🔴')) {
+                    // Simulate live status changes
+                    setTimeout(() => {
+                        indicator.style.opacity = indicator.style.opacity === '0.5' ? '1' : '0.5';
+                    }, 1000);
+                }
+            });
+        }
+
+        // Update live status every 2 seconds
+        setInterval(updateLiveStatus, 2000);
+
+        // Video player functionality
+        const playButtons = document.querySelectorAll('.play-button');
+        playButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                // Simulate video play
+                this.innerHTML = '<i class="fas fa-pause text-yogik-orange text-2xl"></i>';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-play text-yogik-orange text-2xl ml-1"></i>';
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+
+</html>

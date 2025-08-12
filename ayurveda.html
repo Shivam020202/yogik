@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayurveda - Yogik Movement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'yogik-orange': '#FF6B35',
+                        'yogik-yellow': '#F7931E',
+                        'yogik-light-orange': '#FFB499',
+                        'yogik-dark-orange': '#E55A2B',
+                        'yogik-cream': '#FFF8F0',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #FF6B35;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: linear-gradient(90deg, #FF6B35, #F7931E);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* Cart Icon Styles */
+        .cart-icon {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            color: #FF6B35;
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Ayurveda Specific Styles */
+        .gradient-text {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dosha-card {
+            transition: all 0.4s ease;
+        }
+
+        .dosha-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .wisdom-quote {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wisdom-quote::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .wisdom-quote:hover::before {
+            left: 100%;
+        }
+
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .quiz-option {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .quiz-option:hover {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+        }
+
+        .quiz-option.selected {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="bg-yogik-cream">
+    <!-- Navigation -->
+    <nav class="navbar fixed w-full top-0 z-50 py-4 mx-auto">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <img src="/placeholder.svg?height=40&width=128" alt="Yogik Movement Logo"
+                        class="w-32 h-10 object-cover rounded-full">
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex text-xs items-center space-x-8">
+                    <a href="/" class="nav-link text-gray-700">HOME</a>
+                    <a href="about-enhanced.html" class="nav-link text-gray-700">ABOUT</a>
+                    <a href="#" class="nav-link text-gray-700">RETREAT</a>
+                    <a href="#" class="nav-link text-gray-700">WORKSHOP</a>
+                    <a href="ayurveda.html" class="nav-link text-yogik-orange">AYURVEDA</a>
+                    <a href="online-yoga.html" class="nav-link text-gray-700">ONLINE YOGA</a>
+                    <a href="shop.html" class="nav-link text-gray-700">SHOP</a>
+
+                    <!-- Dropdown -->
+                    <div class="dropdown relative">
+                        <button class="nav-link text-gray-700 flex items-center space-x-1">
+                            <span>MORE</span>
+                            <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div
+                            class="dropdown-menu absolute top-full right-0 mt-3 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-2 overflow-hidden">
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Teacher
+                                Training</a>
+                            <a href="events.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Events</a>
+                            <a href="blog.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Blog</a>
+                            <a href="gallery.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Gallery</a>
+                            <a href="contact.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Contact</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart and CTA -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <a href="cart.html" class="cart-icon text-gray-700 text-xl">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge">3</span>
+                    </a>
+                    <a href="contact.html" class="cta-button text-white px-6 py-3 rounded-full">
+                        Start Your Journey
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button
+                    class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+                    onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu lg:hidden fixed top-0 left-0 w-full h-screen bg-[#FACC15] z-50" id="mobileMenu">
+            <div class="px-6 py-6">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex items-center space-x-3">
+                        <img src="/placeholder.svg?height=40&width=128" alt="Yogik Movement Logo"
+                            class="w-32 h-10 object-cover rounded-full">
+                    </div>
+                    <button onclick="toggleMobileMenu()"
+                        class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-4 text-xs text-center">
+                    <a href="/" class="block py-3 text-gray-700 nav-link">HOME</a>
+                    <a href="about-enhanced.html" class="block py-3 text-gray-700 nav-link">ABOUT</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">RETREAT</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">WORKSHOP</a>
+                    <a href="ayurveda.html" class="block py-3 text-yogik-orange nav-link font-bold">AYURVEDA</a>
+                    <a href="online-yoga.html" class="block py-3 text-gray-700 nav-link">ONLINE YOGA</a>
+                    <a href="shop.html" class="block py-3 text-gray-700 nav-link">SHOP</a>
+                    <a href="cart.html" class="block py-3 text-gray-700 nav-link">
+                        <i class="fas fa-shopping-cart mr-2"></i>CART (3)
+                    </a>
+                    <div class="border-t border-gray-200 pt-4">
+                        <p class="text-sm text-gray-500 mb-2 font-medium">MORE</p>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Teacher Training</a>
+                        <a href="events.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Events</a>
+                        <a href="blog.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Blog</a>
+                        <a href="gallery.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Gallery</a>
+                        <a href="contact.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Contact</a>
+                    </div>
+                    <div class="pt-6">
+                        <a href="contact.html" class="cta-button block w-full text-white text-center py-3 rounded-full">
+                            Start Your Journey
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24">
+        <!-- Hero Section -->
+        <section class="relative py-20 overflow-hidden">
+            <div
+                class="absolute inset-0 bg-gradient-to-br from-yogik-cream via-yogik-light-orange/20 to-yogik-yellow/10">
+            </div>
+            <div class="absolute top-10 left-10 w-64 h-64 bg-yogik-orange/10 rounded-full blur-3xl floating-element">
+            </div>
+            <div class="absolute bottom-10 right-10 w-80 h-80 bg-yogik-yellow/10 rounded-full blur-2xl floating-element"
+                style="animation-delay: -3s;"></div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="space-y-8">
+                        <div class="space-y-6">
+                            <div class="inline-block">
+                                <span
+                                    class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-6 py-2 rounded-full text-sm font-semibold tracking-wide">
+                                    Ancient Wisdom • Modern Application
+                                </span>
+                            </div>
+                            <h1 class="text-6xl lg:text-7xl font-bold leading-tight">
+                                <span class="gradient-text">Ayurveda</span>
+                                <br>
+                                & Yoga
+                            </h1>
+                            <p class="text-xl text-gray-600 leading-relaxed max-w-lg">
+                                Discover the profound science of life through Ayurveda. Learn to balance your mind,
+                                body, and spirit with personalized practices rooted in 5,000 years of wisdom.
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button
+                                class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                                Discover Your Dosha
+                            </button>
+                            <button
+                                class="border-2 border-yogik-orange text-yogik-orange px-8 py-4 rounded-full font-semibold text-lg hover:bg-yogik-orange hover:text-white transition-all duration-300">
+                                Book Consultation
+                            </button>
+                        </div>
+
+                        <div class="flex items-center space-x-8 pt-4">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold gradient-text">5000+</div>
+                                <div class="text-sm text-gray-600">Years of Wisdom</div>
+                            </div>
+                            <div class="w-px h-12 bg-gray-300"></div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold gradient-text">3</div>
+                                <div class="text-sm text-gray-600">Doshas</div>
+                            </div>
+                            <div class="w-px h-12 bg-gray-300"></div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold gradient-text">∞</div>
+                                <div class="text-sm text-gray-600">Possibilities</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative">
+                        <div class="absolute -top-8 -right-8 w-32 h-32 bg-yogik-yellow/30 rounded-full blur-2xl"></div>
+                        <div class="absolute -bottom-8 -left-8 w-40 h-40 bg-yogik-orange/20 rounded-full blur-3xl">
+                        </div>
+                        <div class="relative bg-white/30 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
+                            <img src="/placeholder.svg?height=500&width=400" alt="Ayurveda and Yoga"
+                                class="rounded-2xl shadow-lg w-full h-96 object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What is Ayurveda Section -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="space-y-8">
+                        <div>
+                            <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                                What is <span class="gradient-text">Ayurveda?</span>
+                            </h2>
+                            <div class="w-32 h-1 bg-gradient-to-r from-yogik-orange to-yogik-yellow rounded-full mb-8">
+                            </div>
+                        </div>
+
+                        <div class="space-y-6 text-lg text-gray-700 leading-relaxed">
+                            <p>
+                                Ayurveda, meaning "knowledge of life," is the world's oldest holistic healing system.
+                                Originating in India over 5,000 years ago, it's based on the belief that health and
+                                wellness depend on a delicate balance between mind, body, and spirit.
+                            </p>
+                            <p>
+                                Unlike modern medicine that treats symptoms, Ayurveda focuses on identifying and
+                                addressing the root cause of imbalance. It recognizes that each person is unique, with
+                                their own constitution (Prakriti) and current state of balance (Vikriti).
+                            </p>
+                            <p>
+                                Through personalized nutrition, lifestyle practices, herbal remedies, yoga, and
+                                meditation, Ayurveda guides you toward optimal health and spiritual growth.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="bg-yogik-cream rounded-2xl p-6 text-center">
+                                <div
+                                    class="w-16 h-16 bg-gradient-to-br from-yogik-orange to-yogik-yellow rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-leaf text-white text-2xl"></i>
+                                </div>
+                                <h4 class="font-bold text-gray-900 mb-2">Natural Healing</h4>
+                                <p class="text-sm text-gray-600">Using nature's gifts to restore balance</p>
+                            </div>
+                            <div class="bg-yogik-cream rounded-2xl p-6 text-center">
+                                <div
+                                    class="w-16 h-16 bg-gradient-to-br from-yogik-yellow to-yogik-orange rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-user text-white text-2xl"></i>
+                                </div>
+                                <h4 class="font-bold text-gray-900 mb-2">Personalized</h4>
+                                <p class="text-sm text-gray-600">Tailored to your unique constitution</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="space-y-6">
+                                <div class="bg-gradient-to-br from-yogik-cream to-white rounded-2xl p-6 shadow-lg">
+                                    <img src="/placeholder.svg?height=150&width=200" alt="Ayurvedic Herbs"
+                                        class="w-full h-32 object-cover rounded-xl mb-4">
+                                    <h4 class="font-bold text-gray-900">Herbal Medicine</h4>
+                                </div>
+                                <div class="bg-gradient-to-br from-yogik-cream to-white rounded-2xl p-6 shadow-lg">
+                                    <img src="/placeholder.svg?height=150&width=200" alt="Meditation"
+                                        class="w-full h-32 object-cover rounded-xl mb-4">
+                                    <h4 class="font-bold text-gray-900">Mindful Practices</h4>
+                                </div>
+                            </div>
+                            <div class="space-y-6 pt-8">
+                                <div class="bg-gradient-to-br from-yogik-cream to-white rounded-2xl p-6 shadow-lg">
+                                    <img src="/placeholder.svg?height=150&width=200" alt="Ayurvedic Diet"
+                                        class="w-full h-32 object-cover rounded-xl mb-4">
+                                    <h4 class="font-bold text-gray-900">Conscious Nutrition</h4>
+                                </div>
+                                <div class="bg-gradient-to-br from-yogik-cream to-white rounded-2xl p-6 shadow-lg">
+                                    <img src="/placeholder.svg?height=150&width=200" alt="Yoga Practice"
+                                        class="w-full h-32 object-cover rounded-xl mb-4">
+                                    <h4 class="font-bold text-gray-900">Yoga Integration</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Three Doshas Section -->
+        <section class="py-20 bg-gradient-to-br from-gray-50 to-yogik-cream/30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                        The Three <span class="gradient-text">Doshas</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Understanding your unique constitution is the foundation of Ayurvedic healing. Discover which
+                        dosha dominates your nature and learn how to maintain balance.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8 mb-16">
+                    <!-- Vata Dosha -->
+                    <div class="dosha-card bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl text-center">
+                        <div class="relative mb-6">
+                            <div
+                                class="w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <i class="fas fa-wind text-white text-3xl"></i>
+                            </div>
+                            <div
+                                class="absolute -top-2 -right-2 bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-3 py-1 rounded-full text-xs font-bold">
+                                Air + Space
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Vata</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            The energy of movement and change. Vata governs breathing, circulation, and nervous system
+                            function.
+                        </p>
+
+                        <div class="space-y-4 text-left">
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Characteristics:</h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• Creative and energetic</li>
+                                    <li>• Quick thinking</li>
+                                    <li>• Light sleeper</li>
+                                    <li>• Dry skin and hair</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">When Balanced:</h4>
+                                <p class="text-sm text-gray-600">Enthusiastic, flexible, and imaginative</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">When Imbalanced:</h4>
+                                <p class="text-sm text-gray-600">Anxious, restless, and scattered</p>
+                            </div>
+                        </div>
+
+                        <button
+                            class="mt-6 w-full bg-blue-500 text-white py-3 rounded-full font-semibold hover:bg-blue-600 transition-colors">
+                            Learn Vata Practices
+                        </button>
+                    </div>
+
+                    <!-- Pitta Dosha -->
+                    <div class="dosha-card bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl text-center">
+                        <div class="relative mb-6">
+                            <div
+                                class="w-24 h-24 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <i class="fas fa-fire text-white text-3xl"></i>
+                            </div>
+                            <div
+                                class="absolute -top-2 -right-2 bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-3 py-1 rounded-full text-xs font-bold">
+                                Fire + Water
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Pitta</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            The energy of transformation and metabolism. Pitta governs digestion, absorption, and body
+                            temperature.
+                        </p>
+
+                        <div class="space-y-4 text-left">
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Characteristics:</h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• Strong digestion</li>
+                                    <li>• Natural leader</li>
+                                    <li>• Medium build</li>
+                                    <li>• Warm body temperature</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">When Balanced:</h4>
+                                <p class="text-sm text-gray-600">Focused, confident, and courageous</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">When Imbalanced:</h4>
+                                <p class="text-sm text-gray-600">Irritable, aggressive, and impatient</p>
+                            </div>
+                        </div>
+
+                        <button
+                            class="mt-6 w-full bg-red-500 text-white py-3 rounded-full font-semibold hover:bg-red-600 transition-colors">
+                            Learn Pitta Practices
+                        </button>
+                    </div>
+
+                    <!-- Kapha Dosha -->
+                    <div class="dosha-card bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl text-center">
+                        <div class="relative mb-6">
+                            <div
+                                class="w-24 h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <i class="fas fa-mountain text-white text-3xl"></i>
+                            </div>
+                            <div
+                                class="absolute -top-2 -right-2 bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-3 py-1 rounded-full text-xs font-bold">
+                                Earth + Water
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Kapha</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            The energy of structure and stability. Kapha governs immunity, growth, and physical
+                            strength.
+                        </p>
+
+                        <div class="space-y-4 text-left">
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Characteristics:</h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• Strong immunity</li>
+                                    <li>• Calm and steady</li>
+                                    <li>• Larger frame</li>
+                                    <li>• Thick hair and skin</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">When Balanced:</h4>
+                                <p class="text-sm text-gray-600">Loving, patient, and supportive</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">When Imbalanced:</h4>
+                                <p class="text-sm text-gray-600">Lethargic, possessive, and stubborn</p>
+                            </div>
+                        </div>
+
+                        <button
+                            class="mt-6 w-full bg-green-500 text-white py-3 rounded-full font-semibold hover:bg-green-600 transition-colors">
+                            Learn Kapha Practices
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dosha Quiz CTA -->
+                <div class="text-center">
+                    <div class="bg-white rounded-3xl p-12 shadow-2xl max-w-4xl mx-auto">
+                        <h3 class="text-3xl font-bold text-gray-900 mb-6">
+                            Discover Your <span class="gradient-text">Dosha</span>
+                        </h3>
+                        <p class="text-xl text-gray-600 mb-8">
+                            Take our comprehensive assessment to understand your unique constitution and receive
+                            personalized recommendations.
+                        </p>
+                        <button
+                            class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-12 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                            <i class="fas fa-clipboard-list mr-3"></i>Take Dosha Quiz
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ayurvedic Yoga Practices Section -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                        Ayurvedic <span class="gradient-text">Yoga</span> Practices
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Integrate yoga with Ayurvedic principles to create a practice that balances your unique
+                        constitution and current state of being.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Vata Yoga -->
+                    <div
+                        class="bg-gradient-to-br from-blue-50 to-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="text-center mb-6">
+                            <div
+                                class="w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-wind text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Vata Yoga</h3>
+                            <p class="text-blue-600 font-semibold">Grounding & Calming</p>
+                        </div>
+
+                        <div class="space-y-4 mb-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Recommended Practices:</h4>
+                                <ul class="text-gray-600 space-y-1">
+                                    <li>• Slow, grounding sequences</li>
+                                    <li>• Longer holds in poses</li>
+                                    <li>• Hip openers and forward folds</li>
+                                    <li>• Restorative yoga</li>
+                                    <li>• Deep breathing exercises</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Best Times:</h4>
+                                <p class="text-gray-600">Morning and evening, consistent routine</p>
+                            </div>
+                        </div>
+
+                        <img src="/placeholder.svg?height=200&width=300" alt="Vata Yoga Practice"
+                            class="w-full h-40 object-cover rounded-2xl mb-6">
+
+                        <button
+                            class="w-full bg-blue-500 text-white py-3 rounded-full font-semibold hover:bg-blue-600 transition-colors">
+                            Start Vata Practice
+                        </button>
+                    </div>
+
+                    <!-- Pitta Yoga -->
+                    <div
+                        class="bg-gradient-to-br from-red-50 to-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="text-center mb-6">
+                            <div
+                                class="w-20 h-20 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-fire text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Pitta Yoga</h3>
+                            <p class="text-red-600 font-semibold">Cooling & Moderate</p>
+                        </div>
+
+                        <div class="space-y-4 mb-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Recommended Practices:</h4>
+                                <ul class="text-gray-600 space-y-1">
+                                    <li>• Moderate-paced flows</li>
+                                    <li>• Heart opening poses</li>
+                                    <li>• Twists and side bends</li>
+                                    <li>• Moon salutations</li>
+                                    <li>• Cooling pranayama</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Best Times:</h4>
+                                <p class="text-gray-600">Early morning or evening, avoid midday heat</p>
+                            </div>
+                        </div>
+
+                        <img src="/placeholder.svg?height=200&width=300" alt="Pitta Yoga Practice"
+                            class="w-full h-40 object-cover rounded-2xl mb-6">
+
+                        <button
+                            class="w-full bg-red-500 text-white py-3 rounded-full font-semibold hover:bg-red-600 transition-colors">
+                            Start Pitta Practice
+                        </button>
+                    </div>
+
+                    <!-- Kapha Yoga -->
+                    <div
+                        class="bg-gradient-to-br from-green-50 to-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="text-center mb-6">
+                            <div
+                                class="w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-mountain text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Kapha Yoga</h3>
+                            <p class="text-green-600 font-semibold">Energizing & Dynamic</p>
+                        </div>
+
+                        <div class="space-y-4 mb-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Recommended Practices:</h4>
+                                <ul class="text-gray-600 space-y-1">
+                                    <li>• Dynamic, vigorous flows</li>
+                                    <li>• Sun salutations</li>
+                                    <li>• Standing poses and backbends</li>
+                                    <li>• Inversions</li>
+                                    <li>• Energizing breathwork</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Best Times:</h4>
+                                <p class="text-gray-600">Morning practice, consistent daily routine</p>
+                            </div>
+                        </div>
+
+                        <img src="/placeholder.svg?height=200&width=300" alt="Kapha Yoga Practice"
+                            class="w-full h-40 object-cover rounded-2xl mb-6">
+
+                        <button
+                            class="w-full bg-green-500 text-white py-3 rounded-full font-semibold hover:bg-green-600 transition-colors">
+                            Start Kapha Practice
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seasonal Wisdom Section -->
+        <section class="py-20 bg-gradient-to-br from-yogik-cream to-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                        Seasonal <span class="gradient-text">Wisdom</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Ayurveda teaches us to live in harmony with nature's rhythms. Discover how to adapt your
+                        practice and lifestyle with the changing seasons.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Spring -->
+                    <div
+                        class="bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 text-center">
+                        <div
+                            class="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-seedling text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Spring</h3>
+                        <p class="text-sm text-gray-600 mb-4">Kapha season - time for renewal and cleansing</p>
+                        <div class="text-left space-y-2 text-sm text-gray-600">
+                            <p><strong>Focus:</strong> Detoxification</p>
+                            <p><strong>Yoga:</strong> Dynamic flows</p>
+                            <p><strong>Diet:</strong> Light, warm foods</p>
+                            <p><strong>Herbs:</strong> Turmeric, ginger</p>
+                        </div>
+                    </div>
+
+                    <!-- Summer -->
+                    <div
+                        class="bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 text-center">
+                        <div
+                            class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-sun text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Summer</h3>
+                        <p class="text-sm text-gray-600 mb-4">Pitta season - time for cooling and moderation</p>
+                        <div class="text-left space-y-2 text-sm text-gray-600">
+                            <p><strong>Focus:</strong> Cooling practices</p>
+                            <p><strong>Yoga:</strong> Gentle, restorative</p>
+                            <p><strong>Diet:</strong> Fresh, cooling foods</p>
+                            <p><strong>Herbs:</strong> Mint, coriander</p>
+                        </div>
+                    </div>
+
+                    <!-- Autumn -->
+                    <div
+                        class="bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 text-center">
+                        <div
+                            class="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-leaf text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Autumn</h3>
+                        <p class="text-sm text-gray-600 mb-4">Vata season - time for grounding and nourishment</p>
+                        <div class="text-left space-y-2 text-sm text-gray-600">
+                            <p><strong>Focus:</strong> Grounding practices</p>
+                            <p><strong>Yoga:</strong> Slow, steady flows</p>
+                            <p><strong>Diet:</strong> Warm, oily foods</p>
+                            <p><strong>Herbs:</strong> Ashwagandha, brahmi</p>
+                        </div>
+                    </div>
+
+                    <!-- Winter -->
+                    <div
+                        class="bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 text-center">
+                        <div
+                            class="w-16 h-16 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-snowflake text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Winter</h3>
+                        <p class="text-sm text-gray-600 mb-4">Kapha season - time for building strength and immunity</p>
+                        <div class="text-left space-y-2 text-sm text-gray-600">
+                            <p><strong>Focus:</strong> Building strength</p>
+                            <p><strong>Yoga:</strong> Warming practices</p>
+                            <p><strong>Diet:</strong> Nourishing, warming</p>
+                            <p><strong>Herbs:</strong> Chyawanprash, ginger</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ayurvedic Wisdom Quotes -->
+        <section class="py-20 bg-gradient-to-br from-yogik-orange via-yogik-yellow to-yogik-orange">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-white mb-6">Ancient Wisdom</h2>
+                    <p class="text-xl text-white/90">Timeless teachings for modern living</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Quote 1 -->
+                    <div class="wisdom-quote bg-white/10 backdrop-blur-sm rounded-3xl p-8 text-center">
+                        <div class="text-6xl text-white/30 mb-4">"</div>
+                        <p class="text-white text-lg italic leading-relaxed mb-6">
+                            When diet is wrong, medicine is of no use. When diet is correct, medicine is of no need.
+                        </p>
+                        <div class="text-white/80 font-semibold">- Ayurvedic Proverb</div>
+                    </div>
+
+                    <!-- Quote 2 -->
+                    <div class="wisdom-quote bg-white/10 backdrop-blur-sm rounded-3xl p-8 text-center">
+                        <div class="text-6xl text-white/30 mb-4">"</div>
+                        <p class="text-white text-lg italic leading-relaxed mb-6">
+                            The body benefits from movement, and the mind benefits from stillness.
+                        </p>
+                        <div class="text-white/80 font-semibold">- Sakyong Mipham</div>
+                    </div>
+
+                    <!-- Quote 3 -->
+                    <div class="wisdom-quote bg-white/10 backdrop-blur-sm rounded-3xl p-8 text-center">
+                        <div class="text-6xl text-white/30 mb-4">"</div>
+                        <p class="text-white text-lg italic leading-relaxed mb-6">
+                            Health is not just the absence of disease, but a state of complete physical, mental, and
+                            spiritual well-being.
+                        </p>
+                        <div class="text-white/80 font-semibold">- Charaka Samhita</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ayurvedic Consultation Section -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="space-y-8">
+                        <div>
+                            <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                                Personal <span class="gradient-text">Consultation</span>
+                            </h2>
+                            <div class="w-32 h-1 bg-gradient-to-r from-yogik-orange to-yogik-yellow rounded-full mb-8">
+                            </div>
+                        </div>
+
+                        <div class="space-y-6 text-lg text-gray-700 leading-relaxed">
+                            <p>
+                                Experience the transformative power of personalized Ayurvedic guidance. Our certified
+                                practitioners will assess your unique constitution, identify imbalances, and create a
+                                customized wellness plan just for you.
+                            </p>
+                            <p>
+                                Each consultation includes detailed dosha analysis, lifestyle recommendations, dietary
+                                guidelines, herbal suggestions, and a personalized yoga practice designed to restore
+                                balance and vitality.
+                            </p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-4">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-yogik-orange to-yogik-yellow rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user-md text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Certified Practitioners</h4>
+                                    <p class="text-gray-600">Trained in traditional Ayurvedic methods</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-yogik-yellow to-yogik-orange rounded-full flex items-center justify-center">
+                                    <i class="fas fa-clipboard-list text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Comprehensive Assessment</h4>
+                                    <p class="text-gray-600">Detailed analysis of your constitution and imbalances</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-yogik-orange to-yogik-yellow rounded-full flex items-center justify-center">
+                                    <i class="fas fa-heart text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Personalized Plan</h4>
+                                    <p class="text-gray-600">Custom recommendations for optimal health</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button
+                                class="bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                                Book Consultation
+                            </button>
+                            <button
+                                class="border-2 border-yogik-orange text-yogik-orange px-8 py-4 rounded-full font-semibold text-lg hover:bg-yogik-orange hover:text-white transition-all duration-300">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="relative">
+                        <div class="bg-gradient-to-br from-yogik-cream to-white rounded-3xl p-8 shadow-2xl">
+                            <img src="/placeholder.svg?height=500&width=400" alt="Ayurvedic Consultation"
+                                class="rounded-2xl w-full h-96 object-cover shadow-lg mb-6">
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold gradient-text">90 min</div>
+                                    <div class="text-sm text-gray-600">Initial Session</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold gradient-text">$150</div>
+                                    <div class="text-sm text-gray-600">Investment</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                        Ayurvedic <span class="gradient-text">Resources</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Deepen your understanding with our comprehensive collection of guides, recipes, and practices
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Resource 1 -->
+                    <div
+                        class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <img src="/placeholder.svg?height=200&width=300" alt="Dosha Guide"
+                            class="w-full h-40 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Complete Dosha Guide</h3>
+                            <p class="text-gray-600 mb-4">Comprehensive guide to understanding and balancing your
+                                constitution</p>
+                            <button class="text-yogik-orange hover:text-yogik-dark-orange font-semibold">
+                                Download Free <i class="fas fa-download ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Resource 2 -->
+                    <div
+                        class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <img src="/placeholder.svg?height=200&width=300" alt="Ayurvedic Recipes"
+                            class="w-full h-40 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Seasonal Recipes</h3>
+                            <p class="text-gray-600 mb-4">Nourishing meals aligned with Ayurvedic principles for each
+                                season</p>
+                            <button class="text-yogik-orange hover:text-yogik-dark-orange font-semibold">
+                                View Recipes <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Resource 3 -->
+                    <div
+                        class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <img src="/placeholder.svg?height=200&width=300" alt="Daily Routines"
+                            class="w-full h-40 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Daily Routines</h3>
+                            <p class="text-gray-600 mb-4">Dinacharya practices to align your day with natural rhythms
+                            </p>
+                            <button class="text-yogik-orange hover:text-yogik-dark-orange font-semibold">
+                                Start Today <i class="fas fa-play ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Resource 4 -->
+                    <div
+                        class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <img src="/placeholder.svg?height=200&width=300" alt="Herbal Guide"
+                            class="w-full h-40 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Herbal Medicine</h3>
+                            <p class="text-gray-600 mb-4">Essential herbs and their therapeutic uses in Ayurveda</p>
+                            <button class="text-yogik-orange hover:text-yogik-dark-orange font-semibold">
+                                Explore Herbs <i class="fas fa-leaf ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="py-20 bg-gradient-to-br from-yogik-orange via-yogik-yellow to-yogik-orange">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl lg:text-5xl font-bold text-white mb-8">
+                    Begin Your Ayurvedic Journey Today
+                </h2>
+                <p class="text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
+                    Discover the profound wisdom of Ayurveda and transform your health, happiness, and spiritual
+                    well-being through personalized practices.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                    <a href="#"
+                        class="bg-white text-yogik-orange px-10 py-4 rounded-full font-bold text-lg hover:bg-yogik-cream hover:scale-105 transition-all duration-300 shadow-2xl">
+                        <i class="fas fa-user-md mr-3"></i>Book Consultation
+                    </a>
+                    <a href="#"
+                        class="border-2 border-white text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-yogik-orange hover:scale-105 transition-all duration-300">
+                        <i class="fas fa-clipboard-list mr-3"></i>Take Dosha Quiz
+                    </a>
+                </div>
+
+                <!-- Trust Indicators -->
+                <div class="mt-16 flex flex-wrap justify-center items-center gap-8 text-white/80">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-certificate"></i>
+                        <span>Certified Practitioners</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-history"></i>
+                        <span>5000+ Years of Wisdom</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-heart"></i>
+                        <span>Holistic Approach</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-bold text-yogik-orange">Yogik Movement</h3>
+                    <p class="text-gray-300 leading-relaxed">Discover the ancient wisdom of Ayurveda and transform your
+                        life through personalized wellness practices.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Ayurveda</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Dosha Assessment</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Consultations</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Seasonal Practices</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Herbal Medicine</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Ayurvedic Yoga</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Resources</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Dosha Guide</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Seasonal Recipes</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Daily Routines</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Meditation Practices</a></li>
+                        <li><a href="blog.html" class="hover:text-yogik-orange transition-colors">Wisdom Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Get Started</h4>
+                    <p class="text-gray-300 mb-6">Begin your Ayurvedic journey with personalized guidance.</p>
+                    <div class="space-y-4">
+                        <button
+                            class="w-full bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300">
+                            Take Dosha Quiz
+                        </button>
+                        <button
+                            class="w-full border-2 border-yogik-orange text-yogik-orange py-3 rounded-full font-semibold hover:bg-yogik-orange hover:text-white transition-all duration-300">
+                            Book Consultation
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 Yogik Movement. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // Dosha Quiz functionality
+        let currentQuestion = 0;
+        let vataScore = 0;
+        let pittaScore = 0;
+        let kaphaScore = 0;
+
+        function selectQuizOption(element, dosha, points) {
+            // Remove selected class from siblings
+            const siblings = element.parentNode.querySelectorAll('.quiz-option');
+            siblings.forEach(sibling => sibling.classList.remove('selected'));
+
+            // Add selected class to clicked option
+            element.classList.add('selected');
+
+            // Update scores
+            if (dosha === 'vata') vataScore += points;
+            if (dosha === 'pitta') pittaScore += points;
+            if (dosha === 'kapha') kaphaScore += points;
+        }
+
+        function calculateDosha() {
+            let dominantDosha = 'vata';
+            let highestScore = vataScore;
+
+            if (pittaScore > highestScore) {
+                dominantDosha = 'pitta';
+                highestScore = pittaScore;
+            }
+
+            if (kaphaScore > highestScore) {
+                dominantDosha = 'kapha';
+                highestScore = kaphaScore;
+            }
+
+            return dominantDosha;
+        }
+    </script>
+</body>
+
+</html>
