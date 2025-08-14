@@ -237,18 +237,18 @@
             <div class="flex justify-between items-center">
                 <!-- Logo -->
                 <div class="flex items-center space-x-3">
-                    <img src="/placeholder.svg?height=40&width=128" alt="Yogik Movement Logo"
-                        class="w-32 h-10 object-cover rounded-full">
+                    <img src="assets/logo.png" alt="Yogik Movement Logo" class="w-32 h-10 object-cover rounded-full">
+
                 </div>
 
                 <!-- Desktop Navigation -->
                 <div class="hidden lg:flex text-xs items-center space-x-8">
                     <a href="/" class="nav-link text-gray-700">HOME</a>
-                    <a href="about-enhanced.html" class="nav-link text-gray-700">ABOUT</a>
-                    <a href="#" class="nav-link text-gray-700">RETREAT</a>
-                    <a href="#" class="nav-link text-gray-700">WORKSHOP</a>
+                    <a href="about.html" class="nav-link text-gray-700">ABOUT</a>
+                    <a href="retreat.html" class="nav-link text-gray-700">RETREAT</a>
+                    <a href="workshops.html" class="nav-link text-gray-700">WORKSHOP</a>
                     <a href="ayurveda.html" class="nav-link text-gray-700">AYURVEDA</a>
-                    <a href="online-yoga.html" class="nav-link text-yogik-orange">ONLINE YOGA</a>
+                    <a href="online-yoga.html" class="nav-link text-gray-700">ONLINE YOGA</a>
                     <a href="shop.html" class="nav-link text-gray-700">SHOP</a>
 
                     <!-- Dropdown -->
@@ -257,32 +257,26 @@
                             <span>MORE</span>
                             <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
+                                    d="M19 9l-7 7-7-7">
+                                </path>
                             </svg>
                         </button>
                         <div
                             class="dropdown-menu absolute top-full right-0 mt-3 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-2 overflow-hidden">
-                            <a href="#"
-                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Teacher
-                                Training</a>
-                            <a href="events.html"
-                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Events</a>
-                            <a href="blog.html"
-                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Blog</a>
                             <a href="gallery.html"
                                 class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Gallery</a>
+                            <a href="events.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Events</a>
+                            <a href="blogs.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Blog</a>
                             <a href="contact.html"
                                 class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Contact</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Cart and CTA -->
-                <div class="hidden lg:flex items-center space-x-4">
-                    <a href="cart.html" class="cart-icon text-gray-700 text-xl">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-badge">3</span>
-                    </a>
+                <!-- CTA Button -->
+                <div class="hidden lg:block">
                     <a href="contact.html" class="cta-button text-white px-6 py-3 rounded-full">
                         Start Your Journey
                     </a>
@@ -294,7 +288,8 @@
                     onclick="toggleMobileMenu()">
                     <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16"></path>
+                            d="M4 6h16M4 12h16M4 18h16">
+                        </path>
                     </svg>
                 </button>
             </div>
@@ -305,36 +300,36 @@
             <div class="px-6 py-6">
                 <div class="flex justify-between items-center mb-8">
                     <div class="flex items-center space-x-3">
-                        <img src="/placeholder.svg?height=40&width=128" alt="Yogik Movement Logo"
+                        <img src="assets/logo.png" alt="Yogik Movement Logo"
                             class="w-32 h-10 object-cover rounded-full">
                     </div>
                     <button onclick="toggleMobileMenu()"
                         class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center">
                         <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
+                                d="M6 18L18 6M6 6l12 12">
+                            </path>
                         </svg>
                     </button>
                 </div>
+
                 <div class="space-y-4 text-xs text-center">
                     <a href="/" class="block py-3 text-gray-700 nav-link">HOME</a>
-                    <a href="about-enhanced.html" class="block py-3 text-gray-700 nav-link">ABOUT</a>
-                    <a href="#" class="block py-3 text-gray-700 nav-link">RETREAT</a>
-                    <a href="#" class="block py-3 text-gray-700 nav-link">WORKSHOP</a>
+                    <a href="about.html" class="block py-3 text-gray-700 nav-link">ABOUT</a>
+                    <a href="retreat.html" class="block py-3 text-gray-700 nav-link">RETREAT</a>
+                    <a href="workshops.html" class="block py-3 text-gray-700 nav-link">WORKSHOP</a>
                     <a href="ayurveda.html" class="block py-3 text-gray-700 nav-link">AYURVEDA</a>
-                    <a href="online-yoga.html" class="block py-3 text-yogik-orange nav-link font-bold">ONLINE YOGA</a>
+                    <a href="online-yoga.html" class="block py-3 text-gray-700 nav-link">ONLINE YOGA</a>
                     <a href="shop.html" class="block py-3 text-gray-700 nav-link">SHOP</a>
-                    <a href="cart.html" class="block py-3 text-gray-700 nav-link">
-                        <i class="fas fa-shopping-cart mr-2"></i>CART (3)
-                    </a>
+
                     <div class="border-t border-gray-200 pt-4">
                         <p class="text-sm text-gray-500 mb-2 font-medium">MORE</p>
-                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Teacher Training</a>
-                        <a href="events.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Events</a>
-                        <a href="blog.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Blog</a>
                         <a href="gallery.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Gallery</a>
+                        <a href="events.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Events</a>
+                        <a href="blogs.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Blog</a>
                         <a href="contact.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Contact</a>
                     </div>
+
                     <div class="pt-6">
                         <a href="contact.html" class="cta-button block w-full text-white text-center py-3 rounded-full">
                             Start Your Journey
