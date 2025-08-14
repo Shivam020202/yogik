@@ -23,56 +23,25 @@
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Navbar Styles */
+        * {
+            font-family: 'Sora', sans-serif;
+        }
+
+        .hero-bg {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%),
+                url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+        }
+
         .navbar {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-link {
-            position: relative;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: #FF6B35;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 50%;
-            background: linear-gradient(90deg, #FF6B35, #F7931E);
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .cta-button {
-            background: linear-gradient(135deg, #FF6B35, #F7931E);
-            transition: all 0.3s ease;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
-        }
-
-        .dropdown:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            /* margin: 0 16px; */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .dropdown-menu {
@@ -82,12 +51,41 @@
             transition: all 0.3s ease;
         }
 
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
         .dropdown-arrow {
             transition: transform 0.3s ease;
         }
 
         .dropdown:hover .dropdown-arrow {
             transform: rotate(180deg);
+        }
+
+        .nav-link {
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #059669;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
         }
 
         .mobile-menu {
@@ -99,132 +97,74 @@
             transform: translateX(0);
         }
 
-        /* Cart Icon Styles */
-        .cart-icon {
-            position: relative;
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .hero-title {
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 400;
+            line-height: 1.3;
+            margin-bottom: 24px;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 2.5vw, 20px);
+            font-weight: 200;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .explore-button {
+            background: rgba(255, 255, 255);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #09A472;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
             transition: all 0.3s ease;
         }
 
-        .cart-icon:hover {
-            color: #FF6B35;
-            transform: scale(1.1);
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: linear-gradient(135deg, #FF6B35, #F7931E);
+        .explore-button:hover {
+            background: #058F64;
             color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-            animation: pulse 2s infinite;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.1);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        /* Online Yoga Specific Styles */
-        .gradient-text {
-            background: linear-gradient(135deg, #FF6B35, #F7931E);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .course-card {
-            transition: all 0.4s ease;
-        }
-
-        .course-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .live-indicator {
-            animation: live-pulse 2s infinite;
-        }
-
-        @keyframes live-pulse {
-            0% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .video-player {
-            position: relative;
-            background: linear-gradient(135deg, #FF6B35, #F7931E);
-            border-radius: 1.5rem;
-            overflow: hidden;
-        }
-
-        .play-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.9);
+        .lotus-icon {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            margin: 0 auto 32px;
         }
 
-        .play-button:hover {
-            background: white;
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        .schedule-item {
-            transition: all 0.3s ease;
-        }
-
-        .schedule-item:hover {
-            background: linear-gradient(135deg, #FF6B35, #F7931E);
-            color: white;
-        }
-
-        .floating-element {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px);
+        @media (max-width: 768px) {
+            .navbar {
+                margin: 0 16px;
             }
 
-            50% {
-                transform: translateY(-20px);
+            .hero-content {
+                padding: 0 16px;
             }
         }
     </style>
