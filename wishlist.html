@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - Yogik Movement</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            padding: 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-header p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: white;
+        }
+
+        .nav-item i {
+            margin-right: 0.75rem;
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        .page-header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-header h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #666;
+        }
+
+        .wishlist-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #ff6b35;
+            background: white;
+            color: #ff6b35;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .action-btn.primary {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: #e55a2b;
+        }
+
+        /* Wishlist Grid */
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .wishlist-item {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .wishlist-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .item-content {
+            padding: 1.5rem;
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .item-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 1rem;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .item-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart-btn {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #e55a2b;
+        }
+
+        .remove-btn {
+            background: #f8f9fa;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .remove-btn:hover {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .wishlist-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #ff6b35;
+            padding: 0.5rem;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .wishlist-badge:hover {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .stock-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .in-stock {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .low-stock {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .out-of-stock {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        /* Empty Wishlist */
+        .empty-wishlist {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .empty-wishlist i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        .empty-wishlist h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-wishlist p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        /* Mobile Styles */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+                padding-top: 4rem;
+            }
+
+            .page-header {
+                padding: 1rem;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .wishlist-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .wishlist-actions {
+                justify-content: center;
+            }
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-overlay.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Yogik Movement</h2>
+                <p>Welcome back, Sarah!</p>
+            </div>
+            <div class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </a>
+                <a href="my-orders.html" class="nav-item">
+                    <i class="fas fa-shopping-bag"></i>
+                    My Orders
+                </a>
+                <a href="personal-details.html" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    Personal Details
+                </a>
+                <a href="change-password.html" class="nav-item">
+                    <i class="fas fa-lock"></i>
+                    Change Password
+                </a>
+                <a href="wishlist.html" class="nav-item active">
+                    <i class="fas fa-heart"></i>
+                    Wishlist
+                </a>
+                <a href="shop.html" class="nav-item">
+                    <i class="fas fa-store"></i>
+                    Back to Shop
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>My Wishlist</h1>
+                    <p>8 items saved for later</p>
+                </div>
+                <div class="wishlist-actions">
+                    <button class="action-btn" onclick="clearWishlist()">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
+                    <a href="shop.html" class="action-btn primary">
+                        <i class="fas fa-plus"></i> Add More Items
+                    </a>
+                </div>
+            </div>
+
+            <!-- Wishlist Grid -->
+            <div class="wishlist-grid" id="wishlist-grid">
+                <!-- Wishlist Item 1 -->
+                <div class="wishlist-item">
+                    <div class="wishlist-badge" onclick="removeFromWishlist(this)">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <img src="/placeholder.svg?height=250&width=300&text=Premium+Yoga+Mat" alt="Premium Yoga Mat"
+                        class="item-image">
+                    <div class="item-content">
+                        <h3 class="item-title">Premium Yoga Mat</h3>
+                        <p class="item-description">Non-slip, eco-friendly yoga mat perfect for all types of yoga
+                            practice.</p>
+                        <span class="stock-status in-stock">In Stock</span>
+                        <div class="item-price">₹2,499</div>
+                        <div class="item-actions">
+                            <button class="item-btn add-to-cart-btn" onclick="addToCart(this)">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            <button class="item-btn remove-btn" onclick="removeFromWishlist(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wishlist Item 2 -->
+                <div class="wishlist-item">
+                    <div class="wishlist-badge" onclick="removeFromWishlist(this)">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <img src="/placeholder.svg?height=250&width=300&text=Meditation+Cushion" alt="Meditation Cushion"
+                        class="item-image">
+                    <div class="item-content">
+                        <h3 class="item-title">Meditation Cushion</h3>
+                        <p class="item-description">Comfortable cushion for extended meditation sessions with proper
+                            posture support.</p>
+                        <span class="stock-status in-stock">In Stock</span>
+                        <div class="item-price">₹1,299</div>
+                        <div class="item-actions">
+                            <button class="item-btn add-to-cart-btn" onclick="addToCart(this)">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            <button class="item-btn remove-btn" onclick="removeFromWishlist(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wishlist Item 3 -->
+                <div class="wishlist-item">
+                    <div class="wishlist-badge" onclick="removeFromWishlist(this)">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <img src="/placeholder.svg?height=250&width=300&text=Yoga+Block+Set" alt="Yoga Block Set"
+                        class="item-image">
+                    <div class="item-content">
+                        <h3 class="item-title">Yoga Block Set</h3>
+                        <p class="item-description">Set of 2 cork yoga blocks for better alignment and support in poses.
+                        </p>
+                        <span class="stock-status low-stock">Only 3 left</span>
+                        <div class="item-price">₹899</div>
+                        <div class="item-actions">
+                            <button class="item-btn add-to-cart-btn" onclick="addToCart(this)">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            <button class="item-btn remove-btn" onclick="removeFromWishlist(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wishlist Item 4 -->
+                <div class="wishlist-item">
+                    <div class="wishlist-badge" onclick="removeFromWishlist(this)">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <img src="/placeholder.svg?height=250&width=300&text=Yoga+Strap" alt="Yoga Strap"
+                        class="item-image">
+                    <div class="item-content">
+                        <h3 class="item-title">Yoga Strap</h3>
+                        <p class="item-description">Adjustable cotton strap for deeper stretches and improved
+                            flexibility.</p>
+                        <span class="stock-status in-stock">In Stock</span>
+                        <div class="item-price">₹599</div>
+                        <div class="item-actions">
+                            <button class="item-btn add-to-cart-btn" onclick="addToCart(this)">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            <button class="item-btn remove-btn" onclick="removeFromWishlist(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wishlist Item 5 -->
+                <div class="wishlist-item">
+                    <div class="wishlist-badge" onclick="removeFromWishlist(this)">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <img src="/placeholder.svg?height=250&width=300&text=Water+Bottle"
+                        alt="Stainless Steel Water Bottle" class="item-image">
+                    <div class="item-content">
+                        <h3 class="item-title">Stainless Steel Water Bottle</h3>
+                        <p class="item-description">Insulated water bottle to keep your drinks at the perfect
+                            temperature.</p>
+                        <span class="stock-status in-stock">In Stock</span>
+                        <div class="item-price">₹1,200</div>
+                        <div class="item-actions">
+                            <button class="item-btn add-to-cart-btn" onclick="addToCart(this)">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            <button class="item-btn remove-btn" onclick="removeFromWishlist(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wishlist Item 6 -->
+                <div class="wishlist-item">
+                    <div class="wishlist-badge" onclick="removeFromWishlist(this)">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <img src="/placeholder.svg?height=250&width=300&text=Yoga+Towel" alt="Yoga Towel"
+                        class="item-image">
+                    <div class="item-content">
+                        <h3 class="item-title">Microfiber Yoga Towel</h3>
+                        <p class="item-description">Quick-dry, non-slip towel perfect for hot yoga sessions.</p>
+                        <span class="stock-status in-stock">In Stock</span>
+                        <div class="item-price">₹799</div>
+                        <div class="item-actions">
+                            <button class="item-btn add-to-cart-btn" onclick="addToCart(this)">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            <button class="item-btn remove-btn" onclick="removeFromWishlist(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wishlist Item 7 -->
+                <div class="wishlist-item">
+                    <div class="wishlist-badge" onclick="removeFromWishlist(this)">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <img src="/placeholder.svg?height=250&width=300&text=Essential+Oils" alt="Essential Oil Set"
+                        class="item-image">
+                    <div class="item-content">
+                        <h3 class="item-title">Essential Oil Set</h3>
+                        <p class="item-description">Collection of 6 pure essential oils for aromatherapy and relaxation.
+                        </p>
+                        <span class="stock-status out-of-stock">Out of Stock</span>
+                        <div class="item-price">₹1,899</div>
+                        <div class="item-actions">
+                            <button class="item-btn add-to-cart-btn" disabled>
+                                <i class="fas fa-bell"></i> Notify When Available
+                            </button>
+                            <button class="item-btn remove-btn" onclick="removeFromWishlist(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wishlist Item 8 -->
+                <div class="wishlist-item">
+                    <div class="wishlist-badge" onclick="removeFromWishlist(this)">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <img src="/placeholder.svg?height=250&width=300&text=Yoga+Wheel" alt="Yoga Wheel"
+                        class="item-image">
+                    <div class="item-content">
+                        <h3 class="item-title">Yoga Wheel</h3>
+                        <p class="item-description">Dharma wheel for backbends, stretching, and releasing muscle
+                            tension.</p>
+                        <span class="stock-status in-stock">In Stock</span>
+                        <div class="item-price">₹2,199</div>
+                        <div class="item-actions">
+                            <button class="item-btn add-to-cart-btn" onclick="addToCart(this)">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            <button class="item-btn remove-btn" onclick="removeFromWishlist(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty Wishlist (Hidden by default) -->
+            <div class="empty-wishlist" id="empty-wishlist" style="display: none;">
+                <i class="fas fa-heart-broken"></i>
+                <h3>Your wishlist is empty</h3>
+                <p>Start adding items you love to your wishlist and they'll appear here.</p>
+                <a href="shop.html" class="action-btn primary">
+                    <i class="fas fa-shopping-bag"></i> Start Shopping
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function removeFromWishlist(element) {
+            const wishlistItem = element.closest('.wishlist-item');
+
+            // Add animation
+            wishlistItem.style.transform = 'scale(0.8)';
+            wishlistItem.style.opacity = '0';
+
+            setTimeout(() => {
+                wishlistItem.remove();
+                updateWishlistCount();
+                checkEmptyWishlist();
+            }, 300);
+        }
+
+        function addToCart(element) {
+            const wishlistItem = element.closest('.wishlist-item');
+            const itemTitle = wishlistItem.querySelector('.item-title').textContent;
+
+            // Simulate adding to cart
+            element.innerHTML = '<i class="fas fa-check"></i> Added to Cart';
+            element.style.background = '#27ae60';
+            element.disabled = true;
+
+            // Show success message
+            alert(`${itemTitle} has been added to your cart!`);
+
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                element.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
+                element.style.background = '#ff6b35';
+                element.disabled = false;
+            }, 2000);
+        }
+
+        function clearWishlist() {
+            if (confirm('Are you sure you want to clear your entire wishlist?')) {
+                const wishlistItems = document.querySelectorAll('.wishlist-item');
+
+                wishlistItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.style.transform = 'scale(0.8)';
+                        item.style.opacity = '0';
+
+                        setTimeout(() => {
+                            item.remove();
+                            if (index === wishlistItems.length - 1) {
+                                updateWishlistCount();
+                                checkEmptyWishlist();
+                            }
+                        }, 300);
+                    }, index * 100);
+                });
+            }
+        }
+
+        function updateWishlistCount() {
+            const remainingItems = document.querySelectorAll('.wishlist-item').length;
+            const countElement = document.querySelector('.page-header p');
+
+            if (remainingItems === 0) {
+                countElement.textContent = 'No items in wishlist';
+            } else if (remainingItems === 1) {
+                countElement.textContent = '1 item saved for later';
+            } else {
+                countElement.textContent = `${remainingItems} items saved for later`;
+            }
+        }
+
+        function checkEmptyWishlist() {
+            const wishlistGrid = document.getElementById('wishlist-grid');
+            const emptyWishlist = document.getElementById('empty-wishlist');
+            const remainingItems = document.querySelectorAll('.wishlist-item').length;
+
+            if (remainingItems === 0) {
+                wishlistGrid.style.display = 'none';
+                emptyWishlist.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+
+</html>

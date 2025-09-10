@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Yogik Movement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'yogik-orange': '#FF6B35',
+                        'yogik-yellow': '#F7931E',
+                        'yogik-light-orange': '#FFB499',
+                        'yogik-dark-orange': '#E55A2B',
+                        'yogik-cream': '#FFF8F0',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #FF6B35;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: linear-gradient(90deg, #FF6B35, #F7931E);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* Cart Icon Styles */
+        .cart-icon {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            color: #FF6B35;
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Progress Steps */
+        .step {
+            position: relative;
+        }
+
+        .step.active .step-circle {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+        }
+
+        .step.completed .step-circle {
+            background: #10B981;
+            color: white;
+        }
+
+        .step-line {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #E5E7EB;
+            z-index: -1;
+        }
+
+        .step.completed .step-line {
+            background: #10B981;
+        }
+
+        /* Form Styles */
+        .form-input {
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: #FF6B35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        /* Payment Method Styles */
+        .payment-method {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .payment-method:hover {
+            border-color: #FF6B35;
+        }
+
+        .payment-method.selected {
+            border-color: #FF6B35;
+            background: rgba(255, 107, 53, 0.05);
+        }
+    </style>
+</head>
+
+<body class="bg-yogik-cream">
+    <!-- Navigation -->
+    <nav class="navbar fixed w-full top-0 z-50 py-4 mx-auto">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <img src="/placeholder.svg?height=40&width=128" alt="Yogik Movement Logo"
+                        class="w-32 h-10 object-cover rounded-full">
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex text-xs items-center space-x-8">
+                    <a href="/" class="nav-link text-gray-700">HOME</a>
+                    <a href="#" class="nav-link text-gray-700">ABOUT</a>
+                    <a href="retreat.html" class="nav-link text-gray-700">RETREAT</a>
+                    <a href="#" class="nav-link text-gray-700">WORKSHOP</a>
+                    <a href="ayurveda.html" class="nav-link text-gray-700">AYURVEDA</a>
+                    <a href="online-yoga.html" class="nav-link text-gray-700">ONLINE YOGA</a>
+                    <a href="shop.html" class="nav-link text-gray-700">SHOP</a>
+
+                    <!-- Dropdown -->
+                    <div class="dropdown relative">
+                        <button class="nav-link text-gray-700 flex items-center space-x-1">
+                            <span>MORE</span>
+                            <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div
+                            class="dropdown-menu absolute top-full right-0 mt-3 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-2 overflow-hidden">
+                            <a href="#"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Teacher
+                                Training</a>
+                            <a href="events.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Events</a>
+                            <a href="blog.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Blog</a>
+                            <a href="contact.html"
+                                class="block px-6 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Contact</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart and CTA -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <a href="cart.html" class="cart-icon text-gray-700 text-xl">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge">3</span>
+                    </a>
+                    <a href="contact.html" class="cta-button text-white px-6 py-3 rounded-full">
+                        Start Your Journey
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button
+                    class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+                    onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu lg:hidden fixed top-0 left-0 w-full h-screen bg-[#FACC15] z-50" id="mobileMenu">
+            <div class="px-6 py-6">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex items-center space-x-3">
+                        <img src="/placeholder.svg?height=40&width=128" alt="Yogik Movement Logo"
+                            class="w-32 h-10 object-cover rounded-full">
+                    </div>
+                    <button onclick="toggleMobileMenu()"
+                        class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-4 text-xs text-center">
+                    <a href="/" class="block py-3 text-gray-700 nav-link">HOME</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">ABOUT</a>
+                    <a href="retreat.html" class="block py-3 text-gray-700 nav-link">RETREAT</a>
+                    <a href="#" class="block py-3 text-gray-700 nav-link">WORKSHOP</a>
+                    <a href="ayurveda.html" class="block py-3 text-gray-700 nav-link">AYURVEDA</a>
+                    <a href="online-yoga.html" class="block py-3 text-gray-700 nav-link">ONLINE YOGA</a>
+                    <a href="shop.html" class="block py-3 text-gray-700 nav-link">SHOP</a>
+                    <a href="cart.html" class="block py-3 text-gray-700 nav-link">
+                        <i class="fas fa-shopping-cart mr-2"></i>CART (3)
+                    </a>
+                    <div class="border-t border-gray-200 pt-4">
+                        <p class="text-sm text-gray-500 mb-2 font-medium">MORE</p>
+                        <a href="#" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Teacher Training</a>
+                        <a href="events.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Events</a>
+                        <a href="blog.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Blog</a>
+                        <a href="contact.html" class="block py-2 pl-4 text-gray-700 hover:text-emerald-600">Contact</a>
+                    </div>
+                    <div class="pt-6">
+                        <a href="contact.html" class="cta-button block w-full text-white text-center py-3 rounded-full">
+                            Start Your Journey
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24">
+        <!-- Progress Steps -->
+        <section class="py-8 bg-white border-b">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <div class="step completed flex flex-col items-center">
+                        <div
+                            class="step-circle w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm mb-2">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-900">Cart</span>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="step active flex flex-col items-center">
+                        <div
+                            class="step-circle w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-sm mb-2">
+                            2
+                        </div>
+                        <span class="text-sm font-medium text-gray-900">Checkout</span>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="step flex flex-col items-center">
+                        <div
+                            class="step-circle w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-sm mb-2">
+                            3
+                        </div>
+                        <span class="text-sm font-medium text-gray-500">Payment</span>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="step flex flex-col items-center">
+                        <div
+                            class="step-circle w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-sm mb-2">
+                            4
+                        </div>
+                        <span class="text-sm font-medium text-gray-500">Confirmation</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Checkout Form -->
+        <section class="py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-3 gap-12">
+                    <!-- Checkout Form -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900 mb-2">Checkout</h1>
+                            <p class="text-gray-600">Complete your order details below</p>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="bg-white rounded-3xl p-8 shadow-sm">
+                            <h2 class="text-xl font-bold text-gray-900 mb-6">Contact Information</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                                    <input type="text"
+                                        class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none"
+                                        placeholder="Enter your first name">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                                    <input type="text"
+                                        class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none"
+                                        placeholder="Enter your last name">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                    <input type="email"
+                                        class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none"
+                                        placeholder="Enter your email address">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                                    <input type="tel"
+                                        class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none"
+                                        placeholder="Enter your phone number">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Address -->
+                        <div class="bg-white rounded-3xl p-8 shadow-sm">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-xl font-bold text-gray-900">Shipping Address</h2>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox"
+                                        class="rounded border-gray-300 text-yogik-orange focus:ring-yogik-orange">
+                                    <span class="text-sm text-gray-600">Same as billing</span>
+                                </label>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Street Address *</label>
+                                    <input type="text"
+                                        class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none"
+                                        placeholder="Enter your street address">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">City *</label>
+                                    <input type="text"
+                                        class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none"
+                                        placeholder="Enter your city">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">State/Province *</label>
+                                    <select
+                                        class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none">
+                                        <option>Select state/province</option>
+                                        <option>California</option>
+                                        <option>New York</option>
+                                        <option>Texas</option>
+                                        <option>Florida</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">ZIP/Postal Code
+                                        *</label>
+                                    <input type="text"
+                                        class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none"
+                                        placeholder="Enter ZIP code">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Country *</label>
+                                    <select
+                                        class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none">
+                                        <option>United States</option>
+                                        <option>Canada</option>
+                                        <option>United Kingdom</option>
+                                        <option>Australia</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Method -->
+                        <div class="bg-white rounded-3xl p-8 shadow-sm">
+                            <h2 class="text-xl font-bold text-gray-900 mb-6">Shipping Method</h2>
+                            <div class="space-y-4">
+                                <label
+                                    class="payment-method selected flex items-center justify-between p-4 border-2 border-yogik-orange rounded-xl cursor-pointer">
+                                    <div class="flex items-center space-x-3">
+                                        <input type="radio" name="shipping" value="standard" checked
+                                            class="text-yogik-orange focus:ring-yogik-orange">
+                                        <div>
+                                            <div class="font-semibold text-gray-900">Standard Shipping</div>
+                                            <div class="text-sm text-gray-600">5-7 business days</div>
+                                        </div>
+                                    </div>
+                                    <span class="font-bold text-green-600">FREE</span>
+                                </label>
+                                <label
+                                    class="payment-method flex items-center justify-between p-4 border-2 border-gray-200 rounded-xl cursor-pointer">
+                                    <div class="flex items-center space-x-3">
+                                        <input type="radio" name="shipping" value="express"
+                                            class="text-yogik-orange focus:ring-yogik-orange">
+                                        <div>
+                                            <div class="font-semibold text-gray-900">Express Shipping</div>
+                                            <div class="text-sm text-gray-600">2-3 business days</div>
+                                        </div>
+                                    </div>
+                                    <span class="font-bold text-gray-900">$15.99</span>
+                                </label>
+                                <label
+                                    class="payment-method flex items-center justify-between p-4 border-2 border-gray-200 rounded-xl cursor-pointer">
+                                    <div class="flex items-center space-x-3">
+                                        <input type="radio" name="shipping" value="overnight"
+                                            class="text-yogik-orange focus:ring-yogik-orange">
+                                        <div>
+                                            <div class="font-semibold text-gray-900">Overnight Shipping</div>
+                                            <div class="text-sm text-gray-600">Next business day</div>
+                                        </div>
+                                    </div>
+                                    <span class="font-bold text-gray-900">$29.99</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="bg-white rounded-3xl p-8 shadow-sm">
+                            <h2 class="text-xl font-bold text-gray-900 mb-6">Payment Method</h2>
+                            <div class="space-y-4 mb-6">
+                                <label
+                                    class="payment-method selected flex items-center space-x-3 p-4 border-2 border-yogik-orange rounded-xl cursor-pointer">
+                                    <input type="radio" name="payment" value="card" checked
+                                        class="text-yogik-orange focus:ring-yogik-orange">
+                                    <i class="fas fa-credit-card text-yogik-orange"></i>
+                                    <span class="font-semibold text-gray-900">Credit/Debit Card</span>
+                                </label>
+                                <label
+                                    class="payment-method flex items-center space-x-3 p-4 border-2 border-gray-200 rounded-xl cursor-pointer">
+                                    <input type="radio" name="payment" value="paypal"
+                                        class="text-yogik-orange focus:ring-yogik-orange">
+                                    <i class="fab fa-paypal text-blue-500"></i>
+                                    <span class="font-semibold text-gray-900">PayPal</span>
+                                </label>
+                                <label
+                                    class="payment-method flex items-center space-x-3 p-4 border-2 border-gray-200 rounded-xl cursor-pointer">
+                                    <input type="radio" name="payment" value="apple"
+                                        class="text-yogik-orange focus:ring-yogik-orange">
+                                    <i class="fab fa-apple-pay text-gray-800"></i>
+                                    <span class="font-semibold text-gray-900">Apple Pay</span>
+                                </label>
+                            </div>
+
+                            <!-- Card Details -->
+                            <div id="cardDetails" class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Card Number *</label>
+                                    <input type="text"
+                                        class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none"
+                                        placeholder="1234 5678 9012 3456">
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Expiry Date
+                                            *</label>
+                                        <input type="text"
+                                            class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none"
+                                            placeholder="MM/YY">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">CVV *</label>
+                                        <input type="text"
+                                            class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none"
+                                            placeholder="123">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Cardholder Name
+                                        *</label>
+                                    <input type="text"
+                                        class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none"
+                                        placeholder="Enter cardholder name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Special Instructions -->
+                        <div class="bg-white rounded-3xl p-8 shadow-sm">
+                            <h2 class="text-xl font-bold text-gray-900 mb-6">Special Instructions</h2>
+                            <textarea
+                                class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none h-32 resize-none"
+                                placeholder="Any special delivery instructions or notes..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white rounded-3xl p-8 shadow-sm sticky top-32">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-6">Order Summary</h3>
+
+                            <!-- Order Items -->
+                            <div class="space-y-4 mb-6">
+                                <div class="flex items-center space-x-4">
+                                    <img src="/placeholder.svg?height=80&width=80&text=Premium+Mat"
+                                        alt="Premium Eco Mat" class="w-16 h-16 object-cover rounded-xl">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-900">Premium Eco Mat</h4>
+                                        <p class="text-sm text-gray-600">Orange, Standard</p>
+                                        <p class="text-sm text-gray-600">Qty: 1</p>
+                                    </div>
+                                    <span class="font-semibold text-yogik-orange">$89.00</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <img src="/placeholder.svg?height=80&width=80&text=Flow+Leggings"
+                                        alt="Flow Leggings" class="w-16 h-16 object-cover rounded-xl">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-900">Flow Leggings</h4>
+                                        <p class="text-sm text-gray-600">Black, Medium</p>
+                                        <p class="text-sm text-gray-600">Qty: 1</p>
+                                    </div>
+                                    <span class="font-semibold text-yogik-orange">$65.00</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <img src="/placeholder.svg?height=80&width=80&text=Zen+Cushion" alt="Zen Cushion"
+                                        class="w-16 h-16 object-cover rounded-xl">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-900">Zen Cushion</h4>
+                                        <p class="text-sm text-gray-600">Yellow</p>
+                                        <p class="text-sm text-gray-600">Qty: 1</p>
+                                    </div>
+                                    <span class="font-semibold text-yogik-orange">$35.00</span>
+                                </div>
+                            </div>
+
+                            <!-- Promo Code -->
+                            <div class="mb-6">
+                                <div class="flex">
+                                    <input type="text" placeholder="Promo code"
+                                        class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-l-xl focus:outline-none focus:border-yogik-orange transition-colors">
+                                    <button
+                                        class="bg-yogik-orange text-white px-6 py-3 rounded-r-xl hover:bg-yogik-dark-orange transition-colors">
+                                        Apply
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Order Totals -->
+                            <div class="space-y-3 mb-6">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Subtotal</span>
+                                    <span class="font-semibold">$189.00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Shipping</span>
+                                    <span class="font-semibold text-green-600">Free</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Tax</span>
+                                    <span class="font-semibold">$15.12</span>
+                                </div>
+                                <div class="border-t border-gray-200 pt-3">
+                                    <div class="flex justify-between text-xl font-bold">
+                                        <span>Total</span>
+                                        <span class="text-yogik-orange">$204.12</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Place Order Button -->
+                            <button onclick="placeOrder()"
+                                class="w-full bg-gradient-to-r from-yogik-orange to-yogik-yellow text-white py-4 rounded-2xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 mb-4">
+                                <i class="fas fa-lock mr-2"></i>Place Order
+                            </button>
+
+                            <!-- Security Info -->
+                            <div class="text-center">
+                                <div class="inline-flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                                    <i class="fas fa-shield-alt text-green-500"></i>
+                                    <span>256-bit SSL encryption</span>
+                                </div>
+                                <div class="flex justify-center space-x-3">
+                                    <div class="w-10 h-6 bg-gray-100 rounded flex items-center justify-center">
+                                        <i class="fab fa-cc-visa text-blue-600 text-sm"></i>
+                                    </div>
+                                    <div class="w-10 h-6 bg-gray-100 rounded flex items-center justify-center">
+                                        <i class="fab fa-cc-mastercard text-red-600 text-sm"></i>
+                                    </div>
+                                    <div class="w-10 h-6 bg-gray-100 rounded flex items-center justify-center">
+                                        <i class="fab fa-cc-paypal text-blue-500 text-sm"></i>
+                                    </div>
+                                    <div class="w-10 h-6 bg-gray-100 rounded flex items-center justify-center">
+                                        <i class="fab fa-apple-pay text-gray-800 text-sm"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-bold text-yogik-orange">Yogik Movement</h3>
+                    <p class="text-gray-300 leading-relaxed">Elevating your yoga practice with premium, sustainable
+                        products crafted for mind, body & soul.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yogik-orange transition-colors text-xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Shop</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Yoga Mats</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Apparel</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Props & Accessories</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Wellness Products</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Gift Cards</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Support</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Size Guide</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Returns & Exchanges</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">Shipping Info</a></li>
+                        <li><a href="#" class="hover:text-yogik-orange transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Newsletter</h4>
+                    <p class="text-gray-300 mb-6">Get updates on new products, exclusive offers, and wellness tips.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email address"
+                            class="flex-1 px-4 py-3 rounded-l-full text-gray-900 focus:outline-none focus:ring-2 focus:ring-yogik-orange">
+                        <button
+                            class="bg-gradient-to-r from-yogik-orange to-yogik-yellow px-8 py-3 rounded-r-full hover:shadow-lg transition-all duration-300">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 Yogik Movement. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        function placeOrder() {
+            // Simulate order processing
+            alert('Order placed successfully! You will receive a confirmation email shortly.');
+            // In a real application, this would redirect to a confirmation page
+            window.location.href = 'order-confirmation.html';
+        }
+
+        // Payment method selection
+        document.querySelectorAll('input[name="payment"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                document.querySelectorAll('.payment-method').forEach(method => {
+                    method.classList.remove('selected');
+                });
+                this.closest('.payment-method').classList.add('selected');
+
+                // Show/hide card details based on selection
+                const cardDetails = document.getElementById('cardDetails');
+                if (this.value === 'card') {
+                    cardDetails.style.display = 'block';
+                } else {
+                    cardDetails.style.display = 'none';
+                }
+            });
+        });
+
+        // Shipping method selection
+        document.querySelectorAll('input[name="shipping"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                document.querySelectorAll('.payment-method').forEach(method => {
+                    method.classList.remove('selected');
+                });
+                this.closest('.payment-method').classList.add('selected');
+            });
+        });
+    </script>
+</body>
+
+</html>
