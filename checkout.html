@@ -195,6 +195,7 @@
             background: rgba(255, 107, 53, 0.05);
         }
     </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body class="bg-yogik-cream">
@@ -254,9 +255,8 @@
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <button
-                    class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
-                    onclick="toggleMobileMenu()">
+                <button id="mobile-menu-button"
+                    class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors">
                     <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16"></path>
@@ -266,14 +266,14 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div class="mobile-menu lg:hidden fixed top-0 left-0 w-full h-screen bg-[#FACC15] z-50" id="mobileMenu">
+        <div class="mobile-menu lg:hidden fixed top-0 left-0 w-full h-screen bg-[#FACC15] z-50" id="mobile-menu">
             <div class="px-6 py-6">
                 <div class="flex justify-between items-center mb-8">
                     <div class="flex items-center space-x-3">
                         <img src="/placeholder.svg?height=40&width=128" alt="Yogik Movement Logo"
                             class="w-32 h-10 object-cover rounded-full">
                     </div>
-                    <button onclick="toggleMobileMenu()"
+                    <button id="close-mobile-menu"
                         class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center">
                         <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -308,6 +308,9 @@
             </div>
         </div>
     </nav>
+
+    <!-- Mobile menu overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden"></div>
 
     <!-- Main Content -->
     <main class="pt-24">
@@ -766,6 +769,34 @@
                 });
                 this.closest('.payment-method').classList.add('selected');
             });
+        });
+
+        // Mobile menu functionality
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            mobileOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenuFunc() {
+            mobileMenu.classList.remove('active');
+            mobileOverlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        mobileMenuButton.addEventListener('click', openMobileMenu);
+        closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+        mobileOverlay.addEventListener('click', closeMobileMenuFunc);
+
+        // Close mobile menu when clicking on a link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenuFunc);
         });
     </script>
 </body>

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for file in my-orders.html personal-details.html wishlist.html change-password.html)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(tail:*)",
+      "Bash(done)",
+      "Bash(for file in terms-conditions.html privacy-policy.html)",
+      "Bash(for file in about.html cart.html contact.html workshops.html ayurveda.html online-yoga.html gallery.html events.html retreat.html checkout.html product-details.html shop.html blog-details.html blog.html terms-conditions.html privacy-policy.html online-classes.html)",
+      "Bash(do echo -n \"$file: \")",
+      "Bash(grep:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

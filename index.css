@@ -1,0 +1,174 @@
+/* Navigation CSS Styles for Yogik Movement Website */
+
+/* Text Gradient for Branding */
+.text-gradient {
+    background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Navbar Blur Effect */
+.navbar-blur {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+/* Mobile Menu Animations */
+.mobile-menu {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.mobile-menu.active {
+    transform: translateX(0);
+}
+
+/* Enhanced Navigation Link Hover Effects */
+.nav-link {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+    transition: left 0.3s ease;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+.nav-link:hover::before {
+    left: 0;
+}
+
+.nav-link:hover {
+    transform: translateY(-2px);
+    color: #8B4513 !important;
+    background: rgba(139, 69, 19, 0.05);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+    transition: width 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+    width: 80%;
+}
+
+/* Dropdown Menu Styles */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    min-width: 200px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 50;
+    border: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(5px);
+}
+
+.dropdown-item {
+    display: block;
+    padding: 12px 20px;
+    color: #4B5563;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin: 4px 8px;
+}
+
+.dropdown-item:hover {
+    background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+    color: white;
+    transform: translateX(5px);
+}
+
+.dropdown-item i {
+    width: 16px;
+    text-align: center;
+    opacity: 0.7;
+}
+
+.dropdown-item:hover i {
+    opacity: 1;
+}
+
+/* Mobile Menu Enhancements */
+.mobile-nav-link {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin: 2px 0;
+}
+
+.mobile-nav-link:hover {
+    background: rgba(139, 69, 19, 0.1);
+    transform: translateX(10px);
+    padding-left: 16px;
+}
+
+/* Hero Slider Navigation Dots */
+.slider-nav .nav-dot {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.slider-nav .nav-dot.active {
+    background-color: white;
+    transform: scale(1.2);
+}
+
+.slider-nav .nav-dot:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile Responsive Navigation Styles */
+@media (max-width: 768px) {
+    .slider-nav {
+        bottom: 6px;
+    }
+
+    .nav-dot {
+        width: 8px !important;
+        height: 8px !important;
+    }
+}
+
+/* Icon Hover Effect */
+.icon-hover {
+    transition: all 0.3s ease;
+}
+
+.icon-hover:hover {
+    transform: scale(1.1);
+}
