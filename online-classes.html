@@ -9,6 +9,149 @@
         content="Join our online yoga classes from the comfort of your home. Expert instructors, flexible schedules, and transformative practice.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'yogik-orange': '#FF6B35',
+                        'yogik-yellow': '#F7931E',
+                        'yogik-light-orange': '#FFB499',
+                        'yogik-dark-orange': '#E55A2B',
+                        'yogik-cream': '#FFF8F0',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            font-family: 'Sora', sans-serif;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            /* margin: 0 16px; */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .nav-link {
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #059669;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+
+        @media (max-width: 768px) {
+            .navbar {
+                margin: 0 16px;
+            }
+
+            .hero-content {
+                padding: 0 16px;
+            }
+        }
+
+        /* Cart Icon Styles */
+        .cart-icon {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            color: #FF6B35;
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -186,8 +329,7 @@
                     <a href="about.html" class="mobile-nav-link block text-gray-700 hover:text-primary py-3 px-4">
                         <i class="fas fa-info-circle mr-3"></i>About
                     </a>
-                    <a href="online-classes.html"
-                        class="mobile-nav-link block text-primary font-medium py-3 px-4">
+                    <a href="online-classes.html" class="mobile-nav-link block text-primary font-medium py-3 px-4">
                         <i class="fas fa-video mr-3"></i>Online Classes
                     </a>
                     <a href="shop.html" class="mobile-nav-link block text-gray-700 hover:text-primary py-3 px-4">
@@ -246,14 +388,15 @@
     <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden"></div>
 
     <!-- Hero Section -->
-    <section class="gradient-bg py-20 relative overflow-hidden">
-        <div class="absolute inset-0 bg-black/10"></div>
+    <section
+        class="bg-gradient-to-br from-yogik-cream via-yogik-light-orange/30 to-yogik-yellow/20 py-20 pt-40 relative overflow-hidden">
+        <!-- <div class="absolute inset-0 bg-black/10"></div> -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center">
-                <h1 class="text-5xl md:text-6xl font-bold text-white mb-6">
-                    Online Yoga Classes
+                <h1 class="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
+                    Online <span class="text-yogik-orange">Yoga</span> Classes
                 </h1>
-                <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
+                <p class="text-xl md:text-2xl text-gray-700 mb-8 max-w-3xl mx-auto">
                     Transform your practice from anywhere. Join live classes or access our extensive library of
                     on-demand sessions.
                 </p>
@@ -263,7 +406,7 @@
                         Start Your Journey
                     </a>
                     <a href="#class-types"
-                        class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-orange-500 transition-colors">
+                        class="border-2 border-gray-700 text-gray-700 px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-orange-500 transition-colors">
                         Explore Classes
                     </a>
                 </div>
@@ -275,6 +418,146 @@
         </div>
         <div class="absolute bottom-20 right-10 floating" style="animation-delay: -1s;">
             <div class="w-16 h-16 bg-white/20 rounded-full"></div>
+        </div>
+    </section>
+
+    <!-- About Online Classes Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Experience Yoga From Anywhere</h2>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Our online yoga classes offer the same transformative experience as our in-studio sessions,
+                        with the added convenience of practicing from your own space. Led by our experienced
+                        instructors,
+                        each class is designed to meet you where you are on your yoga journey.
+                    </p>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start">
+                            <div
+                                class="w-10 h-10 gradient-bg rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-laptop text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-1">Live Interactive Classes</h3>
+                                <p class="text-gray-600">Join our scheduled live sessions for real-time feedback and
+                                    community connection.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="w-10 h-10 gradient-bg rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-play-circle text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-1">On-Demand Library</h3>
+                                <p class="text-gray-600">Access over 500 recorded sessions to practice anytime, anywhere
+                                    at your own pace.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="w-10 h-10 gradient-bg rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-user-friends text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-1">Expert Guidance</h3>
+                                <p class="text-gray-600">Learn from certified instructors with years of teaching
+                                    experience in various yoga styles.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#class-types"
+                        class="inline-block gradient-bg text-white px-8 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity">
+                        Explore Our Classes
+                    </a>
+                </div>
+                <div class="order-1 md:order-2 relative">
+                    <div class="rounded-2xl overflow-hidden shadow-xl">
+                        <img src="https://images.unsplash.com/photo-1646166624936-d93c08117e02?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Online yoga class" class="w-full h-auto object-cover">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-lg floating-animation">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-yogik-orange rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-star text-white text-xl"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="font-bold text-gray-900">500+ Classes</p>
+                                <p class="text-sm text-gray-600">For all levels</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Class Types Preview Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">Find Your Perfect Practice</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    From gentle stretches to challenging flows, we offer a variety of class styles to support your
+                    unique needs and goals.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="h-48 bg-yogik-orange/20 flex items-center justify-center">
+                        <i class="fas fa-spa text-yogik-orange text-5xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Beginner Friendly</h3>
+                        <p class="text-gray-600 mb-4">Perfect for newcomers focusing on proper alignment and
+                            foundational poses.</p>
+                        <a href="#enrollment-form"
+                            class="text-yogik-orange font-medium hover:underline flex items-center">
+                            Learn More <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="h-48 bg-yogik-orange/20 flex items-center justify-center">
+                        <i class="fas fa-wind text-yogik-orange text-5xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Vinyasa Flow</h3>
+                        <p class="text-gray-600 mb-4">Dynamic sequences synchronizing breath with movement for strength
+                            and flexibility.</p>
+                        <a href="#enrollment-form"
+                            class="text-yogik-orange font-medium hover:underline flex items-center">
+                            Learn More <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="h-48 bg-yogik-orange/20 flex items-center justify-center">
+                        <i class="fas fa-moon text-yogik-orange text-5xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Restorative</h3>
+                        <p class="text-gray-600 mb-4">Gentle, healing practice using props to support deep relaxation
+                            and stress relief.</p>
+                        <a href="#enrollment-form"
+                            class="text-yogik-orange font-medium hover:underline flex items-center">
+                            Learn More <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="#class-types"
+                    class="inline-block border-2 border-yogik-orange text-yogik-orange px-8 py-3 rounded-full font-semibold hover:bg-yogik-orange hover:text-white transition-colors">
+                    View All Class Types
+                </a>
+            </div>
         </div>
     </section>
 
@@ -325,7 +608,7 @@
             </div>
 
             <!-- Class Experience Details -->
-            <div class="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-3xl p-8 md:p-12">
+            <!-- <div class="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-3xl p-8 md:p-12">
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div>
                         <h3 class="text-3xl font-bold text-gray-900 mb-6">Your Online Studio Experience</h3>
@@ -367,12 +650,12 @@
                             class="rounded-2xl shadow-lg mx-auto">
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
 
     <!-- Class Types Section -->
-    <section id="class-types" class="py-20 bg-white">
+    <!-- <section id="class-types" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold text-gray-900 mb-6">Class Types</h2>
@@ -382,7 +665,7 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Beginner Classes -->
+                
                 <div
                     class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 hover:shadow-xl transition-shadow">
                     <div class="flex items-center mb-4">
@@ -405,7 +688,7 @@
                     </a>
                 </div>
 
-                <!-- Intermediate Classes -->
+                
                 <div
                     class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 hover:shadow-xl transition-shadow">
                     <div class="flex items-center mb-4">
@@ -428,7 +711,7 @@
                     </a>
                 </div>
 
-                <!-- Advanced Classes -->
+                
                 <div
                     class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 hover:shadow-xl transition-shadow">
                     <div class="flex items-center mb-4">
@@ -451,7 +734,7 @@
                     </a>
                 </div>
 
-                <!-- Restorative Classes -->
+               
                 <div
                     class="bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl p-8 hover:shadow-xl transition-shadow">
                     <div class="flex items-center mb-4">
@@ -474,7 +757,7 @@
                     </a>
                 </div>
 
-                <!-- Meditation Classes -->
+                
                 <div
                     class="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-2xl p-8 hover:shadow-xl transition-shadow">
                     <div class="flex items-center mb-4">
@@ -497,7 +780,7 @@
                     </a>
                 </div>
 
-                <!-- Prenatal Classes -->
+                
                 <div
                     class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl p-8 hover:shadow-xl transition-shadow">
                     <div class="flex items-center mb-4">
@@ -521,7 +804,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Benefits Section -->
     <section class="py-20 bg-gray-50">
@@ -802,7 +1085,7 @@
     </section>
 
     <!-- Enrollment Form Section -->
-    <section id="enrollment-form" class="py-20 bg-gray-50">
+    <!-- <section id="enrollment-form" class="py-20 bg-gray-50">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-bold text-gray-900 mb-6">Join Our Online Yoga Community</h2>
@@ -814,7 +1097,7 @@
 
             <div class="bg-white rounded-3xl shadow-xl p-8 md:p-12">
                 <form class="space-y-6">
-                    <!-- Personal Information -->
+                    
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">First Name
@@ -844,7 +1127,7 @@
                         </div>
                     </div>
 
-                    <!-- Yoga Experience -->
+                    
                     <div>
                         <label for="experience" class="block text-sm font-medium text-gray-700 mb-2">Yoga Experience
                             Level *</label>
@@ -858,7 +1141,7 @@
                         </select>
                     </div>
 
-                    <!-- Class Preferences -->
+                    
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-3">Preferred Class Types (Select all
                             that apply)</label>
@@ -896,7 +1179,7 @@
                         </div>
                     </div>
 
-                    <!-- Schedule Preferences -->
+                    
                     <div>
                         <label for="schedule" class="block text-sm font-medium text-gray-700 mb-2">Preferred Class
                             Times</label>
@@ -913,7 +1196,7 @@
                         </select>
                     </div>
 
-                    <!-- Membership Plan -->
+                    
                     <div>
                         <label for="plan" class="block text-sm font-medium text-gray-700 mb-2">Preferred Membership Plan
                             *</label>
@@ -926,7 +1209,7 @@
                         </select>
                     </div>
 
-                    <!-- Goals -->
+                    
                     <div>
                         <label for="goals" class="block text-sm font-medium text-gray-700 mb-2">What are your yoga
                             goals?</label>
@@ -935,7 +1218,7 @@
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"></textarea>
                     </div>
 
-                    <!-- Health Considerations -->
+                    
                     <div>
                         <label for="health" class="block text-sm font-medium text-gray-700 mb-2">Any injuries or health
                             considerations we should know about?</label>
@@ -944,7 +1227,7 @@
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"></textarea>
                     </div>
 
-                    <!-- Newsletter Signup -->
+                    
                     <div class="flex items-center">
                         <input type="checkbox" id="newsletter" name="newsletter"
                             class="rounded border-gray-300 text-orange-500 focus:ring-orange-500">
@@ -953,7 +1236,7 @@
                         </label>
                     </div>
 
-                    <!-- Terms Agreement -->
+                   
                     <div class="flex items-start">
                         <input type="checkbox" id="terms" name="terms" required
                             class="rounded border-gray-300 text-orange-500 focus:ring-orange-500 mt-1">
@@ -965,7 +1248,7 @@
                         </label>
                     </div>
 
-                    <!-- Submit Button -->
+                    
                     <div class="text-center pt-6">
                         <button type="submit"
                             class="gradient-bg text-white px-12 py-4 rounded-full text-xl font-semibold hover:opacity-90 transition-opacity">
@@ -978,7 +1261,7 @@
                 </form>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12">
