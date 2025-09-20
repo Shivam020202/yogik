@@ -252,7 +252,7 @@
 
     <!-- Navigation -->
     <nav class="fixed w-full z-50 navbar-blur border-b rounded-b-2xl border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
@@ -266,41 +266,45 @@
                 <div class="hidden lg:block">
                     <div class="ml-10 flex items-baseline space-x-2">
                         <a href="index.html"
-                            class="nav-link text-gray-700 hover:text-primary px-4 py-2 text-sm font-medium">Home</a>
+                            class="nav-link text-gray-700 hover:text-secondary px-4 py-2 text-sm font-medium">Home</a>
                         <a href="about.html"
                             class="nav-link text-gray-700 hover:text-primary px-4 py-2 text-sm font-medium">About</a>
                         <a href="online-classes.html"
                             class="nav-link text-gray-700 hover:text-primary px-4 py-2 text-sm font-medium">Online
                             Classes</a>
+                        <a href="workshops.html"
+                            class="nav-link text-gray-700 hover:text-primary px-4 py-2 text-sm font-medium">Workshops</a>
+                        <a href="ayurveda.html"
+                            class="nav-link text-gray-700 hover:text-primary px-4 py-2 text-sm font-medium">Ayurveda</a>
                         <a href="shop.html"
                             class="nav-link text-gray-700 hover:text-primary px-4 py-2 text-sm font-medium">Shop</a>
                         <a href="gallery.html"
                             class="nav-link text-gray-700 hover:text-primary px-4 py-2 text-sm font-medium">Gallery</a>
-                        <a href="events.html"
-                            class="nav-link text-gray-700 hover:text-primary px-4 py-2 text-sm font-medium">Events</a>
+                        <!-- <a href="events.html"
+                                class="nav-link text-gray-700 hover:text-primary px-4 py-2 text-sm font-medium">Events</a> -->
                         <a href="blog.html"
                             class="nav-link text-gray-700 hover:text-primary px-4 py-2 text-sm font-medium">Blog</a>
                         <a href="retreat.html"
-                            class="nav-link text-primary hover:text-primary px-4 py-2 text-sm font-medium">Retreats</a>
+                            class="nav-link text-gray-700 hover:text-primary px-4 py-2 text-sm font-medium">Retreats</a>
 
                         <!-- Dropdown Menu -->
-                        <div class="dropdown">
-                            <button
-                                class="nav-link text-gray-700 hover:text-primary px-4 py-2 text-sm font-medium flex items-center">
-                                More
-                                <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                            </button>
-                            <div class="dropdown-menu text-xs">
-                                <a href="terms-conditions.html" class="dropdown-item">
-                                    <i class="fas fa-file-contract mr-2"></i>
-                                    Terms & Conditions
-                                </a>
-                                <a href="privacy-policy.html" class="dropdown-item">
-                                    <i class="fas fa-shield-alt mr-2"></i>
-                                    Privacy Policy
-                                </a>
-                            </div>
-                        </div>
+                        <!-- <div class="dropdown">
+                                <button
+                                    class="nav-link text-gray-700 hover:text-primary px-4 py-2 text-sm font-medium flex items-center">
+                                    More
+                                    <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                                </button>
+                                <div class="dropdown-menu text-xs">
+                                    <a href="terms-conditions.html" class="dropdown-item">
+                                        <i class="fas fa-file-contract mr-2"></i>
+                                        Terms & Conditions
+                                    </a>
+                                    <a href="privacy-policy.html" class="dropdown-item">
+                                        <i class="fas fa-shield-alt mr-2"></i>
+                                        Privacy Policy
+                                    </a>
+                                </div>
+                            </div> -->
                     </div>
                 </div>
 
@@ -338,7 +342,7 @@
                     </button>
                 </div>
                 <nav class="space-y-2">
-                    <a href="index.html" class="mobile-nav-link block text-gray-700 hover:text-primary py-3 px-4">
+                    <a href="index.html" class="mobile-nav-link block text-primary font-medium py-3 px-4">
                         <i class="fas fa-home mr-3"></i>Home
                     </a>
                     <a href="about.html" class="mobile-nav-link block text-gray-700 hover:text-primary py-3 px-4">
@@ -354,13 +358,13 @@
                     <a href="gallery.html" class="mobile-nav-link block text-gray-700 hover:text-primary py-3 px-4">
                         <i class="fas fa-images mr-3"></i>Gallery
                     </a>
-                    <a href="events.html" class="mobile-nav-link block text-gray-700 hover:text-primary py-3 px-4">
-                        <i class="fas fa-calendar mr-3"></i>Events
-                    </a>
+                    <!-- <a href="events.html" class="mobile-nav-link block text-gray-700 hover:text-primary py-3 px-4">
+                            <i class="fas fa-calendar mr-3"></i>Events
+                        </a> -->
                     <a href="blog.html" class="mobile-nav-link block text-gray-700 hover:text-primary py-3 px-4">
                         <i class="fas fa-blog mr-3"></i>Blog
                     </a>
-                    <a href="retreat.html" class="mobile-nav-link block text-primary font-medium py-3 px-4">
+                    <a href="retreat.html" class="mobile-nav-link block text-gray-700 hover:text-primary py-3 px-4">
                         <i class="fas fa-mountain mr-3"></i>Retreats
                     </a>
 
@@ -408,20 +412,20 @@
         class="relative bg-gradient-to-br from-yogik-cream via-yogik-light-orange/30 to-yogik-yellow/20 py-20 overflow-hidden pt-36">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center">
-                <h1 class="text-5xl md:text-6xl font-bold text-white mb-6">
-                    Transformative Yoga Retreats
+                <h1 class="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
+                    Transformative <span class="text-yogik-orange">Yoga Retreats</span>
                 </h1>
-                <p class="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+                <p class="text-xl text-gray-700 mb-8 max-w-3xl mx-auto">
                     Escape the ordinary and immerse yourself in profound healing, self-discovery, and spiritual
                     awakening through our carefully curated retreat experiences
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button
+                    <a href="#packages"
                         class="bg-white text-orange-600 px-8 py-3 rounded-full font-semibold hover:bg-orange-50 transition duration-300">
-                        View Upcoming Retreats
-                    </button>
+                        View Retreat Packages
+                    </a>
                     <button
-                        class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-orange-600 transition duration-300">
+                        class="border-2 border-gray-700 text-gray-700 px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-orange-600 transition duration-300">
                         Download Brochure
                     </button>
                 </div>
@@ -496,7 +500,7 @@
     </section>
 
     <!-- Retreat Packages -->
-    <section class="py-16 bg-gradient-to-br from-orange-50 to-yellow-50 relative z-10">
+    <section class="py-16 bg-gradient-to-br from-orange-50 to-yellow-50 relative z-10" id="packages">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-bold text-gray-800 mb-4">Retreat Packages</h2>
